@@ -1,0 +1,24 @@
+{
+  "name": "veloop-giveaway",
+  "version": "0.1.0",
+  "private": true,
+  "description": "VELOOP Rewards - Scalable Giveaway System Monorepo",
+  "scripts": {
+    "client": "npm run dev --prefix frontend",
+    "server": "npm run dev --prefix backend",
+    "dev": "npm run server",
+    "lint": "npm run lint --prefix frontend && npm run lint --prefix backend",
+    "lint:frontend": "npm run lint --prefix frontend",
+    "lint:backend": "npm run lint --prefix backend",
+    "install:all": "npm install && npm install --prefix frontend && npm install --prefix backend"
+  },
+  "keywords": [
+    "veloop",
+    "rewards",
+    "giveaway",
+    "gamification",
+    "fintech"
+  ],
+  "author": "VELOOP Engineering",
+  "license": "UNLICENSED"
+}
