@@ -23,7 +23,7 @@ export const GiveawayCard = ({ giveaway }) => {
     <article className={styles.card} aria-label={`${giveaway.title} prize card`}>
       <div className={styles.imageWrapper}>
         <img
-          src={giveaway.prizeImage || '/assets/prizes/iphone-15-pro.jpg'}
+          src={giveaway.prizeImage || '/assets/prizes/iphone-15-pro.png'}
           alt={giveaway.prize || giveaway.title}
           className={styles.prizeImg}
           loading="lazy"

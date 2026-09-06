@@ -84,7 +84,7 @@ export const HeroSection = ({ giveaway }) => {
 
             <div className={styles.imageContainer}>
               <img
-                src={giveaway.prizeImage || '/assets/prizes/iphone-15-pro.jpg'}
+                src={giveaway.prizeImage || '/assets/prizes/iphone-15-pro.png'}
                 alt={giveaway.prize || giveaway.title}
                 className={styles.prizeImg}
                 loading="eager"

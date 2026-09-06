@@ -90,7 +90,7 @@ export const WinnerAnnouncement = ({ winners = [] }) => {
         <div className={styles.sliderCard} key={current.id}>
           <div className={styles.imageWrapper}>
             <img
-              src={current.prizeImage || '/assets/prizes/iphone-15-pro.jpg'}
+              src={current.prizeImage || '/assets/prizes/iphone-15-pro.png'}
               alt={current.prize}
               className={styles.prizeImg}
             />

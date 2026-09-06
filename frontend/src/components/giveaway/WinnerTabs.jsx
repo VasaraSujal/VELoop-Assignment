@@ -67,7 +67,7 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [] }) => {
                     <td className={styles.td}>
                       <div className={styles.prizeCell}>
                         <img
-                          src={winner.prizeImage || '/assets/prizes/iphone-15-pro.jpg'}
+                          src={winner.prizeImage || '/assets/prizes/iphone-15-pro.png'}
                           alt={winner.prize}
                           className={styles.prizeThumb}
                         />
