@@ -1,0 +1,101 @@
+import { MOCK_GIVEAWAYS, MOCK_WINNERS } from '../../data/giveawayData.js';
+import { USER_STATES, CLAIM_STATUS } from '../../data/constants.js';
+
+/**
+ * Mock Giveaway Adapter
+ * Encapsulates all mock data access during frontend development.
+ */
+export const mockGiveawayAdapter = {
+  async getCurrentGiveaways() {
+    return Promise.resolve([...MOCK_GIVEAWAYS]);
+  },
+
+  async getFeaturedGiveaway() {
+    const featured = MOCK_GIVEAWAYS.find((g) => g.isFeatured) || MOCK_GIVEAWAYS[0];
+    return Promise.resolve(featured ? { ...featured } : null);
+  },
+
+  async getCurrentGiveaway() {
+    return this.getFeaturedGiveaway();
+  },
+
+  async getGiveawayBySlug(slug) {
+    const item = MOCK_GIVEAWAYS.find((g) => g.slug === slug);
+    if (!item) {
+      const error = new Error(`Giveaway with slug '${slug}' not found.`);
+      error.status = 404;
+      return Promise.reject(error);
+    }
+    return Promise.resolve({ ...item });
+  },
+
+  async getRecentWinners() {
+    const recent = MOCK_WINNERS.filter((w) => w.isRecent);
+    return Promise.resolve([...recent]);
+  },
+
+  async getPreviousWinners() {
+    const previous = MOCK_WINNERS.filter((w) => !w.isRecent);
+    return Promise.resolve([...previous]);
+  },
+
+  async getAllWinners() {
+    return Promise.resolve([...MOCK_WINNERS]);
+  },
+
+  async getGiveawayStats() {
+    const totalParticipants = MOCK_GIVEAWAYS.reduce((sum, g) => sum + (g.participantCount || 0), 0);
+    const totalWinners = MOCK_GIVEAWAYS.reduce((sum, g) => sum + (g.winnerCount || 0), 0) + MOCK_WINNERS.length;
+    const totalRetailValue = MOCK_GIVEAWAYS.reduce((sum, g) => sum + (g.retailValueInr || 0), 0);
+
+    return Promise.resolve({
+      activeGiveawaysCount: MOCK_GIVEAWAYS.length,
+      totalParticipants,
+      totalWinners,
+      totalRetailValue,
+    });
+  },
+
+  async getPreviousGiveaways() {
+    return Promise.resolve([]);
+  },
+
+  async getMyParticipation(_giveawayId) {
+    return Promise.resolve({
+      userState: USER_STATES.VISITOR,
+      isParticipating: false,
+      entryCount: 0,
+      joinedAt: null,
+    });
+  },
+
+  async joinGiveaway(_giveawayId) {
+    return Promise.resolve({
+      success: true,
+      message: 'Participation recorded in mock state (Demo).',
+    });
+  },
+
+  async getWinners(giveawayId) {
+    const winners = MOCK_WINNERS.filter((w) => w.giveawayId === giveawayId);
+    return Promise.resolve(winners);
+  },
+
+  async submitPrizeClaim(_giveawayId, claimData) {
+    return Promise.resolve({
+      success: true,
+      message: 'Claim submitted in mock state (Demo).',
+      claimId: `mock-claim-${Date.now()}`,
+      data: claimData,
+    });
+  },
+
+  async getMyClaim(_giveawayId) {
+    return Promise.resolve({
+      status: CLAIM_STATUS.UNCLAIMED,
+      claim: null,
+    });
+  },
+};
+
+export default mockGiveawayAdapter;
