@@ -1,0 +1,234 @@
+.section {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-12) var(--space-6);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.badge {
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--currency-sves-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  max-width: 500px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.arrowBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.arrowBtn:hover {
+  background-color: var(--color-surface-muted);
+  border-color: var(--color-border-strong);
+  color: var(--color-primary);
+}
+
+.sliderCard {
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--space-8);
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.imageWrapper {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.prizeImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.winnerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.winnerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.trophyBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background-color: var(--currency-sves-bg);
+  color: var(--currency-sves-text);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.drawDate {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.prizeTitle {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  line-height: 1.25;
+}
+
+.poolName {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.detailCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.detailLabel {
+  font-size: 0.725rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.detailValue {
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.dotsWrapper {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-border);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dotActive {
+  width: 28px;
+  background-color: var(--color-primary);
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--space-12);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-muted);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--color-border);
+}
+
+@media (max-width: 900px) {
+  .sliderCard {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    padding: var(--space-6);
+  }
+  .imageWrapper {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .detailsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+  .prizeTitle {
+    font-size: 1.35rem;
+  }
+}
