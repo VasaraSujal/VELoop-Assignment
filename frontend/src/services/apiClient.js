@@ -10,13 +10,32 @@ export const apiClient = axios.create({
   timeout: 10000,
 });
 
-// Response interceptor hook for future token refresh and global error handling
+// Request interceptor: Attach Bearer token if present
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('veloop_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor: Extract data and normalize error structures
 apiClient.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    // If backend returns standardized wrapper { success: true, data: ... }, extract data
+    if (response.data && response.data.success !== undefined && response.data.data !== undefined) {
+      return response.data.data;
+    }
+    return response.data;
+  },
   (error) => {
     const customError = {
       message: error.response?.data?.message || error.message || 'An unexpected error occurred',
-      status: error.response?.status,
+      code: error.response?.data?.code || 'UNKNOWN_ERROR',
+      status: error.response?.status || 500,
       data: error.response?.data,
     };
     return Promise.reject(customError);

@@ -1,6 +1,17 @@
 import { CURRENCIES } from '../data/constants.js';
 
 /**
+ * Formats a generic number with Indian thousands separators
+ * Example: formatNumber(5000) => "5,000"
+ */
+export const formatNumber = (amount) => {
+  if (amount === undefined || amount === null || isNaN(amount)) {
+    return '0';
+  }
+  return new Intl.NumberFormat('en-IN').format(amount);
+};
+
+/**
  * Formats a currency amount and currency type into a clean string.
  * Example: formatCurrency(250, 'VEs') => "250 VEs"
  * Example: formatCurrency(2000, 'Tokens') => "2,000 Tokens"
@@ -9,7 +20,7 @@ export const formatCurrency = (amount, currency = CURRENCIES.VES) => {
   if (amount === undefined || amount === null || isNaN(amount)) {
     return `0 ${currency}`;
   }
-  const formattedNumber = new Intl.NumberFormat('en-IN').format(amount);
+  const formattedNumber = formatNumber(amount);
   return `${formattedNumber} ${currency}`;
 };
 
@@ -27,3 +38,5 @@ export const formatInr = (amount) => {
     maximumFractionDigits: 0,
   }).format(amount);
 };
+
+export default { formatNumber, formatCurrency, formatInr };
