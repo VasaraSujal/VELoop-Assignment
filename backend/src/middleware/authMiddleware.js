@@ -1,5 +1,6 @@
 import { verifyJwt } from '../services/authService.js';
 import UserAccount from '../models/UserAccount.js';
+import { FraudService } from '../services/fraudService.js';
 
 /**
  * Extracts and verifies JWT from Authorization header, attaching user to req
@@ -26,6 +27,7 @@ export const authenticateUser = async (req, res, next) => {
       email: user.email,
       handle: user.handle,
       name: user.name,
+      role: user.role || payload.role || 'USER',
       tier: user.tier,
       isKycVerified: user.isKycVerified,
       status: user.status,
@@ -48,6 +50,40 @@ export const requireAuth = (req, res, next) => {
       message: 'Authentication required to access this endpoint.',
     });
   }
+  next();
+};
+
+/**
+ * Enforces that user is an authenticated administrator
+ */
+export const requireAdmin = async (req, res, next) => {
+  if (!req.user || !req.user.userId) {
+    return res.status(401).json({
+      success: false,
+      code: 'LOGIN_REQUIRED',
+      message: 'Authentication required to access admin endpoints.',
+    });
+  }
+
+  if (req.user.role !== 'ADMIN') {
+    // Record unauthorized admin attempt in security/fraud audit trail
+    await FraudService.recordFraudEvent({
+      userId: req.user.userId,
+      eventType: 'UNAUTHORIZED_ADMIN_ACTION',
+      riskScore: 85,
+      actionTaken: 'BLOCKED',
+      ipAddress: req.ip || '',
+      userAgent: req.headers?.['user-agent'] || '',
+      metadata: { endpoint: req.originalUrl, method: req.method },
+    });
+
+    return res.status(403).json({
+      success: false,
+      code: 'ADMIN_REQUIRED',
+      message: 'Administrative privileges required to perform this action.',
+    });
+  }
+
   next();
 };
 
@@ -76,4 +112,4 @@ export const requireTier = (minTier = 0) => {
   };
 };
 
-export default { authenticateUser, requireAuth, requireTier };
+export default { authenticateUser, requireAuth, requireAdmin, requireTier };

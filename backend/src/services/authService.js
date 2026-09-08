@@ -118,6 +118,7 @@ export class AuthService {
       email: user.email,
       handle: user.handle,
       tier: user.tier,
+      role: user.role || 'USER',
     };
     return signJwt(payload);
   }
@@ -145,6 +146,7 @@ export class AuthService {
         email: user.email,
         handle: user.handle,
         name: user.name,
+        role: user.role || 'USER',
         tier: user.tier,
         isKycVerified: user.isKycVerified,
         balances: user.balances,
@@ -157,7 +159,7 @@ export class AuthService {
    * Lists available development demo accounts (disabled in production)
    */
   static async listDemoUsers() {
-    return UserAccount.find({}, 'userId email handle name tier isKycVerified balances status').lean();
+    return UserAccount.find({}, 'userId email handle name role tier isKycVerified balances status').lean();
   }
 }
 

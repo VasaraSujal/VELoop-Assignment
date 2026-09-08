@@ -54,6 +54,12 @@ const userAccountSchema = new Schema(
         min: 0,
       },
     },
+    role: {
+      type: String,
+      enum: ['USER', 'ADMIN'],
+      default: 'USER',
+      index: true,
+    },
     status: {
       type: String,
       enum: ['ACTIVE', 'SUSPENDED', 'BLOCKED'],
