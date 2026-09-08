@@ -9,6 +9,7 @@ import HowToParticipate from '../../components/giveaway/HowToParticipate.jsx';
 import TrustSection from '../../components/giveaway/TrustSection.jsx';
 import RulesSection from '../../components/giveaway/RulesSection.jsx';
 import FAQSection from '../../components/giveaway/FAQSection.jsx';
+import VeloopLoader from '../../components/common/VeloopLoader.jsx';
 import styles from './GiveawayPage.module.css';
 
 export const GiveawayPage = () => {
@@ -53,8 +54,7 @@ export const GiveawayPage = () => {
     return (
       <main className={styles.pageWrapper}>
         <div className={styles.loadingContainer}>
-          <div className={styles.spinner} role="status" aria-label="Loading giveaway content" />
-          <p>Loading VELOOP Giveaway pools...</p>
+          <VeloopLoader text="Loading live VELOOP Giveaway pools..." />
         </div>
       </main>
     );
