@@ -87,5 +87,9 @@ const winnerSchema = new Schema(
   }
 );
 
+// Enforce unique winner per user per giveaway and unique rank assignment
+winnerSchema.index({ giveawayId: 1, userId: 1 }, { unique: true });
+winnerSchema.index({ giveawayId: 1, rank: 1 }, { unique: true });
+
 export const Winner = mongoose.model('Winner', winnerSchema);
 export default Winner;
