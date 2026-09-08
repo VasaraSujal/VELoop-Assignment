@@ -7,6 +7,14 @@ import { sendSuccess, sendError } from '../utils/responseHelper.js';
  * Handles Development Demo User Login
  */
 export const demoLogin = async (req, res) => {
+  if (config.nodeEnv === 'production' && process.env.ENABLE_DEMO_AUTH !== 'true') {
+    return res.status(403).json({
+      success: false,
+      code: 'DEMO_AUTH_DISABLED',
+      message: 'Demo authentication is disabled in production environments.',
+    });
+  }
+
   try {
     const { userId } = req.body;
     const result = await AuthService.demoLogin(userId || 'user_alex');

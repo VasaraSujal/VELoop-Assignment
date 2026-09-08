@@ -4,9 +4,9 @@ import styles from './TrustSection.module.css';
 const TRUST_FEATURES = [
   {
     icon: Scale,
-    title: 'Provably Fair Selection',
+    title: 'Cryptographic Random Selection',
     description:
-      'Winner selection runs on cryptographically auditable random algorithms ensuring every entry has an equal mathematical probability.',
+      'Winner selection runs on CSPRNG cryptographically secure random algorithms ensuring every entry has an equal mathematical probability.',
   },
   {
     icon: ShieldCheck,

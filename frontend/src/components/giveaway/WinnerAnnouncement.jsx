@@ -62,7 +62,7 @@ export const WinnerAnnouncement = ({ winners = [] }) => {
             </span>
             <h2 className={styles.title}>Recent Giveaway Winners</h2>
             <p className={styles.subtitle}>
-              Provably fair random draws completed and fulfilled to verified VELOOP members.
+              Cryptographically random draws completed and fulfilled to verified VELOOP members.
             </p>
           </div>
 

@@ -221,7 +221,7 @@ export const JoinModal = ({ giveaway, isOpen, onClose, onSuccess }) => {
             {/* Trust Footer */}
             <div className={styles.trustNote}>
               <ShieldCheck size={14} color="#10b981" />
-              <span>Provably fair draw • Non-refundable authoritative deduction</span>
+              <span>Cryptographic random draw • Non-refundable authoritative deduction</span>
             </div>
 
             {/* Action Buttons */}

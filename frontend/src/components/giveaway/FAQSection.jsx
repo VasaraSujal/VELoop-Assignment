@@ -25,7 +25,7 @@ const FAQS = [
     id: 'faq-4',
     question: 'How are winners selected?',
     answer:
-      'Once a giveaway countdown concludes, the platform executes a provably fair random draw algorithm across all verified entries. The drawn winners are published immediately to the public winner roster with privacy masking.',
+      'Once a giveaway countdown concludes, the platform executes an automated cryptographic random draw algorithm (CSPRNG) across all verified entries. The drawn winners are published immediately to the public winner roster with privacy masking.',
   },
   {
     id: 'faq-5',

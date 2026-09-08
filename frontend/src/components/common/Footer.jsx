@@ -54,7 +54,7 @@ export const Footer = () => {
             </li>
             <li>
               <a href="#how-it-works" className={styles.footerLink}>
-                Provably Fair Draws
+                Cryptographic Draws
               </a>
             </li>
             <li>

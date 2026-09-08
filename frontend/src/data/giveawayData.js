@@ -34,7 +34,7 @@ export const MOCK_GIVEAWAYS = [
       requiresKyc: true,
       description: 'Verified VELOOP Tier 1+ accounts',
     },
-    terms: 'Winner selected via provably fair random draw. KYC verification and valid Indian shipping address required for fulfillment.',
+    terms: 'Winner selected via cryptographic random draw (CSPRNG). KYC verification and valid Indian shipping address required for fulfillment.',
     claimType: CLAIM_TYPES.PHYSICAL_DELIVERY,
     isMock: true,
   },

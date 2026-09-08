@@ -31,10 +31,26 @@ export const seedDatabase = async () => {
   console.log('[Seed] Seeding demo user accounts...');
   const demoUsers = [
     {
+      userId: 'user_admin',
+      email: 'admin@veloop.io',
+      handle: 'admin_ops',
+      name: 'Operations Admin (Role: ADMIN)',
+      role: 'ADMIN',
+      tier: 3,
+      isKycVerified: true,
+      balances: {
+        VEs: 10000,
+        SVEs: 5000,
+        Tokens: 25000,
+      },
+      status: 'ACTIVE',
+    },
+    {
       userId: 'user_alex',
       email: 'alex@veloop.io',
       handle: 'alex_vip',
       name: 'Alex Rivera (VIP Tier 2)',
+      role: 'USER',
       tier: 2,
       isKycVerified: true,
       balances: {
@@ -49,6 +65,7 @@ export const seedDatabase = async () => {
       email: 'priya@veloop.io',
       handle: 'priya_m',
       name: 'Priya Sharma (Tier 1)',
+      role: 'USER',
       tier: 1,
       isKycVerified: true,
       balances: {
@@ -63,6 +80,7 @@ export const seedDatabase = async () => {
       email: 'rahul@veloop.io',
       handle: 'rahul_k',
       name: 'Rahul Verma (Tier 0 - Low Balance)',
+      role: 'USER',
       tier: 0,
       isKycVerified: false,
       balances: {
@@ -198,7 +216,7 @@ export const seedDatabase = async () => {
         description: 'Verified VELOOP Tier 1+ accounts',
       },
       terms:
-        'Winner selected via provably fair random draw. KYC verification and valid Indian shipping address required for fulfillment.',
+        'Winner selected via cryptographic random draw (CSPRNG). KYC verification and valid Indian shipping address required for fulfillment.',
       claimType: 'PHYSICAL_DELIVERY',
     },
     {
@@ -350,6 +368,29 @@ export const seedDatabase = async () => {
       claimType: 'PHYSICAL_DELIVERY',
     },
     {
+      slug: 'iphone-15-pro-ended',
+      title: 'Apple iPhone 15 Pro (Pending Draw Pool)',
+      description: 'Pool countdown concluded. Awaiting administrative winner finalization.',
+      prizeId: prizes[0]._id,
+      entryFee: {
+        currency: 'VEs',
+        amount: 250,
+      },
+      status: 'ENDED',
+      startsAt: pastDateStart,
+      endsAt: pastDateEnd,
+      winnerCount: 1,
+      participantCount: 3,
+      isFeatured: false,
+      eligibility: {
+        minTier: 1,
+        requiresKyc: true,
+        description: 'Verified VELOOP Tier 1+ accounts',
+      },
+      terms: 'Countdown concluded. Winner will be drawn using cryptographic random selection.',
+      claimType: 'PHYSICAL_DELIVERY',
+    },
+    {
       slug: 'iphone-15-pro-august',
       title: 'Apple iPhone 15 Pro (August Pool)',
       description: 'Completed August flagship draw.',
@@ -372,25 +413,93 @@ export const seedDatabase = async () => {
       terms: 'Draw concluded and verified.',
       claimType: 'PHYSICAL_DELIVERY',
     },
+    {
+      slug: 'amazon-gift-card-august',
+      title: '₹2,000 Amazon Pay E-Gift Card (August Pool)',
+      description: 'Completed August digital gift card draw.',
+      prizeId: prizes[3]._id,
+      entryFee: {
+        currency: 'VEs',
+        amount: 500,
+      },
+      status: 'COMPLETED',
+      startsAt: pastDateStart,
+      endsAt: pastDateEnd,
+      winnerCount: 1,
+      participantCount: 850,
+      isFeatured: false,
+      eligibility: {
+        minTier: 0,
+        requiresKyc: false,
+        description: 'Completed digital draw',
+      },
+      terms: 'Draw concluded and verified. Instant digital code dispatch.',
+      claimType: 'GIFT_CARD_CODE',
+    },
   ]);
 
-  // 4. Seed Winners
+  // 4. Seed Participants for the Ended Giveaway (ready for finalization)
+  console.log('[Seed] Seeding confirmed participants for ended giveaway...');
+  await GiveawayParticipation.insertMany([
+    {
+      userId: 'user_alex',
+      giveawayId: seededGiveaways[7]._id,
+      prizeId: prizes[0]._id,
+      entryCurrency: 'VEs',
+      entryAmount: 250,
+      status: 'CONFIRMED',
+    },
+    {
+      userId: 'user_priya',
+      giveawayId: seededGiveaways[7]._id,
+      prizeId: prizes[0]._id,
+      entryCurrency: 'VEs',
+      entryAmount: 250,
+      status: 'CONFIRMED',
+    },
+    {
+      userId: 'user_rahul',
+      giveawayId: seededGiveaways[7]._id,
+      prizeId: prizes[0]._id,
+      entryCurrency: 'VEs',
+      entryAmount: 250,
+      status: 'CONFIRMED',
+    },
+  ]);
+
+  // 5. Seed Winners
   console.log('[Seed] Seeding verified winner records...');
   await Winner.insertMany([
     {
-      giveawayId: seededGiveaways[7]._id,
-      userId: 'user_sujal',
-      userHandle: 'sujal_v',
-      maskedUserId: 'su***@gmail.com',
-      maskedPhone: '98****4321',
+      giveawayId: seededGiveaways[8]._id,
+      userId: 'user_priya',
+      userHandle: 'priya_m',
+      maskedUserId: 'pr***@veloop.io',
+      maskedPhone: '98****7654',
       prizeId: prizes[0]._id,
       prizeName: 'iPhone 15 Pro - Natural Titanium (128GB)',
       rank: 1,
-      drawnAt: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
-      claimStatus: 'FULFILLED',
-      statusLabel: 'Delivered & Verified',
+      drawnAt: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000),
+      claimStatus: 'UNCLAIMED',
+      statusLabel: 'Pending Claim',
       entryFeePaid: '250 VEs',
       txHash: '0x8f2a...9c14',
+      isRecent: true,
+    },
+    {
+      giveawayId: seededGiveaways[9]._id,
+      userId: 'user_alex',
+      userHandle: 'alex_vip',
+      maskedUserId: 'al***@veloop.io',
+      maskedPhone: '99****1122',
+      prizeId: prizes[3]._id,
+      prizeName: '₹2,000 Amazon Pay E-Gift Card',
+      rank: 1,
+      drawnAt: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000),
+      claimStatus: 'UNCLAIMED',
+      statusLabel: 'Pending Claim',
+      entryFeePaid: '500 VEs',
+      txHash: '0x7b12...44f0',
       isRecent: true,
     },
     {
