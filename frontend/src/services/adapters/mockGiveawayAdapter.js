@@ -1,5 +1,5 @@
 import { MOCK_GIVEAWAYS, MOCK_WINNERS } from '../../data/giveawayData.js';
-import { USER_STATES, CLAIM_STATUS } from '../../data/constants.js';
+import { USER_STATES } from '../../data/constants.js';
 
 /**
  * Mock Giveaway Adapter
@@ -90,10 +90,14 @@ export const mockGiveawayAdapter = {
     });
   },
 
-  async getMyClaim(_giveawayId) {
+  async getMyClaim(giveawayId) {
     return Promise.resolve({
-      status: CLAIM_STATUS.UNCLAIMED,
+      isWinner: false,
+      canClaim: false,
+      giveawayId,
       claim: null,
+      userFacingStatus: 'NOT_SUBMITTED',
+      message: 'No winning record found for mock user.',
     });
   },
 };
