@@ -14,6 +14,11 @@ const entryTransactionSchema = new Schema(
       type: String,
       required: true,
       index: true,
+      trim: true,
+    },
+    participationId: {
+      type: Schema.Types.ObjectId,
+      ref: 'GiveawayParticipation',
     },
     currency: {
       type: String,
@@ -30,6 +35,7 @@ const entryTransactionSchema = new Schema(
       unique: true,
       sparse: true,
       index: true,
+      trim: true,
     },
     status: {
       type: String,
@@ -39,7 +45,14 @@ const entryTransactionSchema = new Schema(
     },
     transactionRef: {
       type: String,
+      required: true,
+      unique: true,
       trim: true,
+      index: true,
+    },
+    metadata: {
+      type: Schema.Types.Mixed,
+      default: {},
     },
   },
   {

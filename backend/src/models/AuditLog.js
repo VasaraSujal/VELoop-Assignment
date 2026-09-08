@@ -33,6 +33,10 @@ const auditLogSchema = new Schema(
       type: Schema.Types.Mixed,
       default: null,
     },
+    metadata: {
+      type: Schema.Types.Mixed,
+      default: {},
+    },
     ipAddress: {
       type: String,
       default: '',

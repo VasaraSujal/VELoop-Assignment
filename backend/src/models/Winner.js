@@ -14,11 +14,32 @@ const winnerSchema = new Schema(
       type: String,
       required: true,
       index: true,
+      trim: true,
+    },
+    userHandle: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    maskedUserId: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    maskedPhone: {
+      type: String,
+      default: '',
+      trim: true,
     },
     prizeId: {
       type: Schema.Types.ObjectId,
       ref: 'Prize',
       required: true,
+    },
+    prizeName: {
+      type: String,
+      default: '',
+      trim: true,
     },
     rank: {
       type: Number,
@@ -33,6 +54,26 @@ const winnerSchema = new Schema(
       type: String,
       enum: ['UNCLAIMED', 'CLAIMED', 'FULFILLED', 'EXPIRED'],
       default: 'UNCLAIMED',
+      index: true,
+    },
+    statusLabel: {
+      type: String,
+      default: 'Delivered & Verified',
+      trim: true,
+    },
+    entryFeePaid: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    txHash: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    isRecent: {
+      type: Boolean,
+      default: true,
       index: true,
     },
     claimId: {

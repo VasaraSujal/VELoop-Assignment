@@ -24,7 +24,7 @@ const giveawaySchema = new Schema(
     prizeId: {
       type: Schema.Types.ObjectId,
       ref: 'Prize',
-      required: false, // optional in schema skeleton for flexible future population
+      required: true,
     },
     entryFee: {
       currency: {
@@ -40,7 +40,7 @@ const giveawaySchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['DRAFT', 'UPCOMING', 'ACTIVE', 'ENDED', 'COMPLETED', 'CANCELLED'],
+      enum: ['DRAFT', 'UPCOMING', 'ACTIVE', 'ENDED', 'COMPLETED', 'ARCHIVED', 'CANCELLED'],
       default: 'DRAFT',
       index: true,
     },
@@ -62,9 +62,15 @@ const giveawaySchema = new Schema(
       default: 0,
       min: 0,
     },
+    isFeatured: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
     eligibility: {
       minTier: { type: Number, default: 0 },
       requiresKyc: { type: Boolean, default: false },
+      description: { type: String, default: '' },
     },
     terms: {
       type: String,
