@@ -683,6 +683,14 @@ export const GiveawayDetailsPage = () => {
         onSuccess={handleJoinSuccess}
       />
 
+      {/* Secure Prize Claim Modal */}
+      <PrizeClaimModal
+        giveaway={giveaway}
+        claimState={claimState}
+        isOpen={isClaimModalOpen}
+        onClose={() => setIsClaimModalOpen(false)}
+        onSuccess={handleClaimSuccess}
+      />
     </main>
   );
 };
