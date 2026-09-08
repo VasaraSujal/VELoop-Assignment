@@ -2,7 +2,7 @@ import { apiClient } from '../apiClient.js';
 
 /**
  * REST API Giveaway Adapter
- * Connects to live backend endpoints in subsequent phases.
+ * Connects frontend directly to the authoritative Express/MongoDB backend.
  */
 export const apiGiveawayAdapter = {
   async getCurrentGiveaways() {
@@ -10,8 +10,9 @@ export const apiGiveawayAdapter = {
   },
 
   async getFeaturedGiveaway() {
-    const data = await apiClient.get('/giveaways/current');
-    return Array.isArray(data) ? data[0] : data;
+    const list = await this.getCurrentGiveaways();
+    if (!Array.isArray(list) || list.length === 0) return null;
+    return list.find((g) => g.isFeatured) || list[0];
   },
 
   async getCurrentGiveaway() {
@@ -46,8 +47,10 @@ export const apiGiveawayAdapter = {
     return apiClient.get(`/giveaways/${giveawayId}/my-status`);
   },
 
-  async joinGiveaway(giveawayId) {
-    return apiClient.post(`/giveaways/${giveawayId}/join`);
+  async joinGiveaway(giveawayId, idempotencyKey = null) {
+    return apiClient.post(`/giveaways/${giveawayId}/join`, {
+      idempotencyKey,
+    });
   },
 
   async getWinners(giveawayId) {
@@ -60,6 +63,19 @@ export const apiGiveawayAdapter = {
 
   async getMyClaim(giveawayId) {
     return apiClient.get(`/giveaways/${giveawayId}/my-claim`);
+  },
+
+  // Auth & Profile API helpers
+  async getMe() {
+    return apiClient.get('/auth/me');
+  },
+
+  async demoLogin(userId) {
+    return apiClient.post('/auth/demo-login', { userId });
+  },
+
+  async getDemoUsers() {
+    return apiClient.get('/auth/users');
   },
 };
 

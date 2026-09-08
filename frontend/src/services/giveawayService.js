@@ -1,12 +1,11 @@
-import { mockGiveawayAdapter } from './adapters/mockGiveawayAdapter.js';
 import { apiGiveawayAdapter } from './adapters/apiGiveawayAdapter.js';
+import { mockGiveawayAdapter } from './adapters/mockGiveawayAdapter.js';
 
 /**
  * Service Configuration:
- * In Phase 0 & Phase 1, default adapter is mockGiveawayAdapter.
- * Set to apiGiveawayAdapter when connecting to live backend in Phase 3+.
+ * In Phase 2, apiGiveawayAdapter is the default active adapter connecting to the live backend.
  */
-const USE_MOCK = true;
+const USE_MOCK = false;
 const activeAdapter = USE_MOCK ? mockGiveawayAdapter : apiGiveawayAdapter;
 
 /**
@@ -54,8 +53,8 @@ export const giveawayService = {
     return activeAdapter.getMyParticipation(giveawayId);
   },
 
-  async joinGiveaway(giveawayId) {
-    return activeAdapter.joinGiveaway(giveawayId);
+  async joinGiveaway(giveawayId, idempotencyKey = null) {
+    return activeAdapter.joinGiveaway(giveawayId, idempotencyKey);
   },
 
   async getWinners(giveawayId) {
@@ -68,6 +67,19 @@ export const giveawayService = {
 
   async getMyClaim(giveawayId) {
     return activeAdapter.getMyClaim(giveawayId);
+  },
+
+  // Auth delegation
+  async getMe() {
+    return activeAdapter.getMe();
+  },
+
+  async demoLogin(userId) {
+    return activeAdapter.demoLogin(userId);
+  },
+
+  async getDemoUsers() {
+    return activeAdapter.getDemoUsers();
   },
 };
 
