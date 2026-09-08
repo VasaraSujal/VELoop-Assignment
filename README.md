@@ -15,6 +15,16 @@ The system is structured into a modular, decoupled architecture:
 
 ---
 
+## API & Postman Documentation
+
+- **Live Interactive Postman Documentation**: [https://documenter.getpostman.com/view/39215245/2sBYAxQVSw](https://documenter.getpostman.com/view/39215245/2sBYAxQVSw)
+- **Importable Postman Collection (v2.1)**: [`docs/postman/VELOOP-Rewards-API.postman_collection.json`](file:///e:/VELoop%20Assignment/docs/postman/VELOOP-Rewards-API.postman_collection.json)
+- **Postman Environment**: [`docs/postman/VELOOP-Rewards-Environment.postman_environment.json`](file:///e:/VELoop%20Assignment/docs/postman/VELOOP-Rewards-Environment.postman_environment.json)
+- **Postman Guide & Integration Reference**: [`docs/api/postman-guide.md`](file:///e:/VELoop%20Assignment/docs/api/postman-guide.md)
+- **REST Endpoints & Schemas Reference**: [`docs/api/endpoints.md`](file:///e:/VELoop%20Assignment/docs/api/endpoints.md)
+
+---
+
 ## Technology Stack
 
 ### Frontend
