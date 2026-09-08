@@ -281,13 +281,31 @@ The frontend service layer is pre-structured to consume the following REST endpo
 - `POST /api/giveaways/:id/claim`
 - `GET /api/giveaways/:id/my-claim`
 
+## Production Database Requirements & Transactional Consistency
+
+> [!IMPORTANT]
+> **Production Requirement: MongoDB Replica-Set or Sharded Cluster**
+> 
+> A **Replica-Set or Sharded MongoDB cluster is strictly required in production** for all giveaway financial and participation operations. Multi-document ACID transactions (`session.startTransaction()`) are essential to ensure crash-consistent atomicity across:
+> 1. User wallet balance deduction (`UserAccount.balances`)
+> 2. Immutable participation record creation (`GiveawayParticipation`)
+> 3. Financial ledger audit creation (`EntryTransaction`)
+> 4. Participant count increments and audit logs (`AuditLog`)
+>
+> **Standalone MongoDB Support (Local Development Only)**:
+> Standalone MongoDB instances are supported **exclusively for local development and offline testing** using conditional atomic single-document updates (`$inc` guarded by `$gte` balance filters).
+> 
+> **Explicit Crash-Safety Notice**:
+> The standalone development fallback does **NOT** provide equivalent multi-document ACID crash safety. In standalone mode, if a server crash, process termination, or unhandled infrastructure disruption occurs after the balance deduction but prior to participation record insertion, a balance deduction can persist without creating the corresponding entry and audit records. True multi-document transactional crash safety requires a replica set in production.
+
 ---
 
-## Security Principles (Planned for Backend Phase)
-- **ACID Transactions**: Atomic wallet deduction and entry insertion via MongoDB sessions.
-- **Idempotency Keys**: Request deduplication on all balance-affecting operations.
+## Security Principles
+- **Multi-Document ACID Transactions**: Atomic wallet deduction, entry transaction creation, participation generation, and audit logging via MongoDB sessions (Replica Set required in production).
+- **Idempotency Keys**: Request deduplication on all balance-affecting operations (`x-idempotency-key`).
 - **Privacy Masking**: Public winner endpoints mask identifiers (`su***@gmail.com`, `98****1234`).
-- **Rate Limiting**: Tiered endpoint throttling against automated bot entries.
+- **Rate Limiting**: Tiered endpoint throttling against automated bot entries and brute force attacks.
+- **Backend Authority**: Strict validation stripping client-supplied `amount`, `currency`, `userId`, and `prizeId` in favor of authoritative database values.
 
 ---
 
