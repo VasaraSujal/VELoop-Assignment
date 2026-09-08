@@ -1,39 +1,17 @@
 # VELOOP Rewards – Giveaway System
 
-A scalable, production-quality Giveaway System built for VELOOP Rewards. The platform empowers users to enter high-value prize draws (physical hardware, retail vouchers, and digital rewards) using their accrued VELOOP balances (`VEs`, `SVEs`, and `Tokens`).
+A scalable, production-grade Giveaway Platform built for VELOOP Rewards. The platform empowers users to enter high-value prize draws (physical hardware, retail gift cards, and digital vouchers) using their accrued VELOOP balances (`VEs`, `SVEs`, and `Tokens`).
 
 ---
 
-## Current Development Status
+## System Overview & Production Architecture
 
-> [!IMPORTANT]
-> **PHASE 0 FOUNDATION ACTIVE**
->
-> This repository currently contains the **Phase 0 architectural foundation**.
-> - **Frontend**: Clean project skeleton using Vite + React 18, React Router, CSS Modules, Bootstrap baseline, decoupled service adapter architecture, pure utilities, and placeholder pages.
-> - **Data Layer**: Mock/demo giveaway data is utilized for frontend interface prototyping and is isolated behind a dedicated `giveawayService` adapter.
-> - **Backend**: Modular Express foundation with non-blocking Mongoose connectivity, resilient `/api/health` monitoring, full Mongoose schema models, and 501-stubbed controller endpoints for upcoming features.
-> - **No live business logic** (wallet deduction, winner selection, claim processing) is implemented in this phase.
-
----
-
-## Goals
-- Provide a seamless, gamified giveaway experience aligned with VELOOP's premium reward ecosystem.
-- Build an enterprise-grade backend resilient to race conditions, double-spend, and traffic spikes.
-- Maintain high security, fraud resistance, and immutable auditability for every entry, winner draw, and prize claim.
-- Support diverse prize categories: Physical Goods, Gift Cards, and Digital Rewards.
-
----
-
-## Planned Features (Upcoming Phases)
-- **Giveaway Discovery & Landing**: Real-time live, upcoming, and past giveaway carousels with dynamic countdowns.
-- **Detailed Giveaway Showcase**: Comprehensive rule breakdown, prize specs, entry fee calculations, and live participant counters.
-- **Multi-Currency Entry Flow**: Seamless participation modal validating balances across `VEs`, `SVEs`, and `Tokens`.
-- **Fair & Auditable Winner Selection**: Cryptographically verifiable random draw engine with seed generation and audit records.
-- **Two-Tier Prize Claim Portal**:
-  - **Physical Items**: Multi-step delivery address collection, PIN code validation, and fulfillment tracking.
-  - **Amazon / Retail Vouchers**: Instant digital claim codes, OTP verification, and resend workflows.
-- **Fraud Mitigation**: Velocity limiters, device fingerprinting, and risk scoring.
+The system is structured into a modular, decoupled architecture:
+- **Frontend**: High-performance React 18 + Vite application featuring custom CSS Modules design tokens, accessible dialog modals, live countdown timers, public winner showcases, authenticated claim lifecycle tracking, and responsive layouts across mobile, tablet, and desktop.
+- **Backend**: Express.js REST API with Mongoose 8.x ODM, JWT authentication, role-based authorization (`USER` vs `ADMIN`), rate limiting, Helmet security headers, and structured validation.
+- **Participation & Ledger**: Authoritative balance deduction, UUID idempotency protection against double-spend, and financial ledger transaction tracking.
+- **Winner Finalization**: Administrative CSPRNG winner drawing engine (`crypto.randomInt` / Fisher-Yates shuffle tagged as `CRYPTO_RANDOM`), self-healing crash consistency, and immutable audit logs.
+- **Prize Claim Foundation**: Authenticated winner claim submission for physical goods (`PHYSICAL_DELIVERY`) and digital vouchers (`GIFT_CARD_CODE`), status synchronization (`Winner.claimStatus` vs `Claim.status`), configurable 14-day claim windows, and strict PII privacy boundaries.
 
 ---
 
@@ -42,17 +20,18 @@ A scalable, production-quality Giveaway System built for VELOOP Rewards. The pla
 ### Frontend
 - **Framework & Core**: React 18 (JavaScript/JSX), Vite
 - **Routing**: React Router DOM (v6)
-- **Styling**: Vanilla CSS Modules with VELOOP Custom Property Design System, Bootstrap 5 baseline
+- **Styling**: Vanilla CSS Modules with VELOOP Design System tokens (`--color-surface`, `--color-primary`, `--radius-*`, `--space-*`), Bootstrap 5 baseline
 - **Icons**: Lucide React
-- **HTTP Client**: Axios (configured via API adapter)
+- **HTTP Client**: Axios with authenticated JWT request interceptor and centralized error normalizer
 - **Linting**: ESLint (Flat Config)
 
 ### Backend
 - **Runtime**: Node.js (ES Modules)
 - **Framework**: Express.js
 - **Database & ODM**: MongoDB with Mongoose (8.x)
-- **Security & Headers**: Helmet, CORS, Express rate-limiting foundation
-- **Logging**: Morgan
+- **Security & Headers**: Helmet, CORS, Express rate-limiting, CSPRNG randomness (`crypto.randomInt`)
+- **Logging**: Morgan, structured AuditLog and FraudEvent models
+- **Testing**: Node.js native test runner (`node --test`)
 - **Linting**: ESLint
 
 ---
@@ -65,271 +44,141 @@ veloop-giveaway/
 ├── frontend/
 │   ├── public/
 │   ├── src/
-│   │   ├── assets/
+│   │   ├── assets/                 # Official VELOOP prize assets & logos
 │   │   ├── components/
-│   │   │   ├── common/             # Header, Footer, navigation
-│   │   │   └── giveaway/           # Giveaway domain cards & widgets (upcoming)
-│   │   ├── data/
-│   │   │   ├── constants.js        # Enums: PRIZE_TYPES, USER_STATES, CURRENCIES
-│   │   │   └── giveawayData.js     # Structured mock data (isolated)
-│   │   ├── hooks/                  # Custom React hooks
+│   │   │   ├── common/             # Header, Footer, VeloopLoader
+│   │   │   └── giveaway/           # GiveawayCard, JoinModal, PrizeClaimModal, WinnerTabs
+│   │   ├── context/                # AuthContext (JWT session & profile state)
+│   │   ├── data/                   # Constants, enums, isolated mock fallback
 │   │   ├── pages/
-│   │   │   ├── Giveaway/           # Landing page placeholder
-│   │   │   ├── GiveawayDetails/    # Details page placeholder
+│   │   │   ├── Giveaway/           # Landing page with active pools & winner sliders
+│   │   │   ├── GiveawayDetails/    # Showcase, winner celebration, claim tracker, specs
 │   │   │   └── NotFound/           # 404 page
-│   │   ├── routes/
-│   │   │   └── AppRoutes.jsx       # Route registry
+│   │   ├── routes/                 # AppRoutes registry
 │   │   ├── services/
-│   │   │   ├── adapters/           # mockGiveawayAdapter & apiGiveawayAdapter
-│   │   │   ├── apiClient.js        # Axios instance
-│   │   │   └── giveawayService.js  # Decoupled consumer service
-│   │   ├── styles/
-│   │   │   ├── variables.css       # Design tokens & color palettes
-│   │   │   ├── global.css          # Resets, Inter font, baseline typography
-│   │   │   └── App.module.css
-│   │   ├── utils/
-│   │   │   ├── currencyFormatter.js
-│   │   │   ├── countdown.js
-│   │   │   ├── userMasker.js
-│   │   │   ├── validators.js
-│   │   │   └── statusHelpers.js
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── eslint.config.js
-│   ├── index.html
+│   │   │   ├── adapters/           # apiGiveawayAdapter & mockGiveawayAdapter
+│   │   │   ├── apiClient.js        # Axios instance with Bearer interceptor
+│   │   │   └── giveawayService.js  # Unified service interface
+│   │   ├── styles/                 # Design tokens & global CSS
+│   │   └── utils/                  # Currency formatting, user identity masking
 │   ├── package.json
 │   └── vite.config.js
 │
 ├── backend/
 │   ├── src/
 │   │   ├── config/                 # db.js, env.js
-│   │   ├── controllers/            # healthController, giveawayController (501 stubs)
-│   │   ├── middleware/             # errorHandler, rateLimiter
-│   │   ├── models/                 # All 8 Mongoose Schema Skeletons
-│   │   ├── routes/                 # healthRoutes, giveawayRoutes, index.js
-│   │   ├── services/               # giveawayEngine (stub)
+│   │   ├── controllers/            # adminController, authController, giveawayController
+│   │   ├── middleware/             # authMiddleware, errorHandler, rateLimiter
+│   │   ├── models/                 # UserAccount, Giveaway, Prize, Participation, Winner, Claim, AuditLog, FraudEvent
+│   │   ├── routes/                 # adminRoutes, authRoutes, giveawayRoutes, index.js
+│   │   ├── scripts/                # seed.js (Demo personas & test giveaways)
+│   │   ├── services/               # authService, claimService, fraudService, giveawayEngine, walletService, winnerService
 │   │   ├── utils/                  # responseHelper.js
-│   │   ├── validators/             # giveawayValidator.js (stub)
-│   │   ├── app.js                  # Express app initialization
-│   │   └── server.js               # Server bootstrap & graceful shutdown
-│   ├── eslint.config.js
+│   │   ├── validators/             # giveawayValidator.js
+│   │   ├── app.js                  # Express application setup
+│   │   └── server.js               # HTTP bootstrap & graceful shutdown
+│   ├── tests/
+│   │   └── integration.test.js     # 68 comprehensive backend integration tests
 │   ├── package.json
 │   └── .env.example
 │
 ├── docs/
 │   ├── architecture/
-│   │   └── overview.md
+│   │   └── overview.md             # Complete architecture, state machines, and invariants
 │   ├── api/
-│   │   └── endpoints.md
+│   │   └── endpoints.md            # REST API reference and request/response schemas
 │   └── screenshots/
-│       └── .gitkeep
 │
-├── .gitignore
-├── .env.example
 ├── README.md
 └── package.json
 ```
 
 ---
 
-## Frontend Architecture
-
-The frontend follows a strictly decoupled service-adapter pattern:
-
-```
-[ UI Components (GiveawayPage, DetailsPage) ]
-                       │
-                       ▼
-            [ giveawayService.js ]
-                       │
-         ┌─────────────┴─────────────┐
-         ▼                           ▼
-[ mockGiveawayAdapter ]     [ apiGiveawayAdapter ] (Axios)
-         │                           │
-         ▼                           ▼
-  giveawayData.js              Backend REST API
-```
-
-- Components **never** import raw `giveawayData.js` directly.
-- As the project advances to Phase 1, switching to live backend endpoints requires updating the adapter configuration without refactoring UI components.
-- Component styling utilizes isolated CSS Modules (`*.module.css`) to prevent style leaks.
-
----
-
-## Backend Architecture
-
-The backend implements a modular, layered Node.js/Express architecture:
-
-1. **Config Layer**: Validates environment variables (`env.js`) and manages non-blocking Mongoose connection state (`db.js`).
-2. **Middleware Pipeline**: Security headers (`helmet`), cross-origin policies (`cors`), request logging (`morgan`), and global error handling (`errorHandler.js`).
-3. **Route Registry**: Versioned `/api` router dispatching to dedicated sub-routers.
-4. **Controller Stubs**: In Phase 0, all planned business endpoints return HTTP `501 Not Implemented` with standardized JSON error envelopes.
-5. **Data Models**: Clean Mongoose schema foundations ready for complex transactions in later phases.
-
----
-
-## Giveaway Data Model
-
-Each giveaway item contains lifecycle-ready fields:
-
-```javascript
-{
-  id: "giveaway-iphone-15-pro",
-  slug: "iphone-15-pro",
-  title: "Apple iPhone 15 Pro (128GB)",
-  description: "Experience titanium design, A17 Pro chip, and pro-grade camera system.",
-  prize: "iPhone 15 Pro - Natural Titanium",
-  prizeType: "PHYSICAL", // PHYSICAL | GIFT_CARD | DIGITAL
-  prizeImage: "/assets/prizes/iphone-15-pro.png",
-  entry: {
-    currency: "VEs",    // VEs | SVEs | Tokens
-    amount: 250
-  },
-  status: "ACTIVE",     // DRAFT | UPCOMING | ACTIVE | ENDED | COMPLETED
-  startsAt: "2026-09-01T00:00:00.000Z",
-  endsAt: "2026-09-30T23:59:59.000Z",
-  participantCount: 1420,
-  winnerCount: 1,
-  eligibility: "Verified VELOOP tier 1+ users",
-  terms: "One entry per user. KYC verification required for physical delivery.",
-  claimType: "PHYSICAL_DELIVERY"
-}
-```
-
----
-
-## User States
-
-The system establishes a normalized user state enum:
-- `VISITOR`: Unauthenticated user exploring giveaways.
-- `LOGGED_IN_NOT_PARTICIPATING`: Authenticated user with eligible balance who has not entered yet.
-- `PARTICIPANT`: Authenticated user who has successfully joined the active giveaway.
-- `WINNER`: Verified winner with pending or fulfilled prize claim.
-- `NON_WINNER`: Participant whose entry was not drawn after giveaway completion.
-- `ENDED`: Giveaway concluded.
-- `UPCOMING`: Giveaway scheduled for future entry.
-
----
-
-## Local Development
-
-### Prerequisites
-- Node.js >= 18.0.0
-- npm >= 9.0.0
-- MongoDB (optional for Phase 0; backend runs gracefully in offline mode)
-
-### 1. Install Dependencies
-```bash
-# Install root, frontend, and backend dependencies
-npm run install:all
-```
-
-### 2. Configure Environment Files
-```bash
-# Backend
-cp backend/.env.example backend/.env
-
-# Frontend
-cp frontend/.env.example frontend/.env
-```
-
-### 3. Run Development Servers
-```bash
-# Run Frontend (Vite on http://localhost:5173)
-npm run client
-
-# Run Backend (Express on http://localhost:5000)
-npm run server
-```
-
-### 4. Run Linting
-```bash
-# Run ESLint across frontend and backend
-npm run lint
-```
-
----
-
-## Environment Variables
-
-### Root / Backend (`backend/.env`)
-| Variable | Default | Description |
-|---|---|---|
-| `PORT` | `5000` | Express server port |
-| `NODE_ENV` | `development` | Runtime environment |
-| `MONGO_URI` | `mongodb://localhost:27017/veloop_giveaway` | MongoDB connection string |
-| `JWT_SECRET` | - | Authentication token secret |
-| `REFRESH_SECRET` | - | Refresh token secret |
-| `CLIENT_URL` | `http://localhost:5173` | Allowed CORS origin |
-
-### Frontend (`frontend/.env`)
-| Variable | Default | Description |
-|---|---|---|
-| `VITE_API_BASE_URL` | `http://localhost:5000/api` | Target backend API base URL |
-
----
-
-## Future API Integration
-
-The frontend service layer is pre-structured to consume the following REST endpoints in upcoming phases:
-- `GET /api/giveaways/current`
-- `GET /api/giveaways/:idOrSlug`
-- `GET /api/giveaways/previous`
-- `GET /api/giveaways/:id/my-status`
-- `POST /api/giveaways/:id/join`
-- `GET /api/giveaways/:id/winners`
-- `POST /api/giveaways/:id/claim`
-- `GET /api/giveaways/:id/my-claim`
-
 ## Production Database Requirements & Transactional Consistency
 
 > [!IMPORTANT]
 > **Production Requirement: MongoDB Replica-Set or Sharded Cluster**
-> 
-> A **Replica-Set or Sharded MongoDB cluster is strictly required in production** for all giveaway financial and participation operations. Multi-document ACID transactions (`session.startTransaction()`) are essential to ensure crash-consistent atomicity across:
-> 1. User wallet balance deduction (`UserAccount.balances`)
-> 2. Immutable participation record creation (`GiveawayParticipation`)
-> 3. Financial ledger audit creation (`EntryTransaction`)
-> 4. Participant count increments and audit logs (`AuditLog`)
 >
-> **Standalone MongoDB Support (Local Development Only)**:
-> Standalone MongoDB instances are supported **exclusively for local development and offline testing** using conditional atomic single-document updates (`$inc` guarded by `$gte` balance filters).
-> 
+> A **Replica-Set or Sharded MongoDB cluster is strictly required in production** for all giveaway financial and claim operations. Multi-document ACID transactions (`session.startTransaction()`) are mandatory to guarantee all-or-nothing atomicity across:
+> 1. Wallet balance deduction (`UserAccount.balances`)
+> 2. Participation record creation (`GiveawayParticipation`)
+> 3. Financial entry transaction ledger creation (`EntryTransaction`)
+> 4. Participant count increments and immutable audit logging (`AuditLog`)
+> 5. Winner finalization and prize claim state updates (`Claim`, `Winner`)
+>
+> **Standalone MongoDB Support (Local Development & Offline Testing Only)**:
+> Standalone MongoDB instances are supported **exclusively for local development and offline testing** using conditional atomic single-document updates and self-healing status reconciliation.
+>
 > **Explicit Crash-Safety Notice**:
-> The standalone development fallback does **NOT** provide equivalent multi-document ACID crash safety. In standalone mode, if a server crash, process termination, or unhandled infrastructure disruption occurs after the balance deduction but prior to participation record insertion, a balance deduction can persist without creating the corresponding entry and audit records. True multi-document transactional crash safety requires a replica set in production.
+> The standalone development fallback does **NOT** provide equivalent multi-document ACID crash safety. In standalone mode, if an unexpected process termination occurs between write operations, self-healing idempotency logic reconciles the state upon subsequent read/retry, but true atomic crash consistency requires a replica set in production.
 
 ---
 
-## Security Principles
-- **Multi-Document ACID Transactions**: Atomic wallet deduction, entry transaction creation, participation generation, and audit logging via MongoDB sessions (Replica Set required in production).
-- **Idempotency Keys**: Request deduplication on all balance-affecting operations (`x-idempotency-key`).
-- **Privacy Masking**: Public winner endpoints mask identifiers (`su***@gmail.com`, `98****1234`).
-- **Rate Limiting**: Tiered endpoint throttling against automated bot entries and brute force attacks.
-- **Backend Authority**: Strict validation stripping client-supplied `amount`, `currency`, `userId`, and `prizeId` in favor of authoritative database values.
+## Security & Privacy Invariants
+
+1. **Identity Authority**: The backend derives user identity strictly from the verified JWT session (`req.user.userId`). Client-supplied `userId`, `winnerId`, `claimId`, `prizeId`, `claimType`, or fee amounts in request bodies or query parameters are stripped.
+2. **Cryptographic Randomness**: Winner selection uses Node.js CSPRNG (`crypto.randomInt`) with Fisher-Yates shuffling, recorded as `CRYPTO_RANDOM`.
+3. **Privacy Boundaries**: Public winner endpoints mask identifiers (`pr***@veloop.io`). Raw PII (`phone`, `addressLine1`, `email`) is never exposed in public endpoints, never stored in browser storage, and never logged in `AuditLog` or `FraudEvent` metadata.
+4. **Rate Limiting & Anti-Abuse**: Tiered Express rate limiting guards against automated bots, excessive join velocity, and administrative endpoint brute-forcing.
 
 ---
 
-## Responsive Design
-- Mobile-first breakpoints using CSS custom properties.
-- Touch-friendly action surfaces and accessible contrast ratios (WCAG 2.1 AA compliant).
+## Local Development & Setup
+
+### 1. Prerequisites
+- Node.js >= 18.0.0
+- npm >= 9.0.0
+- MongoDB instance running on `localhost:27017`
+
+### 2. Installation
+```bash
+# From the repository root
+npm run install:all
+```
+
+### 3. Environment Configuration
+```bash
+# Backend configuration
+cp backend/.env.example backend/.env
+
+# Frontend configuration
+cp frontend/.env.example frontend/.env
+```
+
+### 4. Seed Demo Data
+```bash
+cd backend
+node src/scripts/seed.js
+```
+
+### 5. Run Development Servers
+```bash
+# Start Backend (Port 5000)
+cd backend
+npm start
+
+# Start Frontend (Port 5173 in a separate terminal)
+cd frontend
+npm run dev
+```
+
+### 6. Run Test Suites & Linting
+```bash
+# Run backend integration tests (68 tests across 12 suites)
+cd backend
+npm test
+
+# Run backend ESLint
+npm run lint
+
+# Run frontend ESLint & Production Build
+cd frontend
+npm run lint
+npm run build
+```
 
 ---
 
-## Testing
-- **Lint Checks**: ESLint configured for React Hooks, JSX, and ES modules (`npm run lint`).
-- **Health Verification**: `/api/health` validation under both connected and disconnected database states.
-
----
-
-## Deployment
-- Deployment-ready directory segregation for containerized deployment (Docker / Cloud Run / Vercel / Railway).
-
----
-
-## Screenshots
-*(Screenshots will be added during Phase 1 UI implementation in `docs/screenshots/`)*
-
----
-
-## License / Project Notes
-Confidential & Proprietary – VELOOP Rewards. For internal development and evaluation only.
+## License / Notes
+Confidential & Proprietary – VELOOP Rewards. Developed for technical assessment and production implementation.

@@ -72,3 +72,36 @@ VELOOP Rewards Giveaway System is a high-trust, scalable gamification platform e
 - **Idempotency**: UUID-based idempotency keys on join requests to eliminate double-spend and duplicate participation on network retries.
 - **Audit Logging**: Immutable audit logs capturing every balance transition, winner draw seed, and claim resolution.
 - **Fraud Engine**: Real-time anomaly detection flagging bot patterns, multi-accounting, and anomalous entry velocities.
+
+## 6. Winner Finalization & Prize Claim Architecture (Phase 3)
+
+### 6.1 Backend Authority & Winner Verification
+- Winner finalization is triggered exclusively by authenticated administrators via `POST /api/admin/giveaways/:id/select-winners` utilizing Node.js CSPRNG (`crypto.randomInt`, Fisher-Yates shuffle tagged as `CRYPTO_RANDOM`).
+- Prize claim submission (`POST /api/giveaways/:id/claim`) and status lookup (`GET /api/giveaways/:id/my-claim`) derive identity strictly from the authenticated JWT session (`req.user.userId`). Client-supplied `userId`, `winnerId`, `claimId`, `prizeId`, `claimType`, or deadline overrides are stripped.
+
+### 6.2 Claim Types & Schema Validation
+- **Physical Delivery (`PHYSICAL_DELIVERY`)**: Requires structured shipping destination (`fullName`, `phone`, `addressLine1`, `city`, `state`, `postalCode`).
+- **Gift Card Voucher (`GIFT_CARD_CODE` / `DIGITAL_CREDIT`)**: Requires validated delivery `email`.
+
+### 6.3 Claim Status Separation & User-Facing Mapping
+- `Winner.claimStatus`: Represents winner claim lifecycle (`UNCLAIMED`, `CLAIMED`, `FULFILLED`, `EXPIRED`).
+- `Claim.status`: Represents operational fulfillment lifecycle (`PENDING_REVIEW`, `PROCESSING`, `DISPATCHED`, `DELIVERED`, `REJECTED`).
+- **User-Facing Mapping**:
+  - `UNCLAIMED` (no claim) → `NOT_SUBMITTED`
+  - `EXPIRED` → `EXPIRED`
+  - `PENDING_REVIEW` → `SUBMITTED`
+  - `PROCESSING` → `PROCESSING`
+  - `DISPATCHED` → `DISPATCHED`
+  - `DELIVERED` / `FULFILLED` → `COMPLETED`
+  - `REJECTED` → `REJECTED`
+
+### 6.4 Configurable Claim Window
+- Prize claim eligibility is governed by a configurable deadline: `drawnAt + CLAIM_WINDOW_DAYS` (default: 14 days; configurable via `process.env.CLAIM_WINDOW_DAYS` as development/demo setting).
+- Claims submitted past the authoritative deadline transition the winner record to `EXPIRED` and reject submission with HTTP 400 `CLAIM_EXPIRED`.
+
+### 6.5 Concurrency & Duplicate Protection
+- Compound unique index on `Claim` (`{ giveawayId: 1, userId: 1 }` and `{ winnerId: 1 }`) prevents duplicate claims and race conditions. Repeated requests return the existing claim idempotently.
+- In production Replica Sets, multi-document ACID transactions guarantee all-or-nothing consistency across `Claim`, `Winner`, and `AuditLog`. Standalone development environments use atomic persistence with rollback and unique index guards.
+
+### 6.6 Privacy & PII Boundaries
+- Raw PII (`phone`, `addressLine1`, `email`) is strictly omitted from `AuditLog` metadata, `FraudEvent` records, and public winner endpoints. Public endpoints expose only privacy-masked identifiers (`su***@gmail.com`).
