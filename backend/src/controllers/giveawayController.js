@@ -1,6 +1,7 @@
 import Giveaway from '../models/Giveaway.js';
 import Winner from '../models/Winner.js';
 import { GiveawayEngine } from '../services/giveawayEngine.js';
+import { WinnerService } from '../services/winnerService.js';
 import { sendSuccess, sendError } from '../utils/responseHelper.js';
 
 /**
@@ -210,30 +211,9 @@ export const joinGiveaway = async (req, res) => {
  */
 export const getRecentWinners = async (req, res) => {
   try {
-    const list = await Winner.find({ isRecent: true })
-      .populate('prizeId')
-      .sort({ drawnAt: -1 })
-      .lean();
-
-    const formatted = list.map((w) => ({
-      id: w._id.toString(),
-      giveawayId: w.giveawayId?.toString(),
-      giveawayTitle: w.prizeName || 'VELOOP Giveaway Pool',
-      prize: w.prizeName || w.prizeId?.name || 'Prize',
-      prizeType: w.prizeId?.type || 'PHYSICAL',
-      prizeImage: w.prizeId?.imageUrl || '/assets/prizes/iphone-15-pro.png',
-      maskedUserId: w.maskedUserId,
-      maskedPhone: w.maskedPhone,
-      userHandle: w.userHandle,
-      drawDate: w.drawnAt,
-      claimStatus: w.claimStatus,
-      statusLabel: w.statusLabel,
-      entryFeePaid: w.entryFeePaid,
-      txHash: w.txHash,
-      isRecent: true,
-    }));
-
-    return sendSuccess(res, 200, 'Recent winners retrieved', formatted);
+    const limit = req.query.limit ? parseInt(req.query.limit, 10) : 50;
+    const winners = await WinnerService.getRecentWinners({ limit });
+    return sendSuccess(res, 200, 'Recent winners retrieved', winners);
   } catch (error) {
     return sendError(res, 500, error.message || 'Failed to retrieve recent winners');
   }
@@ -244,30 +224,9 @@ export const getRecentWinners = async (req, res) => {
  */
 export const getPreviousWinners = async (req, res) => {
   try {
-    const list = await Winner.find({ isRecent: false })
-      .populate('prizeId')
-      .sort({ drawnAt: -1 })
-      .lean();
-
-    const formatted = list.map((w) => ({
-      id: w._id.toString(),
-      giveawayId: w.giveawayId?.toString(),
-      giveawayTitle: w.prizeName || 'VELOOP Giveaway Pool',
-      prize: w.prizeName || w.prizeId?.name || 'Prize',
-      prizeType: w.prizeId?.type || 'PHYSICAL',
-      prizeImage: w.prizeId?.imageUrl || '/assets/prizes/iphone-15-pro.png',
-      maskedUserId: w.maskedUserId,
-      maskedPhone: w.maskedPhone,
-      userHandle: w.userHandle,
-      drawDate: w.drawnAt,
-      claimStatus: w.claimStatus,
-      statusLabel: w.statusLabel,
-      entryFeePaid: w.entryFeePaid,
-      txHash: w.txHash,
-      isRecent: false,
-    }));
-
-    return sendSuccess(res, 200, 'Previous winners retrieved', formatted);
+    const limit = req.query.limit ? parseInt(req.query.limit, 10) : 50;
+    const winners = await WinnerService.getPreviousWinners({ limit });
+    return sendSuccess(res, 200, 'Previous winners retrieved', winners);
   } catch (error) {
     return sendError(res, 500, error.message || 'Failed to retrieve previous winners');
   }
@@ -278,30 +237,9 @@ export const getPreviousWinners = async (req, res) => {
  */
 export const getAllWinners = async (req, res) => {
   try {
-    const list = await Winner.find({})
-      .populate('prizeId')
-      .sort({ drawnAt: -1 })
-      .lean();
-
-    const formatted = list.map((w) => ({
-      id: w._id.toString(),
-      giveawayId: w.giveawayId?.toString(),
-      giveawayTitle: w.prizeName || 'VELOOP Giveaway Pool',
-      prize: w.prizeName || w.prizeId?.name || 'Prize',
-      prizeType: w.prizeId?.type || 'PHYSICAL',
-      prizeImage: w.prizeId?.imageUrl || '/assets/prizes/iphone-15-pro.png',
-      maskedUserId: w.maskedUserId,
-      maskedPhone: w.maskedPhone,
-      userHandle: w.userHandle,
-      drawDate: w.drawnAt,
-      claimStatus: w.claimStatus,
-      statusLabel: w.statusLabel,
-      entryFeePaid: w.entryFeePaid,
-      txHash: w.txHash,
-      isRecent: w.isRecent,
-    }));
-
-    return sendSuccess(res, 200, 'All winners retrieved', formatted);
+    const limit = req.query.limit ? parseInt(req.query.limit, 10) : 100;
+    const winners = await WinnerService.getAllWinners({ limit });
+    return sendSuccess(res, 200, 'All winners retrieved', winners);
   } catch (error) {
     return sendError(res, 500, error.message || 'Failed to retrieve all winners');
   }
@@ -312,19 +250,16 @@ export const getAllWinners = async (req, res) => {
  */
 export const getWinners = async (req, res) => {
   try {
-    const giveaway = await GiveawayEngine.resolveGiveaway(req.params.id);
-    if (!giveaway) {
-      return res.status(404).json({
-        success: false,
-        code: 'GIVEAWAY_NOT_FOUND',
-        message: 'Giveaway not found',
-      });
-    }
-
-    const list = await Winner.find({ giveawayId: giveaway._id }).populate('prizeId').lean();
-    return sendSuccess(res, 200, 'Giveaway winners retrieved', list);
+    const identifier = req.params.id || req.params.slug;
+    const winners = await WinnerService.getWinnersByGiveaway(identifier);
+    return sendSuccess(res, 200, 'Giveaway winners retrieved', winners);
   } catch (error) {
-    return sendError(res, 500, error.message || 'Failed to retrieve winners');
+    const statusCode = error.statusCode || (error.code === 'GIVEAWAY_NOT_FOUND' ? 404 : 500);
+    return res.status(statusCode).json({
+      success: false,
+      code: error.code || 'WINNERS_FETCH_FAILED',
+      message: error.message || 'Failed to retrieve winners',
+    });
   }
 };
 

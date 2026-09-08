@@ -19,6 +19,7 @@ const router = Router();
 
 // Platform & Discovery endpoints (Public)
 router.get('/current', getCurrentGiveaways);
+router.get('/previous/winners', getPreviousWinners);
 router.get('/previous', getPreviousGiveaways);
 router.get('/stats', getGiveawayStats);
 
@@ -44,6 +45,7 @@ router.post(
 );
 
 // Individual giveaway winners
-router.get('/:id/winners', getWinners);
+// Individual giveaway winners (Public)
+router.get('/:id/winners', validateLookupIdentifier, getWinners);
 
 export default router;
