@@ -2,6 +2,7 @@ import Giveaway from '../models/Giveaway.js';
 import Winner from '../models/Winner.js';
 import { GiveawayEngine } from '../services/giveawayEngine.js';
 import { WinnerService } from '../services/winnerService.js';
+import { ClaimService } from '../services/claimService.js';
 import { sendSuccess, sendError } from '../utils/responseHelper.js';
 
 /**
@@ -208,6 +209,7 @@ export const joinGiveaway = async (req, res) => {
 
 /**
  * GET /api/giveaways/winners/recent
+ * Public endpoint to retrieve recent sanitized winners
  */
 export const getRecentWinners = async (req, res) => {
   try {
@@ -220,7 +222,8 @@ export const getRecentWinners = async (req, res) => {
 };
 
 /**
- * GET /api/giveaways/winners/previous
+ * GET /api/giveaways/previous/winners (and /api/giveaways/winners/previous)
+ * Public endpoint to retrieve sanitized historical winners
  */
 export const getPreviousWinners = async (req, res) => {
   try {
@@ -234,6 +237,7 @@ export const getPreviousWinners = async (req, res) => {
 
 /**
  * GET /api/giveaways/winners (all winners)
+ * Public endpoint to retrieve all sanitized winners
  */
 export const getAllWinners = async (req, res) => {
   try {
@@ -247,6 +251,7 @@ export const getAllWinners = async (req, res) => {
 
 /**
  * GET /api/giveaways/:id/winners
+ * Public endpoint to retrieve sanitized winners for a specific giveaway pool
  */
 export const getWinners = async (req, res) => {
   try {
@@ -263,6 +268,58 @@ export const getWinners = async (req, res) => {
   }
 };
 
+/**
+ * POST /api/giveaways/:id/claim
+ * Authenticated winner prize claim submission
+ */
+export const submitClaim = async (req, res) => {
+  try {
+    const identifier = req.params.id || req.params.giveawayId;
+    const result = await ClaimService.submitClaim({
+      user: req.user,
+      giveawayIdentifier: identifier,
+      claimData: req.body,
+      req,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: result.message,
+      data: result,
+    });
+  } catch (error) {
+    const statusCode = error.statusCode || 500;
+    return res.status(statusCode).json({
+      success: false,
+      code: error.code || 'CLAIM_SUBMISSION_FAILED',
+      message: error.message || 'Failed to submit prize claim',
+    });
+  }
+};
+
+/**
+ * GET /api/giveaways/:id/my-claim
+ * Authenticated winner prize claim status and details
+ */
+export const getMyClaim = async (req, res) => {
+  try {
+    const identifier = req.params.id || req.params.giveawayId;
+    const result = await ClaimService.getMyClaim({
+      user: req.user,
+      giveawayIdentifier: identifier,
+    });
+
+    return sendSuccess(res, 200, 'Claim status retrieved', result);
+  } catch (error) {
+    const statusCode = error.statusCode || 500;
+    return res.status(statusCode).json({
+      success: false,
+      code: error.code || 'CLAIM_STATUS_ERROR',
+      message: error.message || 'Failed to retrieve claim status',
+    });
+  }
+};
+
 export default {
   getCurrentGiveaways,
   getPreviousGiveaways,
@@ -274,4 +331,6 @@ export default {
   getPreviousWinners,
   getAllWinners,
   getWinners,
+  submitClaim,
+  getMyClaim,
 };

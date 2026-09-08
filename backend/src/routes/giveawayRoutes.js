@@ -10,9 +10,15 @@ import {
   getPreviousWinners,
   getAllWinners,
   getWinners,
+  submitClaim,
+  getMyClaim,
 } from '../controllers/giveawayController.js';
 import { authenticateUser, requireAuth } from '../middleware/authMiddleware.js';
-import { validateJoinRequest, validateLookupIdentifier } from '../validators/giveawayValidator.js';
+import {
+  validateJoinRequest,
+  validateLookupIdentifier,
+  validateClaimRequest,
+} from '../validators/giveawayValidator.js';
 import { joinRateLimiter } from '../middleware/rateLimiter.js';
 
 const router = Router();
@@ -44,8 +50,24 @@ router.post(
   joinGiveaway
 );
 
-// Individual giveaway winners
 // Individual giveaway winners (Public)
 router.get('/:id/winners', validateLookupIdentifier, getWinners);
+
+// Winner Prize Claim endpoints (Authenticated)
+router.post(
+  '/:id/claim',
+  authenticateUser,
+  requireAuth,
+  validateClaimRequest,
+  submitClaim
+);
+
+router.get(
+  '/:id/my-claim',
+  authenticateUser,
+  requireAuth,
+  validateLookupIdentifier,
+  getMyClaim
+);
 
 export default router;

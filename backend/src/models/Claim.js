@@ -14,7 +14,6 @@ const claimSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Winner',
       required: true,
-      index: true,
     },
     userId: {
       type: String,
@@ -67,6 +66,10 @@ const claimSchema = new Schema(
     timestamps: true,
   }
 );
+
+// Enforce unique claim per user per giveaway and unique winner claim assignment
+claimSchema.index({ giveawayId: 1, userId: 1 }, { unique: true });
+claimSchema.index({ winnerId: 1 }, { unique: true });
 
 export const Claim = mongoose.model('Claim', claimSchema);
 export default Claim;

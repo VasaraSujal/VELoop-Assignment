@@ -51,4 +51,32 @@ export const validateLookupIdentifier = (req, res, next) => {
   next();
 };
 
-export default { validateJoinRequest, validateLookupIdentifier };
+export const validateClaimRequest = (req, res, next) => {
+  const identifier = req.params.id || req.params.giveawayId;
+  if (!identifier || typeof identifier !== 'string' || !identifier.trim()) {
+    return res.status(400).json({
+      success: false,
+      code: 'INVALID_IDENTIFIER',
+      message: 'A valid giveaway identifier is required to claim prize.',
+    });
+  }
+
+  // Enforce security rule: strip any client-supplied internal/identity tampering fields
+  if (req.body && typeof req.body === 'object') {
+    delete req.body.userId;
+    delete req.body.winnerId;
+    delete req.body.claimId;
+    delete req.body.prizeId;
+    delete req.body.claimType;
+    delete req.body.deadline;
+    delete req.body.status;
+    delete req.body.fulfillmentStatus;
+    delete req.body.trackingNumber;
+    delete req.body.courier;
+    delete req.body.giftCardCode;
+  }
+
+  next();
+};
+
+export default { validateJoinRequest, validateLookupIdentifier, validateClaimRequest };
