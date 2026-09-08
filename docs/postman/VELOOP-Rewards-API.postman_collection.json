@@ -1,0 +1,1366 @@
+{
+  "info": {
+    "name": "VELOOP Rewards - Scalable Giveaway System API",
+    "_postman_id": "veloop-rewards-api-v1",
+    "description": "# VELOOP Rewards - Scalable Giveaway System API\n\nProduction-ready REST API for the **VELOOP Rewards Giveaway Platform**.\n\n### Core Capabilities\n1. **Giveaway Discovery**: Browse active, featured, upcoming, and past giveaway pools.\n2. **Financial Balance & Participation Engine**: Server-authoritative joins with multi-token currency deduction (`VEs`, `SVEs`, `Tokens`), idempotency, and anti-fraud rate-limiting.\n3. **Cryptographic Winner Selection (CSPRNG)**: Backend-authoritative Fisher-Yates draw with multi-document ACID transactions and crash-recovery fallback.\n4. **Verified Public Winner Feeds**: Privacy-masked winner records with anonymized identifiers.\n5. **Secure Prize Claim Lifecycle**: Authenticated physical delivery & digital gift card claim submission with 14-day claim window enforcement.\n6. **Admin Authorization**: Role-based access control (`ADMIN`) protecting winner finalization.\n\n### Authentication\n- Standard **Bearer JWT** via `Authorization: Bearer {{accessToken}}` header.\n- Demo personas (`user_alex`, `user_priya`, `user_rahul`, `user_admin`) allow full flow verification.\n- Dynamic token capture: Executing any demo-login request automatically stores the returned session token in `{{accessToken}}`.\n\n### Base URL\n- Default: `{{baseUrl}}` (`https://veloop-giveaway-api.onrender.com/api` or `http://localhost:5000/api`)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://veloop-giveaway-api.onrender.com/api",
+      "type": "string"
+    },
+    {
+      "key": "giveawaySlug",
+      "value": "iphone-15-pro",
+      "type": "string"
+    },
+    {
+      "key": "endedGiveawaySlug",
+      "value": "iphone-15-pro-ended",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - Health",
+      "description": "System liveness, uptime, and database connection status endpoints.",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Returns server uptime, ISO timestamp, database connection status, and environment mode."
+          },
+          "response": [
+            {
+              "name": "200 Healthy Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"VELOOP Giveaway API is healthy\",\n  \"data\": {\n    \"uptime\": 124.52,\n    \"timestamp\": \"2026-09-08T22:00:00.000Z\",\n    \"database\": \"connected\",\n    \"environment\": \"production\"\n  }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Database is connected\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.data.database).to.equal(\"connected\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 - Authentication",
+      "description": "Authentication provider endpoints supporting demo persona logins, profile queries, and session management.",
+      "item": [
+        {
+          "name": "Demo Login - Alex (VIP Tier 2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"user_alex\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/demo-login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "demo-login"
+              ]
+            },
+            "description": "Authenticates as Alex Rivera (VIP Tier 2, 1,500 VEs, 1,000 SVEs, 5,000 Tokens, KYC Verified). Automatically saves JWT to {{accessToken}} and {{alexToken}}."
+          },
+          "response": [
+            {
+              "name": "200 Success - Authenticated as Alex",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Authenticated as Alex Rivera (VIP Tier 2)\",\n  \"data\": {\n    \"token\": \"<JWT_TOKEN_RETURNED_BY_API>\",\n    \"user\": {\n      \"userId\": \"user_alex\",\n      \"email\": \"alex@veloop.io\",\n      \"handle\": \"alex_vip\",\n      \"name\": \"Alex Rivera (VIP Tier 2)\",\n      \"role\": \"USER\",\n      \"tier\": 2,\n      \"isKycVerified\": true,\n      \"balances\": {\n        \"VEs\": 1500,\n        \"SVEs\": 1000,\n        \"Tokens\": 5000\n      },\n      \"status\": \"ACTIVE\"\n    }\n  }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"JWT token saved to environment\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    if (jsonData.data && jsonData.data.token) {",
+                  "        pm.environment.set(\"accessToken\", jsonData.data.token);",
+                  "        pm.environment.set(\"alexToken\", jsonData.data.token);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Demo Login - Priya (Tier 1 Winner)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"user_priya\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/demo-login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "demo-login"
+              ]
+            },
+            "description": "Authenticates as Priya Sharma (Tier 1, verified winner of iPhone 15 Pro August Pool). Saves JWT to {{accessToken}} and {{priyaToken}}."
+          },
+          "response": [
+            {
+              "name": "200 Success - Authenticated as Priya",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Authenticated as Priya Sharma (Tier 1)\",\n  \"data\": {\n    \"token\": \"<JWT_TOKEN_RETURNED_BY_API>\",\n    \"user\": {\n      \"userId\": \"user_priya\",\n      \"email\": \"priya@veloop.io\",\n      \"handle\": \"priya_m\",\n      \"name\": \"Priya Sharma (Tier 1)\",\n      \"role\": \"USER\",\n      \"tier\": 1,\n      \"isKycVerified\": true,\n      \"balances\": {\n        \"VEs\": 350,\n        \"SVEs\": 100,\n        \"Tokens\": 2500\n      },\n      \"status\": \"ACTIVE\"\n    }\n  }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Priya JWT token saved\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    if (jsonData.data && jsonData.data.token) {",
+                  "        pm.environment.set(\"accessToken\", jsonData.data.token);",
+                  "        pm.environment.set(\"priyaToken\", jsonData.data.token);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Demo Login - Rahul (Tier 0 Low Balance)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"user_rahul\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/demo-login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "demo-login"
+              ]
+            },
+            "description": "Authenticates as Rahul Verma (Tier 0, 50 VEs, not KYC verified). Useful for testing insufficient balance and eligibility gates."
+          },
+          "response": [
+            {
+              "name": "200 Success - Authenticated as Rahul",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Authenticated as Rahul Verma (Tier 0 - Low Balance)\",\n  \"data\": {\n    \"token\": \"<JWT_TOKEN_RETURNED_BY_API>\",\n    \"user\": {\n      \"userId\": \"user_rahul\",\n      \"email\": \"rahul@veloop.io\",\n      \"handle\": \"rahul_k\",\n      \"name\": \"Rahul Verma (Tier 0 - Low Balance)\",\n      \"role\": \"USER\",\n      \"tier\": 0,\n      \"isKycVerified\": false,\n      \"balances\": {\n        \"VEs\": 50,\n        \"SVEs\": 0,\n        \"Tokens\": 200\n      },\n      \"status\": \"ACTIVE\"\n    }\n  }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Rahul JWT token saved\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    if (jsonData.data && jsonData.data.token) {",
+                  "        pm.environment.set(\"accessToken\", jsonData.data.token);",
+                  "        pm.environment.set(\"rahulToken\", jsonData.data.token);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Demo Login - Admin (Role: ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"user_admin\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/demo-login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "demo-login"
+              ]
+            },
+            "description": "Authenticates as Operations Admin (Role: ADMIN, Tier 3). Saves token to {{accessToken}} and {{adminToken}}."
+          },
+          "response": [
+            {
+              "name": "200 Success - Authenticated as Admin",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Authenticated as Operations Admin (Role: ADMIN)\",\n  \"data\": {\n    \"token\": \"<JWT_TOKEN_RETURNED_BY_API>\",\n    \"user\": {\n      \"userId\": \"user_admin\",\n      \"email\": \"admin@veloop.io\",\n      \"handle\": \"admin_ops\",\n      \"name\": \"Operations Admin (Role: ADMIN)\",\n      \"role\": \"ADMIN\",\n      \"tier\": 3,\n      \"isKycVerified\": true,\n      \"balances\": {\n        \"VEs\": 10000,\n        \"SVEs\": 5000,\n        \"Tokens\": 25000\n      },\n      \"status\": \"ACTIVE\"\n    }\n  }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Admin JWT token saved\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.data.user.role).to.equal(\"ADMIN\");",
+                  "    if (jsonData.data && jsonData.data.token) {",
+                  "        pm.environment.set(\"accessToken\", jsonData.data.token);",
+                  "        pm.environment.set(\"adminToken\", jsonData.data.token);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Current User Profile & Balances",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Returns the authenticated user identity, role, VIP tier, KYC status, and authoritative real-time balances from the database."
+          },
+          "response": [
+            {
+              "name": "200 User Profile",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"User profile retrieved\",\n  \"data\": {\n    \"userId\": \"user_alex\",\n    \"email\": \"alex@veloop.io\",\n    \"handle\": \"alex_vip\",\n    \"name\": \"Alex Rivera (VIP Tier 2)\",\n    \"role\": \"USER\",\n    \"tier\": 2,\n    \"isKycVerified\": true,\n    \"status\": \"ACTIVE\",\n    \"balances\": {\n      \"VEs\": 1500,\n      \"SVEs\": 1000,\n      \"Tokens\": 5000\n    }\n  }\n}"
+            },
+            {
+              "name": "401 Login Required",
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"code\": \"LOGIN_REQUIRED\",\n  \"message\": \"No active session found.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Demo Users (Development Only)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users"
+              ]
+            },
+            "description": "Lists pre-seeded development demo personas. Strictly returns HTTP 404 in production environments."
+          },
+          "response": [
+            {
+              "name": "200 Demo Users List (Development)",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Demo users retrieved\",\n  \"data\": [\n    {\n      \"userId\": \"user_admin\",\n      \"email\": \"admin@veloop.io\",\n      \"handle\": \"admin_ops\",\n      \"role\": \"ADMIN\",\n      \"tier\": 3\n    },\n    {\n      \"userId\": \"user_alex\",\n      \"email\": \"alex@veloop.io\",\n      \"handle\": \"alex_vip\",\n      \"role\": \"USER\",\n      \"tier\": 2\n    },\n    {\n      \"userId\": \"user_priya\",\n      \"email\": \"priya@veloop.io\",\n      \"handle\": \"priya_m\",\n      \"role\": \"USER\",\n      \"tier\": 1\n    },\n    {\n      \"userId\": \"user_rahul\",\n      \"email\": \"rahul@veloop.io\",\n      \"handle\": \"rahul_k\",\n      \"role\": \"USER\",\n      \"tier\": 0\n    }\n  ]\n}"
+            },
+            {
+              "name": "404 Disabled in Production",
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Demo user listing is disabled in production.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 - Giveaway Discovery",
+      "description": "Public discovery endpoints for browsing active, upcoming, and past giveaway pools.",
+      "item": [
+        {
+          "name": "Get Current Giveaways",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/current",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "current"
+              ]
+            },
+            "description": "Retrieves all currently active and upcoming giveaway pools with populated prize data."
+          },
+          "response": [
+            {
+              "name": "200 Current Giveaways",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Current giveaways retrieved\",\n  \"data\": [\n    {\n      \"id\": \"6aa03c683b53d78fb9cd1fde\",\n      \"slug\": \"iphone-15-pro\",\n      \"title\": \"Apple iPhone 15 Pro (128GB)\",\n      \"status\": \"ACTIVE\",\n      \"isFeatured\": true,\n      \"entryFee\": {\n        \"currency\": \"VEs\",\n        \"amount\": 250\n      },\n      \"prize\": {\n        \"name\": \"iPhone 15 Pro - Natural Titanium (128GB)\",\n        \"type\": \"PHYSICAL_DELIVERY\",\n        \"estimatedValue\": \"₹1,34,900\"\n      },\n      \"participantCount\": 1420,\n      \"winnerCount\": 1\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Previous Giveaways",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/previous",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "previous"
+              ]
+            },
+            "description": "Retrieves concluded (ENDED or COMPLETED) giveaway pools."
+          },
+          "response": [
+            {
+              "name": "200 Previous Giveaways",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Previous giveaways retrieved\",\n  \"data\": [\n    {\n      \"id\": \"6aa03c683b53d78fb9cd1fe6\",\n      \"slug\": \"iphone-15-pro-august\",\n      \"title\": \"Apple iPhone 15 Pro (August Pool)\",\n      \"status\": \"COMPLETED\",\n      \"winnerCount\": 1,\n      \"participantCount\": 1250\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Platform Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/stats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "stats"
+              ]
+            },
+            "description": "Returns high-level aggregate metrics for the platform homepage."
+          },
+          "response": [
+            {
+              "name": "200 Platform Stats",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Giveaway stats retrieved\",\n  \"data\": {\n    \"totalGiveaways\": 10,\n    \"activeGiveaways\": 6,\n    \"totalParticipants\": 5420,\n    \"totalWinners\": 6,\n    \"totalPrizeValueUSD\": 52000\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Giveaway Details by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/{{giveawaySlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "{{giveawaySlug}}"
+              ]
+            },
+            "description": "Retrieves complete giveaway details, prize specs, live countdown dates, and official rules by slug."
+          },
+          "response": [
+            {
+              "name": "200 Giveaway Details",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Giveaway details retrieved\",\n  \"data\": {\n    \"id\": \"6aa03c683b53d78fb9cd1fde\",\n    \"slug\": \"iphone-15-pro\",\n    \"title\": \"Apple iPhone 15 Pro (128GB)\",\n    \"status\": \"ACTIVE\",\n    \"isFeatured\": true,\n    \"entryFee\": {\n      \"currency\": \"VEs\",\n      \"amount\": 250\n    },\n    \"prize\": {\n      \"name\": \"iPhone 15 Pro - Natural Titanium (128GB)\",\n      \"type\": \"PHYSICAL_DELIVERY\",\n      \"estimatedValue\": \"₹1,34,900\",\n      \"specifications\": [\n        {\n          \"label\": \"Display\",\n          \"value\": \"6.1-inch Super Retina XDR OLED\"\n        },\n        {\n          \"label\": \"Processor\",\n          \"value\": \"A17 Pro 3nm Bionic Chip\"\n        }\n      ]\n    },\n    \"eligibility\": {\n      \"minTier\": 1,\n      \"requiresKyc\": true,\n      \"description\": \"Verified VELOOP Tier 1+ accounts\"\n    },\n    \"terms\": \"Winner selected via cryptographic random draw (CSPRNG). Single entry per pool.\"\n  }\n}"
+            },
+            {
+              "name": "404 Giveaway Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"code\": \"GIVEAWAY_NOT_FOUND\",\n  \"message\": \"Giveaway not found\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 - Participation",
+      "description": "Authenticated participation endpoints enforcing backend-authoritative balance deduction, anti-tampering guards, and idempotency.",
+      "item": [
+        {
+          "name": "Get My Participation Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/{{giveawaySlug}}/my-status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "{{giveawaySlug}}",
+                "my-status"
+              ]
+            },
+            "description": "Queries whether the authenticated user has joined the specified giveaway pool, returning participation details and transaction reference."
+          },
+          "response": [
+            {
+              "name": "200 User Already Participating",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Participation status retrieved\",\n  \"data\": {\n    \"isParticipating\": true,\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fde\",\n    \"joinedAt\": \"2026-09-08T18:30:00.000Z\",\n    \"transactionRef\": \"TX_1725810000000_A1B2\",\n    \"entryAmount\": 250,\n    \"entryCurrency\": \"VEs\"\n  }\n}"
+            },
+            {
+              "name": "200 User Not Participating",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Participation status retrieved\",\n  \"data\": {\n    \"isParticipating\": false,\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fde\",\n    \"joinedAt\": null,\n    \"transactionRef\": null,\n    \"entryAmount\": null,\n    \"entryCurrency\": null\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Join Giveaway - Alex (Authorized Entry)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idempotencyKey\": \"postman-alex-join-001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/{{giveawaySlug}}/join",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "{{giveawaySlug}}",
+                "join"
+              ]
+            },
+            "description": "Executes an authoritative entry for Alex. The backend looks up the pool entry fee (250 VEs), verifies balance (1,500 VEs), performs atomic deduction, creates GiveawayParticipation and EntryTransaction records, and returns remaining balance."
+          },
+          "response": [
+            {
+              "name": "200 Join Successful",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Successfully entered giveaway Apple iPhone 15 Pro (128GB)\",\n  \"data\": {\n    \"participationId\": \"6aa03c883b53d78fb9cd20a1\",\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fde\",\n    \"giveawaySlug\": \"iphone-15-pro\",\n    \"giveawayTitle\": \"Apple iPhone 15 Pro (128GB)\",\n    \"prizeName\": \"iPhone 15 Pro - Natural Titanium (128GB)\",\n    \"entryAmount\": 250,\n    \"entryCurrency\": \"VEs\",\n    \"remainingBalance\": 1250,\n    \"transactionRef\": \"TX_1725810600000_9F3A\",\n    \"joinedAt\": \"2026-09-08T22:30:00.000Z\",\n    \"isIdempotentReplay\": false\n  }\n}"
+            },
+            {
+              "name": "409 Already Participating",
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"code\": \"ALREADY_PARTICIPATING\",\n  \"message\": \"You are already participating in this giveaway.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Join Giveaway - Duplicate Join Attempt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idempotencyKey\": \"postman-alex-join-001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/{{giveawaySlug}}/join",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "{{giveawaySlug}}",
+                "join"
+              ]
+            },
+            "description": "Demonstrates idempotency and duplicate entry protection. When replayed with the same idempotencyKey, returns 200 with isIdempotentReplay: true. If attempted without key, returns 409 ALREADY_PARTICIPATING."
+          },
+          "response": [
+            {
+              "name": "200 Idempotent Replay",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Successfully entered giveaway Apple iPhone 15 Pro (128GB)\",\n  \"data\": {\n    \"participationId\": \"6aa03c883b53d78fb9cd20a1\",\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fde\",\n    \"entryAmount\": 250,\n    \"entryCurrency\": \"VEs\",\n    \"remainingBalance\": 1250,\n    \"transactionRef\": \"TX_1725810600000_9F3A\",\n    \"isIdempotentReplay\": true\n  }\n}"
+            },
+            {
+              "name": "409 Conflict",
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"code\": \"ALREADY_PARTICIPATING\",\n  \"message\": \"You are already participating in this giveaway.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Join Giveaway - Insufficient Balance (Rahul)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rahulToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idempotencyKey\": \"postman-rahul-insufficient-001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/{{giveawaySlug}}/join",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "{{giveawaySlug}}",
+                "join"
+              ]
+            },
+            "description": "Demonstrates authoritative financial balance checks. Rahul has 50 VEs but the pool requires 250 VEs. The backend halts with HTTP 400 without negative balance mutation."
+          },
+          "response": [
+            {
+              "name": "400 Insufficient VEs Balance",
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"code\": \"INSUFFICIENT_VES_BALANCE\",\n  \"message\": \"Insufficient VEs balance. Required: 250 VEs, Available: 50 VEs.\"\n}"
+            },
+            {
+              "name": "403 Insufficient VIP Tier",
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"code\": \"INSUFFICIENT_TIER\",\n  \"message\": \"Requires minimum VIP Tier 1. Your tier is 0.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 - Winners",
+      "description": "Public winner feeds exposing sanitized display records with strict PII masking.",
+      "item": [
+        {
+          "name": "Get Giveaway Winners by Pool ID/Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/iphone-15-pro-august/winners",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "iphone-15-pro-august",
+                "winners"
+              ]
+            },
+            "description": "Retrieves verified winners for a specific concluded giveaway. PII is masked (pr***@veloop.io, 98****7654)."
+          },
+          "response": [
+            {
+              "name": "200 Giveaway Winners",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Giveaway winners retrieved\",\n  \"data\": [\n    {\n      \"id\": \"6aa03c683b53d78fb9cd1ff0\",\n      \"giveawayId\": \"6aa03c683b53d78fb9cd1fe6\",\n      \"giveawayTitle\": \"Apple iPhone 15 Pro (August Pool)\",\n      \"prize\": \"iPhone 15 Pro - Natural Titanium (128GB)\",\n      \"prizeType\": \"PHYSICAL_DELIVERY\",\n      \"prizeImage\": \"/assets/prizes/iphone-15-pro.png\",\n      \"maskedUserId\": \"pr***@veloop.io\",\n      \"maskedPhone\": \"98****7654\",\n      \"userHandle\": \"priya_m\",\n      \"rank\": 1,\n      \"drawDate\": \"2026-09-06T18:30:00.000Z\",\n      \"claimStatus\": \"UNCLAIMED\",\n      \"statusLabel\": \"Pending Claim\",\n      \"entryFeePaid\": \"250 VEs\",\n      \"txHash\": \"0x8f2a...9c14\",\n      \"isRecent\": true\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Previous Concluded Winners",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/previous/winners",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "previous",
+                "winners"
+              ]
+            },
+            "description": "Retrieves historical sanitized winners for past concluded pools."
+          },
+          "response": [
+            {
+              "name": "200 Historical Winners",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Previous winners retrieved\",\n  \"data\": [\n    {\n      \"id\": \"6aa03c683b53d78fb9cd1ff2\",\n      \"userHandle\": \"rohit_k\",\n      \"prize\": \"Apple Watch Series 9 (45mm Midnight)\",\n      \"claimStatus\": \"FULFILLED\",\n      \"statusLabel\": \"Delivered & Verified\",\n      \"maskedUserId\": \"ro***@gmail.com\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Platform Winners",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/winners",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "winners"
+              ]
+            },
+            "description": "Retrieves full platform sanitized winners list (limit: 100)."
+          },
+          "response": [
+            {
+              "name": "200 All Winners",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"All winners retrieved\",\n  \"data\": [\n    {\n      \"userHandle\": \"priya_m\",\n      \"prize\": \"iPhone 15 Pro\",\n      \"statusLabel\": \"Pending Claim\"\n    },\n    {\n      \"userHandle\": \"alex_vip\",\n      \"prize\": \"₹2,000 Amazon Pay E-Gift Card\",\n      \"statusLabel\": \"Pending Claim\"\n    },\n    {\n      \"userHandle\": \"rohit_k\",\n      \"prize\": \"Apple Watch Series 9\",\n      \"statusLabel\": \"Delivered & Verified\"\n    }\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 - Prize Claims",
+      "description": "Authenticated prize claim lifecycle endpoints enforcing winner verification, claimType matching, 14-day claim window, and status tracking.",
+      "item": [
+        {
+          "name": "Get My Claim Status (Priya - Winner)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{priyaToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/iphone-15-pro-august/my-claim",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "iphone-15-pro-august",
+                "my-claim"
+              ]
+            },
+            "description": "Queries claim eligibility and status for Priya Sharma on the August iPhone 15 Pro Pool. Returns isWinner: true, canClaim: true, and authoritative claimType."
+          },
+          "response": [
+            {
+              "name": "200 Winner Claim Status (Unclaimed)",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Claim status retrieved\",\n  \"data\": {\n    \"isWinner\": true,\n    \"canClaim\": true,\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fe6\",\n    \"giveawayTitle\": \"Apple iPhone 15 Pro (August Pool)\",\n    \"prizeName\": \"iPhone 15 Pro - Natural Titanium (128GB)\",\n    \"claimType\": \"PHYSICAL_DELIVERY\",\n    \"rank\": 1,\n    \"drawnAt\": \"2026-09-06T18:30:00.000Z\",\n    \"deadline\": \"2026-09-20T18:30:00.000Z\",\n    \"isExpired\": false,\n    \"winnerClaimStatus\": \"UNCLAIMED\",\n    \"userFacingStatus\": \"NOT_SUBMITTED\",\n    \"claim\": null\n  }\n}"
+            },
+            {
+              "name": "200 Non-Winner Calling My-Claim",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Claim status retrieved\",\n  \"data\": {\n    \"isWinner\": false,\n    \"canClaim\": false,\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fe6\",\n    \"userFacingStatus\": \"NOT_SUBMITTED\",\n    \"message\": \"You were not drawn as a winner for this giveaway.\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Submit Physical Prize Claim (Priya)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{priyaToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Priya Sharma\",\n  \"phone\": \"+919876543210\",\n  \"addressLine1\": \"402 Sunrise Heights, SG Highway\",\n  \"addressLine2\": \"Bodakdev\",\n  \"city\": \"Ahmedabad\",\n  \"state\": \"Gujarat\",\n  \"postalCode\": \"380054\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/iphone-15-pro-august/claim",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "iphone-15-pro-august",
+                "claim"
+              ]
+            },
+            "description": "Submits physical shipping details for Priya. Validates required fields, updates Winner.claimStatus to CLAIMED, creates Claim record, and logs audit record."
+          },
+          "response": [
+            {
+              "name": "200 Claim Submitted Successfully",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Prize claim submitted successfully. Our fulfillment team will process your delivery.\",\n  \"data\": {\n    \"claimId\": \"6aa03ca03b53d78fb9cd21b0\",\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fe6\",\n    \"prizeName\": \"iPhone 15 Pro - Natural Titanium (128GB)\",\n    \"claimType\": \"PHYSICAL_DELIVERY\",\n    \"status\": \"SUBMITTED\",\n    \"userFacingStatus\": \"SUBMITTED\",\n    \"claimedAt\": \"2026-09-08T22:45:00.000Z\",\n    \"claimData\": {\n      \"fullName\": \"Priya Sharma\",\n      \"phone\": \"919876543210\",\n      \"addressLine1\": \"402 Sunrise Heights, SG Highway\",\n      \"addressLine2\": \"Bodakdev\",\n      \"city\": \"Ahmedabad\",\n      \"state\": \"Gujarat\",\n      \"postalCode\": \"380054\"\n    },\n    \"isIdempotentReplay\": false\n  }\n}"
+            },
+            {
+              "name": "400 Missing Required Physical Fields",
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"code\": \"INVALID_CLAIM_DATA\",\n  \"message\": \"A valid delivery address is required (minimum 5 characters).\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Submit Digital Gift Card Claim (Alex)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{alexToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"alex@veloop.io\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/amazon-gift-card-august/claim",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "amazon-gift-card-august",
+                "claim"
+              ]
+            },
+            "description": "Submits digital voucher delivery email for Alex on the ₹2,000 Amazon Pay Gift Card pool."
+          },
+          "response": [
+            {
+              "name": "200 Gift Card Claim Submitted",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Prize claim submitted successfully. Digital voucher code will be dispatched to your email.\",\n  \"data\": {\n    \"claimId\": \"6aa03ca23b53d78fb9cd21c5\",\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fe7\",\n    \"prizeName\": \"₹2,000 Amazon Pay E-Gift Card\",\n    \"claimType\": \"GIFT_CARD_CODE\",\n    \"status\": \"SUBMITTED\",\n    \"userFacingStatus\": \"SUBMITTED\",\n    \"claimedAt\": \"2026-09-08T22:46:00.000Z\",\n    \"claimData\": {\n      \"email\": \"alex@veloop.io\",\n      \"voucherDeliveryEmail\": \"alex@veloop.io\"\n    },\n    \"isIdempotentReplay\": false\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Submit Duplicate Claim (Idempotent Replay)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{priyaToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Priya Sharma\",\n  \"phone\": \"+919876543210\",\n  \"addressLine1\": \"402 Sunrise Heights, SG Highway\",\n  \"city\": \"Ahmedabad\",\n  \"state\": \"Gujarat\",\n  \"postalCode\": \"380054\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/iphone-15-pro-august/claim",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "iphone-15-pro-august",
+                "claim"
+              ]
+            },
+            "description": "Demonstrates idempotent claim submission. Re-submitting for an already claimed prize returns the existing claim with isIdempotentReplay: true without creating duplicates."
+          },
+          "response": [
+            {
+              "name": "200 Idempotent Claim Replay",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Prize claim already submitted. Your claim is currently being processed.\",\n  \"data\": {\n    \"claimId\": \"6aa03ca03b53d78fb9cd21b0\",\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fe6\",\n    \"status\": \"SUBMITTED\",\n    \"userFacingStatus\": \"SUBMITTED\",\n    \"isIdempotentReplay\": true\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Submit Claim - Non-Winner Attempt (Rahul)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rahulToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Rahul Verma\",\n  \"phone\": \"+919876543211\",\n  \"addressLine1\": \"123 Fake Street\",\n  \"city\": \"Delhi\",\n  \"state\": \"Delhi\",\n  \"postalCode\": \"110001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/giveaways/iphone-15-pro-august/claim",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "giveaways",
+                "iphone-15-pro-august",
+                "claim"
+              ]
+            },
+            "description": "Demonstrates server-side winner authorization. Rahul was not drawn as a winner for this pool, so the request is rejected with HTTP 403 NOT_A_WINNER."
+          },
+          "response": [
+            {
+              "name": "403 Not a Winner",
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"code\": \"NOT_A_WINNER\",\n  \"message\": \"You are not listed as an eligible winner for this giveaway.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "07 - Admin Operations",
+      "description": "Protected administrative operations enforcing requireAdmin middleware and audit logging.",
+      "item": [
+        {
+          "name": "Finalize Giveaway Winners (Admin Draw)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/giveaways/iphone-15-pro-ended/select-winners",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "giveaways",
+                "iphone-15-pro-ended",
+                "select-winners"
+              ]
+            },
+            "description": "Triggers cryptographic random winner selection (CSPRNG Fisher-Yates) on the ended giveaway. Transition pool ENDED -> COMPLETED, creates Winner and AuditLog records in a multi-document ACID transaction."
+          },
+          "response": [
+            {
+              "name": "200 Winner Draw Finalized",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Winner selection finalized for giveaway 'Apple iPhone 15 Pro (Pending Draw Pool)'\",\n  \"data\": {\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fe5\",\n    \"giveawayTitle\": \"Apple iPhone 15 Pro (Pending Draw Pool)\",\n    \"status\": \"COMPLETED\",\n    \"totalEligibleParticipants\": 3,\n    \"winnerCountConfigured\": 1,\n    \"winnersSelected\": 1,\n    \"selectionAlgorithm\": \"CSPRNG (crypto.randomInt Fisher-Yates shuffle)\",\n    \"winners\": [\n      {\n        \"winnerId\": \"6aa03cb03b53d78fb9cd22d0\",\n        \"userId\": \"user_alex\",\n        \"userHandle\": \"alex_vip\",\n        \"rank\": 1,\n        \"prizeName\": \"iPhone 15 Pro - Natural Titanium (128GB)\",\n        \"drawnAt\": \"2026-09-08T22:50:00.000Z\"\n      }\n    ],\n    \"isIdempotentReplay\": false\n  }\n}"
+            },
+            {
+              "name": "200 Idempotent Replay (Already Finalized)",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Giveaway 'Apple iPhone 15 Pro (Pending Draw Pool)' winner selection has already been finalized.\",\n  \"data\": {\n    \"giveawayId\": \"6aa03c683b53d78fb9cd1fe5\",\n    \"status\": \"COMPLETED\",\n    \"isIdempotentReplay\": true\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Finalize Winners - Unauthorized User (Alex)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{alexToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/giveaways/iphone-15-pro-ended/select-winners",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "giveaways",
+                "iphone-15-pro-ended",
+                "select-winners"
+              ]
+            },
+            "description": "Demonstrates role-based authorization security. Non-admin users attempting to invoke admin routes are rejected with HTTP 403 ADMIN_REQUIRED and flagged in the security audit trail."
+          },
+          "response": [
+            {
+              "name": "403 Admin Required",
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"code\": \"ADMIN_REQUIRED\",\n  \"message\": \"Administrative privileges required to perform this action.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Finalize Winners - Unauthenticated",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/giveaways/iphone-15-pro-ended/select-winners",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "giveaways",
+                "iphone-15-pro-ended",
+                "select-winners"
+              ]
+            },
+            "description": "Unauthenticated attempts without a Bearer token receive HTTP 401 LOGIN_REQUIRED."
+          },
+          "response": [
+            {
+              "name": "401 Login Required",
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"code\": \"LOGIN_REQUIRED\",\n  \"message\": \"Authentication required to access admin endpoints.\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
