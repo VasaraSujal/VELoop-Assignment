@@ -1,49 +1,68 @@
 .section {
-  max-width: 1200px;
+  width: 100%;
+  padding: var(--space-12) 0;
+  background-color: var(--color-bg);
+}
+
+.container {
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: var(--space-12) var(--space-6);
+  padding: 0 var(--space-6);
   width: 100%;
 }
 
+/* ==========================================================================
+   Section Intro Header
+   ========================================================================== */
 .headerRow {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: var(--space-8);
   flex-wrap: wrap;
-  gap: var(--space-4);
+  gap: var(--space-6);
 }
 
 .titleArea {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  max-width: 600px;
 }
 
 .sectionBadge {
-  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .sectionTitle {
-  font-size: 2rem;
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-extrabold);
   color: var(--color-text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  line-height: var(--line-height-tight);
+  margin: 0;
 }
 
 .sectionSubtitle {
   color: var(--color-text-secondary);
-  font-size: 1rem;
-  max-width: 540px;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
 }
 
+/* ==========================================================================
+   Filter Tabs / Discovery Controls
+   ========================================================================== */
 .filterTabs {
-  display: flex;
-  gap: var(--space-2);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
   background-color: var(--color-surface-muted);
   border: 1px solid var(--color-border);
   padding: 4px;
@@ -53,69 +72,130 @@
 .filterBtn {
   background: transparent;
   border: none;
-  padding: 6px 16px;
+  padding: 7px 16px;
   border-radius: var(--radius-full);
-  font-size: 0.85rem;
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: all var(--transition-fast);
+  outline: none;
 }
 
 .filterBtn:hover {
   color: var(--color-text-primary);
 }
 
+.filterBtn:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary-light), 0 0 0 4px var(--color-primary);
+}
+
 .filterBtnActive {
   background-color: var(--color-surface);
   color: var(--color-primary);
   font-weight: var(--font-weight-semibold);
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--shadow-sm);
 }
 
+.tabCount {
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-normal);
+}
+
+.filterBtnActive .tabCount {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ==========================================================================
+   Giveaway Cards Grid (3 Desktop, 2 Tablet, 1 Mobile)
+   ========================================================================== */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-6);
 }
 
-.emptyState {
-  grid-column: span 3;
-  text-align: center;
-  padding: var(--space-12);
+/* ==========================================================================
+   Loading State Skeletons
+   ========================================================================== */
+.skeletonCard {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  color: var(--color-text-secondary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
 }
 
+.skeletonBody {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+/* ==========================================================================
+   Empty State Wrapper
+   ========================================================================== */
+.emptyWrapper {
+  padding: var(--space-8) 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
 @media (max-width: 1024px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
   }
-  .emptyState {
-    grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-8) 0;
+  }
+
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .filterTabs {
+    width: 100%;
+    overflow-x: auto;
+    padding: 3px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filterBtn {
+    flex: 1;
+    justify-content: center;
+    padding: 7px 12px;
+    font-size: var(--font-size-caption);
+    white-space: nowrap;
   }
 }
 
 @media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
-  }
-  .emptyState {
-    grid-column: span 1;
-  }
-  .headerRow {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .filterTabs {
-    width: 100%;
-    overflow-x: auto;
-  }
-  .filterBtn {
-    flex: 1;
-    text-align: center;
-    white-space: nowrap;
+    gap: var(--space-4);
   }
 }
