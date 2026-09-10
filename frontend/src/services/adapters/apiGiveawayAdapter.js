@@ -1,4 +1,9 @@
 import { apiClient } from '../apiClient.js';
+import {
+  normalizeWinnerPrizeImage,
+  normalizeGiveawayPrizeImage,
+  resolvePrizeImage,
+} from '../../utils/prizeImageHelper.js';
 
 /**
  * REST API Giveaway Adapter
@@ -6,7 +11,9 @@ import { apiClient } from '../apiClient.js';
  */
 export const apiGiveawayAdapter = {
   async getCurrentGiveaways() {
-    return apiClient.get('/giveaways/current');
+    const list = await apiClient.get('/giveaways/current');
+    if (!Array.isArray(list)) return list;
+    return list.map(normalizeGiveawayPrizeImage);
   },
 
   async getFeaturedGiveaway() {
@@ -20,19 +27,26 @@ export const apiGiveawayAdapter = {
   },
 
   async getGiveawayBySlug(slug) {
-    return apiClient.get(`/giveaways/${slug}`);
+    const item = await apiClient.get(`/giveaways/${slug}`);
+    return normalizeGiveawayPrizeImage(item);
   },
 
   async getRecentWinners() {
-    return apiClient.get('/giveaways/winners/recent');
+    const list = await apiClient.get('/giveaways/winners/recent');
+    if (!Array.isArray(list)) return list;
+    return list.map(normalizeWinnerPrizeImage);
   },
 
   async getPreviousWinners() {
-    return apiClient.get('/giveaways/winners/previous');
+    const list = await apiClient.get('/giveaways/winners/previous');
+    if (!Array.isArray(list)) return list;
+    return list.map(normalizeWinnerPrizeImage);
   },
 
   async getAllWinners() {
-    return apiClient.get('/giveaways/winners');
+    const list = await apiClient.get('/giveaways/winners');
+    if (!Array.isArray(list)) return list;
+    return list.map(normalizeWinnerPrizeImage);
   },
 
   async getGiveawayStats() {
@@ -40,7 +54,9 @@ export const apiGiveawayAdapter = {
   },
 
   async getPreviousGiveaways() {
-    return apiClient.get('/giveaways/previous');
+    const list = await apiClient.get('/giveaways/previous');
+    if (!Array.isArray(list)) return list;
+    return list.map(normalizeGiveawayPrizeImage);
   },
 
   async getMyParticipation(giveawayId) {
@@ -54,7 +70,9 @@ export const apiGiveawayAdapter = {
   },
 
   async getWinners(giveawayId) {
-    return apiClient.get(`/giveaways/${giveawayId}/winners`);
+    const list = await apiClient.get(`/giveaways/${giveawayId}/winners`);
+    if (!Array.isArray(list)) return list;
+    return list.map(normalizeWinnerPrizeImage);
   },
 
   async submitPrizeClaim(giveawayId, claimData) {
@@ -62,7 +80,14 @@ export const apiGiveawayAdapter = {
   },
 
   async getMyClaim(giveawayId) {
-    return apiClient.get(`/giveaways/${giveawayId}/my-claim`);
+    const res = await apiClient.get(`/giveaways/${giveawayId}/my-claim`);
+    if (res && typeof res === 'object') {
+      return {
+        ...res,
+        prizeImage: resolvePrizeImage(res.prizeName, '', res.prizeImage),
+      };
+    }
+    return res;
   },
 
   // Auth & Profile API helpers
@@ -80,3 +105,4 @@ export const apiGiveawayAdapter = {
 };
 
 export default apiGiveawayAdapter;
+

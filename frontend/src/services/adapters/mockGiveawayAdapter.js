@@ -1,5 +1,9 @@
 import { MOCK_GIVEAWAYS, MOCK_WINNERS } from '../../data/giveawayData.js';
 import { USER_STATES } from '../../data/constants.js';
+import {
+  normalizeWinnerPrizeImage,
+  normalizeGiveawayPrizeImage,
+} from '../../utils/prizeImageHelper.js';
 
 /**
  * Mock Giveaway Adapter
@@ -7,11 +11,12 @@ import { USER_STATES } from '../../data/constants.js';
  */
 export const mockGiveawayAdapter = {
   async getCurrentGiveaways() {
-    return Promise.resolve([...MOCK_GIVEAWAYS]);
+    return Promise.resolve(MOCK_GIVEAWAYS.map(normalizeGiveawayPrizeImage));
   },
 
   async getFeaturedGiveaway() {
-    const featured = MOCK_GIVEAWAYS.find((g) => g.isFeatured) || MOCK_GIVEAWAYS[0];
+    const list = await this.getCurrentGiveaways();
+    const featured = list.find((g) => g.isFeatured) || list[0];
     return Promise.resolve(featured ? { ...featured } : null);
   },
 
@@ -26,21 +31,21 @@ export const mockGiveawayAdapter = {
       error.status = 404;
       return Promise.reject(error);
     }
-    return Promise.resolve({ ...item });
+    return Promise.resolve(normalizeGiveawayPrizeImage({ ...item }));
   },
 
   async getRecentWinners() {
     const recent = MOCK_WINNERS.filter((w) => w.isRecent);
-    return Promise.resolve([...recent]);
+    return Promise.resolve(recent.map(normalizeWinnerPrizeImage));
   },
 
   async getPreviousWinners() {
     const previous = MOCK_WINNERS.filter((w) => !w.isRecent);
-    return Promise.resolve([...previous]);
+    return Promise.resolve(previous.map(normalizeWinnerPrizeImage));
   },
 
   async getAllWinners() {
-    return Promise.resolve([...MOCK_WINNERS]);
+    return Promise.resolve(MOCK_WINNERS.map(normalizeWinnerPrizeImage));
   },
 
   async getGiveawayStats() {
@@ -78,7 +83,7 @@ export const mockGiveawayAdapter = {
 
   async getWinners(giveawayId) {
     const winners = MOCK_WINNERS.filter((w) => w.giveawayId === giveawayId);
-    return Promise.resolve(winners);
+    return Promise.resolve(winners.map(normalizeWinnerPrizeImage));
   },
 
   async submitPrizeClaim(_giveawayId, claimData) {
@@ -103,3 +108,4 @@ export const mockGiveawayAdapter = {
 };
 
 export default mockGiveawayAdapter;
+
