@@ -1,58 +1,65 @@
-import { ShieldCheck, Scale, Truck, FileCheck } from 'lucide-react';
+import { Scale, ShieldCheck, PackageCheck, FileCheck } from 'lucide-react';
 import styles from './TrustSection.module.css';
 
-const TRUST_FEATURES = [
+const TRUST_PRINCIPLES = [
   {
     icon: Scale,
-    title: 'Cryptographic Random Selection',
+    title: 'Fair & Transparent',
     description:
-      'Winner selection runs on CSPRNG cryptographically secure random algorithms ensuring every entry has an equal mathematical probability.',
+      'Giveaway rules, closing times, and participation requirements are clearly published for every pool.',
   },
   {
     icon: ShieldCheck,
-    title: 'Anti-Fraud Protection',
+    title: 'Secure Participation',
     description:
-      'Multi-layer rate limiting and velocity controls eliminate bot entries, preserving prize integrity for legitimate VELOOP members.',
+      'Authentication, balance validation, and anti-fraud controls help protect participation.',
   },
   {
-    icon: Truck,
-    title: 'Doorstep & E-Fulfillment',
+    icon: PackageCheck,
+    title: 'Clear Prize & Claim Process',
     description:
-      'Physical items are dispatched via tracked courier partners across India. Digital vouchers are delivered with zero delays.',
+      'Prize details, winner announcements, and required fulfillment information are clearly presented.',
   },
   {
     icon: FileCheck,
-    title: 'Immutable Audit Trail',
+    title: 'Auditable Giveaway Activity',
     description:
-      'Every balance deduction, ticket entry, and winner verification is recorded in comprehensive platform audit ledgers.',
+      'Participation, entry deductions, and winner draws are recorded by the platform for operational traceability.',
   },
 ];
 
+/**
+ * Production-ready Trust & Security section featuring a strategic dark navy anchor panel and 4 factual trust principles.
+ */
 export const TrustSection = () => {
   return (
-    <section className={styles.section} aria-label="Trust & Security Principles">
-      <div className={styles.card}>
-        <div className={styles.header}>
-          <span className={styles.badge}>Platform Integrity</span>
-          <h2 className={styles.title}>Built on Trust & Transparency</h2>
-          <p className={styles.subtitle}>
-            Our giveaway architecture is engineered around fairness, account safety, and reliable prize fulfillment.
-          </p>
-        </div>
+    <section id="trust" className={styles.section} aria-label="Trust & Security Principles">
+      <div className={styles.container}>
+        <div className={styles.panel}>
+          {/* Header */}
+          <div className={styles.header}>
+            <span className={styles.badge}>Platform Integrity</span>
+            <h2 className={styles.title}>Built on Trust &amp; Transparency</h2>
+            <p className={styles.subtitle}>
+              Our rewards platform is designed around account safety, clear winner selection, and a straightforward prize claim process.
+            </p>
+          </div>
 
-        <div className={styles.grid}>
-          {TRUST_FEATURES.map((feat) => {
-            const Icon = feat.icon;
-            return (
-              <div key={feat.title} className={styles.feature}>
-                <div className={styles.iconBox}>
-                  <Icon size={22} />
+          {/* 4 Trust Principles Grid */}
+          <div className={styles.grid}>
+            {TRUST_PRINCIPLES.map((principle) => {
+              const Icon = principle.icon;
+              return (
+                <div key={principle.title} className={styles.featureCard}>
+                  <div className={styles.iconWrapper}>
+                    <Icon size={22} aria-hidden="true" />
+                  </div>
+                  <h3 className={styles.featureTitle}>{principle.title}</h3>
+                  <p className={styles.featureText}>{principle.description}</p>
                 </div>
-                <h3 className={styles.featureTitle}>{feat.title}</h3>
-                <p className={styles.featureText}>{feat.description}</p>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

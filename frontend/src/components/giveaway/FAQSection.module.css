@@ -1,7 +1,13 @@
 .section {
-  max-width: 900px;
+  width: 100%;
+  padding: var(--space-12) 0;
+  background-color: var(--color-bg);
+}
+
+.container {
+  max-width: 860px;
   margin: 0 auto;
-  padding: var(--space-12) var(--space-6);
+  padding: 0 var(--space-6);
   width: 100%;
 }
 
@@ -11,28 +17,40 @@
 }
 
 .badge {
-  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   margin-bottom: var(--space-2);
-  display: inline-block;
+}
+
+.badgeIcon {
+  color: var(--color-primary);
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-extrabold);
   color: var(--color-text-primary);
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-2);
+  letter-spacing: -0.025em;
+  line-height: var(--line-height-tight);
+  margin: 0 0 var(--space-2) 0;
 }
 
 .subtitle {
   color: var(--color-text-secondary);
-  font-size: 1rem;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
 }
 
+/* ==========================================================================
+   Accordion List & Items
+   ========================================================================== */
 .accordionList {
   display: flex;
   flex-direction: column;
@@ -42,10 +60,14 @@
 .accordionItem {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-xl);
   overflow: hidden;
   box-shadow: var(--shadow-xs);
-  transition: border-color var(--transition-fast);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.accordionItem:hover {
+  border-color: var(--color-border-strong);
 }
 
 .accordionItemActive {
@@ -55,6 +77,7 @@
 
 .accordionButton {
   width: 100%;
+  min-height: 56px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -64,18 +87,55 @@
   cursor: pointer;
   text-align: left;
   gap: var(--space-4);
+  outline: none;
+  transition: background-color var(--transition-fast);
+}
+
+.accordionButton:hover {
+  background-color: var(--color-surface-subtle, #fbfcfe);
+}
+
+.accordionButton:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary-light), inset 0 0 0 4px var(--color-primary);
 }
 
 .questionText {
-  font-size: 1.05rem;
+  font-size: var(--font-size-h4);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
+  line-height: var(--line-height-normal);
+}
+
+.accordionItemActive .questionText {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.iconWrapper {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.iconWrapperActive {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
 }
 
 .icon {
+  color: var(--color-text-secondary);
+  transition: transform var(--transition-normal);
+}
+
+.iconWrapperActive .icon {
   color: var(--color-primary);
-  flex-shrink: 0;
-  transition: transform var(--transition-fast);
 }
 
 .iconOpen {
@@ -84,9 +144,52 @@
 
 .answerBox {
   padding: 0 var(--space-6) var(--space-5) var(--space-6);
-  color: var(--color-text-secondary);
-  font-size: 0.925rem;
-  line-height: 1.6;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border-subtle);
   padding-top: var(--space-4);
+  animation: fadeIn var(--transition-normal);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.answerText {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-8) 0;
+  }
+
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  .accordionButton {
+    padding: var(--space-4) var(--space-5);
+    min-height: 48px;
+  }
+
+  .questionText {
+    font-size: var(--font-size-body);
+  }
+
+  .answerBox {
+    padding: 0 var(--space-5) var(--space-4) var(--space-5);
+    padding-top: var(--space-3);
+  }
 }

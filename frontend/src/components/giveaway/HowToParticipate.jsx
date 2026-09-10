@@ -1,60 +1,72 @@
-import { Gift, ShieldCheck, Coins, Trophy } from 'lucide-react';
+import { Search, Wallet, Ticket, Trophy } from 'lucide-react';
 import styles from './HowToParticipate.module.css';
 
 const STEPS = [
   {
     step: '01',
-    icon: Gift,
-    title: 'Choose a Giveaway',
+    icon: Search,
+    title: 'Explore Giveaways',
     description:
-      'Browse active prize pools including flagship smartphones, smartwatches, and retail shopping vouchers.',
+      'Browse active reward pools and review the prize, entry fee, eligibility, and closing time.',
   },
   {
     step: '02',
-    icon: ShieldCheck,
-    title: 'Check Eligibility',
+    icon: Wallet,
+    title: 'Check Your Balance',
     description:
-      'Review pool tier requirements and entry rules. Most giveaway pools are open to all active VELOOP members.',
+      'Use your available VELOOP reward balance to determine whether you can enter the giveaway.',
   },
   {
     step: '03',
-    icon: Coins,
-    title: 'Use Reward Balance',
+    icon: Ticket,
+    title: 'Join the Giveaway',
     description:
-      'Enter the draw using your earned VEs, SVEs, or Tokens balance with zero real-money cost.',
+      'Confirm the entry fee and submit your participation before the pool countdown ends.',
   },
   {
     step: '04',
     icon: Trophy,
     title: 'Winner Draw & Claim',
     description:
-      'Winners are randomly drawn when the countdown concludes. Claim physical doorstep delivery or instant e-codes.',
+      'When the giveaway concludes, winners are selected and eligible winners can submit required claim information.',
   },
 ];
 
+/**
+ * Production-ready How It Works / Participation Journey component with 4-step horizontal desktop progression.
+ */
 export const HowToParticipate = () => {
   return (
     <section id="how-it-works" className={styles.section} aria-label="How To Participate Guide">
       <div className={styles.container}>
+        {/* Section Header */}
         <div className={styles.header}>
-          <span className={styles.badge}>Simple 4-Step Process</span>
-          <h2 className={styles.title}>How to Participate</h2>
+          <span className={styles.badge}>Step-by-Step Guide</span>
+          <h2 className={styles.title}>How It Works</h2>
           <p className={styles.subtitle}>
-            Enter high-value reward draws in seconds using your accumulated VELOOP reward credits.
+            Explore reward pools, use your available VELOOP balance, and follow the giveaway process from entry to claim.
           </p>
         </div>
 
+        {/* 4-Step Horizontal Progression Grid */}
         <div className={styles.stepsGrid}>
-          {STEPS.map((item) => {
+          {STEPS.map((item, idx) => {
             const IconComponent = item.icon;
+            const isLast = idx === STEPS.length - 1;
+
             return (
               <div key={item.step} className={styles.stepCard}>
-                <span className={styles.stepNumber}>{item.step}</span>
-                <div className={styles.iconWrapper}>
-                  <IconComponent size={22} />
+                <div className={styles.cardHeader}>
+                  <span className={styles.stepNumber}>{item.step}</span>
+                  <div className={styles.iconWrapper}>
+                    <IconComponent size={20} aria-hidden="true" />
+                  </div>
                 </div>
+
                 <h3 className={styles.stepTitle}>{item.title}</h3>
                 <p className={styles.stepDescription}>{item.description}</p>
+
+                {!isLast && <div className={styles.stepConnector} aria-hidden="true" />}
               </div>
             );
           })}

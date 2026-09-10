@@ -1,94 +1,173 @@
 .section {
-  max-width: 1200px;
+  width: 100%;
+  padding: var(--space-12) 0;
+  background-color: var(--color-bg);
+}
+
+.container {
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: var(--space-12) var(--space-6);
+  padding: 0 var(--space-6);
   width: 100%;
 }
 
-.card {
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
-  padding: var(--space-10);
+/* Strategic Dark Navy Anchor Panel */
+.panel {
+  background: linear-gradient(145deg, #0b1329 0%, #111c38 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-2xl, 24px);
+  padding: var(--space-12) var(--space-8);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background accent glow */
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, rgba(79, 70, 229, 0) 70%);
+  pointer-events: none;
 }
 
 .header {
   text-align: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-10);
+  position: relative;
+  z-index: 1;
 }
 
 .badge {
-  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
-  color: #059669;
+  color: #818cf8;
+  background-color: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: var(--space-2);
-  display: inline-block;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-3);
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-2);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-extrabold);
+  color: #ffffff;
+  letter-spacing: -0.025em;
+  line-height: var(--line-height-tight);
+  margin: 0 0 var(--space-3) 0;
 }
 
 .subtitle {
-  color: var(--color-text-secondary);
-  font-size: 1rem;
-  max-width: 600px;
+  color: #94a3b8;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-relaxed);
+  max-width: 620px;
   margin: 0 auto;
 }
 
+/* 4 Trust Principles Grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-6);
+  position: relative;
+  z-index: 1;
 }
 
-.feature {
+.featureCard {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
-.iconBox {
+.featureCard:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.iconWrapper {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-md);
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
+  background-color: rgba(79, 70, 229, 0.25);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .featureTitle {
-  font-size: 1.05rem;
+  font-size: var(--font-size-h4);
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
+  color: #f8fafc;
+  line-height: var(--line-height-tight);
+  margin: 0;
 }
 
 .featureText {
-  color: var(--color-text-secondary);
-  font-size: 0.875rem;
-  line-height: 1.55;
+  color: #cbd5e1;
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
 }
 
-@media (max-width: 992px) {
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 1024px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+  }
+
+  .panel {
+    padding: var(--space-10) var(--space-6);
   }
 }
 
-@media (max-width: 576px) {
-  .card {
-    padding: var(--space-6);
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-8) 0;
   }
+
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  .panel {
+    padding: var(--space-8) var(--space-5);
+    border-radius: var(--radius-xl);
+  }
+
+  .header {
+    margin-bottom: var(--space-6);
+  }
+}
+
+@media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .featureCard {
+    padding: var(--space-5);
   }
 }

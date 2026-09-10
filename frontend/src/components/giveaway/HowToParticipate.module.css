@@ -1,13 +1,16 @@
 .section {
+  width: 100%;
   background-color: var(--color-surface);
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
-  padding: var(--space-12) var(--space-6);
+  padding: var(--space-12) 0;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: var(--container-max);
   margin: 0 auto;
+  padding: 0 var(--space-6);
+  width: 100%;
 }
 
 .header {
@@ -16,30 +19,36 @@
 }
 
 .badge {
-  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   margin-bottom: var(--space-2);
-  display: inline-block;
 }
 
 .title {
-  font-size: 2.25rem;
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-extrabold);
   color: var(--color-text-primary);
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-2);
+  letter-spacing: -0.025em;
+  line-height: var(--line-height-tight);
+  margin: 0 0 var(--space-2) 0;
 }
 
 .subtitle {
   color: var(--color-text-secondary);
-  font-size: 1.05rem;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-relaxed);
   max-width: 580px;
   margin: 0 auto;
 }
 
+/* ==========================================================================
+   4-Step Progression Grid
+   ========================================================================== */
 .stepsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -48,65 +57,103 @@
 }
 
 .stepCard {
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   padding: var(--space-6);
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
 .stepCard:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow-sm);
   border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-5);
 }
 
 .stepNumber {
-  font-size: 2rem;
-  font-weight: var(--font-weight-bold);
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-extrabold);
   color: var(--color-primary);
-  opacity: 0.35;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
   line-height: 1;
-  margin-bottom: var(--space-4);
 }
 
 .iconWrapper {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-primary);
-  margin-bottom: var(--space-4);
+  flex-shrink: 0;
 }
 
 .stepTitle {
-  font-size: 1.1rem;
+  font-size: var(--font-size-h4);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
-  margin-bottom: var(--space-2);
+  margin: 0 0 var(--space-2) 0;
+  line-height: var(--line-height-tight);
 }
 
 .stepDescription {
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
 }
 
-@media (max-width: 992px) {
+/* Connector indicator */
+.stepConnector {
+  display: none;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 1024px) {
   .stepsGrid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-8) 0;
+  }
+
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  .header {
+    margin-bottom: var(--space-6);
+  }
+}
+
+@media (max-width: 640px) {
   .stepsGrid {
     grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .stepCard {
+    padding: var(--space-5);
   }
 }
