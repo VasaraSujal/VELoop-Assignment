@@ -32,10 +32,38 @@ apiClient.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    let message = 'Something went wrong. Please try again.';
+
+    if (!error.response) {
+      // Network drop, timeout, or server unavailable
+      message = "We couldn't connect to VELOOP right now. Please check your connection and try again.";
+    } else if (error.response.status === 404) {
+      message = error.response.data?.message || 'The requested giveaway or resource was not found.';
+    } else if (error.response.status >= 500) {
+      message = 'Something went wrong on our end. Please try again later.';
+    } else if (error.response.data?.message) {
+      const raw = String(error.response.data.message);
+      // Sanitize any technical backend exceptions
+      if (
+        raw.includes('Mongo') ||
+        raw.includes('CastError') ||
+        raw.includes('ECONN') ||
+        raw.includes('500') ||
+        raw.includes('Internal Server') ||
+        raw.includes('undefined')
+      ) {
+        message = 'Something went wrong. Please try again.';
+      } else {
+        message = raw;
+      }
+    } else if (error.message && !error.message.includes('Axios') && !error.message.includes('Network Error')) {
+      message = error.message;
+    }
+
     const customError = {
-      message: error.response?.data?.message || error.message || 'An unexpected error occurred',
-      code: error.response?.data?.code || 'UNKNOWN_ERROR',
-      status: error.response?.status || 500,
+      message,
+      code: error.response?.data?.code || (error.response ? `HTTP_${error.response.status}` : 'NETWORK_ERROR'),
+      status: error.response?.status || (error.response ? 500 : 0),
       data: error.response?.data,
     };
     return Promise.reject(customError);

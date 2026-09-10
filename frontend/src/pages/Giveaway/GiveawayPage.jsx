@@ -9,7 +9,7 @@ import HowToParticipate from '../../components/giveaway/HowToParticipate.jsx';
 import TrustSection from '../../components/giveaway/TrustSection.jsx';
 import RulesSection from '../../components/giveaway/RulesSection.jsx';
 import FAQSection from '../../components/giveaway/FAQSection.jsx';
-import VeloopLoader from '../../components/common/VeloopLoader.jsx';
+import { ErrorState } from '../../components/common/ui/ErrorState.jsx';
 import styles from './GiveawayPage.module.css';
 
 export const GiveawayPage = () => {
@@ -33,15 +33,15 @@ export const GiveawayPage = () => {
       giveawayService.getPreviousWinners(),
     ])
       .then(([allGw, featuredGw, statsData, recentWins, prevWins]) => {
-        setGiveaways(allGw);
-        setFeaturedGiveaway(featuredGw || allGw[0] || null);
-        setStats(statsData);
-        setRecentWinners(recentWins);
-        setPreviousWinners(prevWins);
+        setGiveaways(Array.isArray(allGw) ? allGw : []);
+        setFeaturedGiveaway(featuredGw || (Array.isArray(allGw) && allGw[0]) || null);
+        setStats(statsData || null);
+        setRecentWinners(Array.isArray(recentWins) ? recentWins : []);
+        setPreviousWinners(Array.isArray(prevWins) ? prevWins : []);
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message || 'Unable to load giveaways right now. Please try again.');
+        setError(err.message || "We couldn't load giveaways right now. Please try again.");
         setLoading(false);
       });
   };
@@ -50,27 +50,16 @@ export const GiveawayPage = () => {
     loadData();
   }, []);
 
-  if (loading) {
-    return (
-      <main className={styles.pageWrapper}>
-        <div className={styles.loadingContainer}>
-          <VeloopLoader text="Loading live VELOOP Giveaway pools..." />
-        </div>
-      </main>
-    );
-  }
-
-  if (error) {
+  if (error && (!giveaways || giveaways.length === 0)) {
     return (
       <main className={styles.pageWrapper}>
         <div className={styles.errorContainer}>
-          <div className={styles.errorCard}>
-            <h2 className={styles.errorTitle}>Something went wrong</h2>
-            <p className={styles.errorText}>{error}</p>
-            <button type="button" className={styles.retryBtn} onClick={loadData}>
-              Try Again
-            </button>
-          </div>
+          <ErrorState
+            title="We couldn't load giveaways right now"
+            message={error || 'Please check your connection and try again.'}
+            onRetry={loadData}
+            retryLabel="Try Again"
+          />
         </div>
       </main>
     );
@@ -79,21 +68,25 @@ export const GiveawayPage = () => {
   return (
     <main className={styles.pageWrapper}>
       {/* 1. Hero / Featured Giveaway Banner (Strategic Dark Navy Section) */}
-      <HeroSection giveaway={featuredGiveaway} />
+      <HeroSection giveaway={featuredGiveaway} isLoading={loading} />
 
       {/* 2. Platform Statistics */}
-      <GiveawayStats stats={stats} />
+      <GiveawayStats stats={stats} isLoading={loading} />
 
       {/* 3. Active Giveaway / Prize Cards Grid */}
-      <GiveawayGrid giveaways={giveaways} />
+      <GiveawayGrid giveaways={giveaways} isLoading={loading} />
 
       {/* 4. Verified Winner Announcement Slider */}
       <div id="winners" className={styles.winnersAnchor}>
-        <WinnerAnnouncement winners={recentWinners} />
+        <WinnerAnnouncement winners={recentWinners} isLoading={loading} />
       </div>
 
       {/* 5. Winner Rosters & Previous Draws */}
-      <WinnerTabs recentWinners={recentWinners} previousWinners={previousWinners} />
+      <WinnerTabs
+        recentWinners={recentWinners}
+        previousWinners={previousWinners}
+        isLoading={loading}
+      />
 
       {/* 6. How to Participate Guide */}
       <HowToParticipate />
