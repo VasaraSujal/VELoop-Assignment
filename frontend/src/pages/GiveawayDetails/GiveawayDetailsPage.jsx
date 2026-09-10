@@ -34,6 +34,7 @@ import { StatusBadge } from '../../components/common/ui/StatusBadge.jsx';
 import { Badge } from '../../components/common/ui/Badge.jsx';
 import { Button } from '../../components/common/ui/Button.jsx';
 import { Skeleton } from '../../components/common/ui/Skeleton.jsx';
+import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './GiveawayDetailsPage.module.css';
 
 /**
@@ -309,7 +310,7 @@ export const GiveawayDetailsPage = () => {
 
               <div className={styles.imageBox}>
                 <img
-                  src={giveaway.prizeImage || '/assets/prizes/iphone-15-pro.png'}
+                  src={resolvePrizeImage(giveaway.prize, giveaway.title, giveaway.prizeImage)}
                   alt={giveaway.prize || giveaway.title}
                   className={styles.prizeImg}
                 />
