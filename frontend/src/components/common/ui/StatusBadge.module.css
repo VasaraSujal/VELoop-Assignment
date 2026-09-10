@@ -1,0 +1,93 @@
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Sizes */
+.sm {
+  padding: 2px 8px;
+  font-size: var(--font-size-label);
+}
+
+.md {
+  padding: 4px 12px;
+  font-size: var(--font-size-caption);
+}
+
+/* Base Dot */
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+/* Pulse animation for active giveaways */
+.pulseDot {
+  box-shadow: 0 0 0 0 currentColor;
+  animation: pulseAnimation 2s infinite;
+}
+
+@keyframes pulseAnimation {
+  0% {
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(5, 150, 105, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0);
+  }
+}
+
+/* Status Variants */
+.active {
+  background-color: var(--status-active-bg);
+  color: var(--status-active-text);
+  border-color: var(--status-active-border);
+}
+
+.upcoming {
+  background-color: var(--status-upcoming-bg);
+  color: var(--status-upcoming-text);
+  border-color: var(--status-upcoming-border);
+}
+
+.ended {
+  background-color: var(--status-ended-bg);
+  color: var(--status-ended-text);
+  border-color: var(--status-ended-border);
+}
+
+.completed {
+  background-color: var(--status-winner-bg);
+  color: var(--status-winner-text);
+  border-color: var(--status-winner-border);
+}
+
+.cancelled {
+  background-color: var(--status-danger-bg);
+  color: var(--status-danger-text);
+  border-color: var(--status-danger-border);
+}
+
+.draft {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.default {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+}

@@ -1,0 +1,44 @@
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-10) var(--space-6);
+  background-color: var(--color-surface);
+  border: 1px solid var(--status-danger-border);
+  border-radius: var(--radius-lg);
+  width: 100%;
+}
+
+.iconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-full);
+  background-color: var(--status-danger-bg);
+  color: var(--status-danger);
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.message {
+  font-size: var(--font-size-body);
+  color: var(--color-text-secondary);
+  max-width: 460px;
+  margin-bottom: var(--space-5);
+  line-height: var(--line-height-normal);
+}
+
+.actionWrapper {
+  display: flex;
+  gap: var(--space-3);
+}

@@ -1,85 +1,138 @@
 :root {
   /* ==========================================================================
-     VELOP Rewards Design Tokens (Light Premium Fintech & Rewards Theme)
+     VELOP Rewards Design System Tokens (Light-First Fintech & Rewards Theme)
      ========================================================================== */
 
-  /* Primary Brand & Accents */
-  --color-primary: #4f46e5;          /* Deep Indigo */
-  --color-primary-hover: #4338ca;
-  --color-primary-dark: #3730a3;
-  --color-primary-light: #eef2ff;
+  /* --------------------------------------------------------------------------
+     1. Primary Brand & Accent Colors
+     -------------------------------------------------------------------------- */
+  --color-primary: #4f46e5;             /* Deep Indigo Primary */
+  --color-primary-hover: #4338ca;       /* Darker on hover */
+  --color-primary-active: #3730a3;      /* Pressed state */
+  --color-primary-light: #eef2ff;       /* Very soft indigo tint for backgrounds */
   --color-primary-subtle: rgba(79, 70, 229, 0.08);
+  --color-primary-border: #c7d2fe;      /* Subtle indigo border */
 
-  /* Strategic Dark Navy Anchors (25% Dark Surfaces e.g., Footer / Banners) */
-  --color-navy: #111827;             /* Deep rich navy */
-  --color-navy-soft: #1f2937;
-  --color-navy-surface: #0f172a;
+  /* --------------------------------------------------------------------------
+     2. Strategic Dark Navy Anchors (Hero & Footer Sections)
+     -------------------------------------------------------------------------- */
+  --color-navy: #0f172a;                /* Deep Navy Hero / Anchor Background */
+  --color-navy-surface: #1e293b;        /* Elevated dark card surface */
+  --color-navy-soft: #334155;           /* Secondary dark surface */
   --color-navy-border: rgba(255, 255, 255, 0.12);
+  --color-navy-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-navy-text-primary: #f8fafc;   /* White text on dark navy */
+  --color-navy-text-secondary: #94a3b8; /* Muted slate on dark navy */
+  --color-navy-text-muted: #64748b;
 
-  /* Light Theme Backgrounds & Surfaces (75% Light Foundation) */
-  --color-background: #f7f8fc;       /* Main app background */
-  --color-surface: #ffffff;          /* Clean white card surface */
-  --color-surface-muted: #f1f3f8;    /* Elevated/inset background */
-  --color-surface-subtle: #f8fafc;
+  /* --------------------------------------------------------------------------
+     3. Light Theme Backgrounds & Surfaces (75%+ Light Foundation)
+     -------------------------------------------------------------------------- */
+  --color-background: #f7f8fc;          /* Page background */
+  --color-surface: #ffffff;             /* Primary card / modal surface */
+  --color-surface-muted: #f1f3f8;       /* Inset / elevated secondary background */
+  --color-surface-subtle: #f8fafc;      /* Lightest surface tint */
+  --color-surface-hover: #f9fafb;       /* Card hover background */
 
-  /* Typography Colors */
-  --color-text-primary: #111827;     /* High contrast charcoal/navy */
-  --color-text-secondary: #5b6475;   /* Neutral slate body/subtitle */
-  --color-text-muted: #8a94a6;       /* Subtle captions/labels */
-  --color-text-inverse: #f9fafb;     /* For dark sections */
-  --color-text-inverse-muted: #9ca3af;
+  /* --------------------------------------------------------------------------
+     4. Typography Colors (Light Foundation)
+     -------------------------------------------------------------------------- */
+  --color-text-primary: #111827;        /* High contrast charcoal/navy */
+  --color-text-secondary: #5b6475;      /* Slate body/subtitle text */
+  --color-text-muted: #8a94a6;          /* Captions, labels, timestamps */
+  --color-text-disabled: #cbd5e1;       /* Inactive / disabled states */
+  --color-text-inverse: #ffffff;        /* White text for badges / buttons */
+  --color-text-inverse-muted: #94a3b8;
 
-  /* Borders & Dividers */
-  --color-border: #e5e7eb;          /* Soft border */
-  --color-border-strong: #d7dbe3;   /* Stronger boundary */
-  --color-border-focus: #a5b4fc;
+  /* --------------------------------------------------------------------------
+     5. Borders & Neutral Dividers
+     -------------------------------------------------------------------------- */
+  --color-border: #e5e7eb;             /* Standard clean neutral border */
+  --color-border-subtle: #f1f3f8;      /* Very soft divider */
+  --color-border-strong: #d1d5db;      /* Input / focused element boundary */
+  --color-border-focus: #4f46e5;       /* Focus outline */
+  --color-focus-ring: rgba(79, 70, 229, 0.25);
 
-  /* Currency & Reward Tokens (Restrained & Professional) */
-  --currency-ves: #6366f1;           /* VEs Indigo/Violet */
+  /* --------------------------------------------------------------------------
+     6. Currency & Reward Tokens (VEs, SVEs, Tokens)
+     -------------------------------------------------------------------------- */
+  --currency-ves: #4f46e5;              /* VEs Indigo */
   --currency-ves-bg: #eef2ff;
-  --currency-ves-text: #4338ca;
+  --currency-ves-border: #c7d2fe;
+  --currency-ves-text: #3730a3;
 
-  --currency-sves: #d97706;          /* SVEs Amber Gold */
+  --currency-sves: #d97706;             /* SVEs Amber Gold */
   --currency-sves-bg: #fef3c7;
+  --currency-sves-border: #fde68a;
   --currency-sves-text: #92400e;
 
-  --currency-tokens: #059669;        /* Tokens Emerald */
+  --currency-tokens: #059669;           /* Tokens Emerald */
   --currency-tokens-bg: #ecfdf5;
+  --currency-tokens-border: #a7f3d0;
   --currency-tokens-text: #065f46;
 
-  /* Status Tokens */
-  --status-active: #059669;
+  /* --------------------------------------------------------------------------
+     7. Semantic Status Colors
+     -------------------------------------------------------------------------- */
+  --status-active: #059669;             /* Live Now / Active Pool */
   --status-active-bg: #ecfdf5;
-  --status-upcoming: #2563eb;
-  --status-upcoming-bg: #eff6ff;
-  --status-ended: #6b7280;
-  --status-ended-bg: #f3f4f6;
-  --status-winner: #d97706;
-  --status-winner-bg: #fef3c7;
-  --status-danger: #dc2626;
-  --status-danger-bg: #fef2f2;
+  --status-active-border: #a7f3d0;
+  --status-active-text: #065f46;
 
-  /* Typography Standard */
-  --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --status-upcoming: #2563eb;           /* Upcoming Pool */
+  --status-upcoming-bg: #eff6ff;
+  --status-upcoming-border: #bfdbfe;
+  --status-upcoming-text: #1e40af;
+
+  --status-ended: #64748b;              /* Closed / Concluded */
+  --status-ended-bg: #f1f5f9;
+  --status-ended-border: #e2e8f0;
+  --status-ended-text: #475569;
+
+  --status-winner: #d97706;             /* Winner Drawn / Celebratory */
+  --status-winner-bg: #fef3c7;
+  --status-winner-border: #fde68a;
+  --status-winner-text: #92400e;
+
+  --status-danger: #dc2626;             /* Danger / Error / Shortage */
+  --status-danger-bg: #fef2f2;
+  --status-danger-border: #fecaca;
+  --status-danger-text: #991b1b;
+
+  --status-info: #0284c7;               /* Informational Notice */
+  --status-info-bg: #f0f9ff;
+  --status-info-border: #bae6fd;
+  --status-info-text: #0369a1;
+
+  /* --------------------------------------------------------------------------
+     8. Typography Standards & Font Hierarchy
+     -------------------------------------------------------------------------- */
+  --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+
+  --font-size-display: 2.75rem;         /* 44px (Hero headlines) */
+  --font-size-h1: 2rem;                 /* 32px */
+  --font-size-h2: 1.5rem;               /* 24px (Section headers) */
+  --font-size-h3: 1.25rem;              /* 20px (Card titles) */
+  --font-size-h4: 1.125rem;             /* 18px */
+  --font-size-body: 0.95rem;            /* 15.2px (Standard body text) */
+  --font-size-body-sm: 0.875rem;        /* 14px (Secondary / metadata) */
+  --font-size-caption: 0.75rem;         /* 12px (Badges / labels) */
+  --font-size-label: 0.6875rem;         /* 11px (Micro tags) */
+
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
 
-  /* Soft Fintech Shadows (Elevated without glowing blur) */
-  --shadow-xs: 0 1px 2px 0 rgba(16, 24, 40, 0.04);
-  --shadow-sm: 0 1px 3px 0 rgba(16, 24, 40, 0.07), 0 1px 2px -1px rgba(16, 24, 40, 0.04);
-  --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.06), 0 2px 4px -2px rgba(16, 24, 40, 0.04);
-  --shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.65;
 
-  /* Border Radii */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
-  --radius-full: 9999px;
-
-  /* Spacing Scale */
+  /* --------------------------------------------------------------------------
+     9. Spacing Scale (4px Base Grid)
+     -------------------------------------------------------------------------- */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -89,8 +142,49 @@
   --space-8: 32px;
   --space-10: 40px;
   --space-12: 48px;
+  --space-16: 64px;
 
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
+  /* --------------------------------------------------------------------------
+     10. Border Radii
+     -------------------------------------------------------------------------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* --------------------------------------------------------------------------
+     11. Soft Fintech Shadows (Elevated without neon glowing blur)
+     -------------------------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px 0 rgba(16, 24, 40, 0.04);
+  --shadow-sm: 0 1px 3px 0 rgba(16, 24, 40, 0.07), 0 1px 2px -1px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.06), 0 2px 4px -2px rgba(16, 24, 40, 0.04);
+  --shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+  --shadow-xl: 0 20px 24px -4px rgba(16, 24, 40, 0.10), 0 8px 8px -4px rgba(16, 24, 40, 0.04);
+
+  /* --------------------------------------------------------------------------
+     12. Container Widths & Layout Scale
+     -------------------------------------------------------------------------- */
+  --container-max: 1240px;
+  --container-max-narrow: 960px;
+  --container-padding: var(--space-6);
+
+  /* --------------------------------------------------------------------------
+     13. Transitions & Animations
+     -------------------------------------------------------------------------- */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --------------------------------------------------------------------------
+     14. Z-Index Layers
+     -------------------------------------------------------------------------- */
+  --z-base: 1;
+  --z-sticky: 100;
+  --z-dropdown: 200;
+  --z-modal-backdrop: 500;
+  --z-modal: 600;
+  --z-toast: 1000;
 }

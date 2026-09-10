@@ -1,0 +1,113 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  line-height: 1;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+/* Sizes */
+.sm {
+  padding: 2px 8px;
+  font-size: var(--font-size-label);
+}
+
+.md {
+  padding: 4px 12px;
+  font-size: var(--font-size-caption);
+}
+
+.iconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconWrapper svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* Dot indicator */
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+/* Variants */
+.default {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+}
+
+.primary {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-color: var(--color-primary-border);
+}
+
+.success {
+  background-color: var(--status-active-bg);
+  color: var(--status-active-text);
+  border-color: var(--status-active-border);
+}
+
+.warning {
+  background-color: var(--status-winner-bg);
+  color: var(--status-winner-text);
+  border-color: var(--status-winner-border);
+}
+
+.danger {
+  background-color: var(--status-danger-bg);
+  color: var(--status-danger-text);
+  border-color: var(--status-danger-border);
+}
+
+.info {
+  background-color: var(--status-info-bg);
+  color: var(--status-info-text);
+  border-color: var(--status-info-border);
+}
+
+.neutral {
+  background-color: var(--status-ended-bg);
+  color: var(--status-ended-text);
+  border-color: var(--status-ended-border);
+}
+
+/* Reward Currencies */
+.ves {
+  background-color: var(--currency-ves-bg);
+  color: var(--currency-ves-text);
+  border-color: var(--currency-ves-border);
+}
+
+.sves {
+  background-color: var(--currency-sves-bg);
+  color: var(--currency-sves-text);
+  border-color: var(--currency-sves-border);
+}
+
+.tokens {
+  background-color: var(--currency-tokens-bg);
+  color: var(--currency-tokens-text);
+  border-color: var(--currency-tokens-border);
+}
+
+/* Dark Navy Anchor Badge */
+.navy {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.16);
+}
