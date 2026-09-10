@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Trophy, Calendar, User, Coins, ShieldCheck }
 import { Badge } from '../common/ui/Badge.jsx';
 import { EmptyState } from '../common/ui/EmptyState.jsx';
 import { Skeleton } from '../common/ui/Skeleton.jsx';
+import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './WinnerAnnouncement.module.css';
 
 /**
@@ -152,13 +153,14 @@ export const WinnerAnnouncement = ({ winners = [], isLoading = false }) => {
 
             const statusLabel = formatClaimStatusLabel(current.claimStatus, current.statusLabel);
             const statusVariant = getClaimStatusVariant(current.claimStatus, statusLabel);
+            const resolvedImage = resolvePrizeImage(current.prize, current.giveawayTitle, current.prizeImage);
 
             return (
               <div className={styles.sliderCard} key={current.id || currentIndex}>
                 {/* 1. Official Prize Image Frame */}
                 <div className={styles.imageWrapper}>
                   <img
-                    src={current.prizeImage || '/assets/prizes/iphone-15-pro.png'}
+                    src={resolvedImage}
                     alt={current.prize || 'Winner Prize'}
                     className={styles.prizeImg}
                     loading="lazy"
@@ -247,3 +249,4 @@ export const WinnerAnnouncement = ({ winners = [], isLoading = false }) => {
 };
 
 export default WinnerAnnouncement;
+

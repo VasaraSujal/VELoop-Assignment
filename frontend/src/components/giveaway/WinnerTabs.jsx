@@ -3,6 +3,7 @@ import { Calendar, Trophy, User, Coins, ShieldCheck } from 'lucide-react';
 import { Badge } from '../common/ui/Badge.jsx';
 import { EmptyState } from '../common/ui/EmptyState.jsx';
 import { Skeleton } from '../common/ui/Skeleton.jsx';
+import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './WinnerTabs.module.css';
 
 /**
@@ -125,6 +126,7 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
 
                     const statusLabel = formatClaimStatusLabel(winner.claimStatus, winner.statusLabel);
                     const statusVariant = getClaimStatusVariant(winner.claimStatus, statusLabel);
+                    const resolvedImage = resolvePrizeImage(winner.prize, winner.giveawayTitle, winner.prizeImage);
 
                     return (
                       <tr key={winner.id} className={styles.tr}>
@@ -133,7 +135,7 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
                           <div className={styles.prizeCell}>
                             <div className={styles.thumbWrapper}>
                               <img
-                                src={winner.prizeImage || '/assets/prizes/iphone-15-pro.png'}
+                                src={resolvedImage}
                                 alt={winner.prize}
                                 className={styles.prizeThumb}
                                 loading="lazy"
@@ -192,6 +194,7 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
 
                 const statusLabel = formatClaimStatusLabel(winner.claimStatus, winner.statusLabel);
                 const statusVariant = getClaimStatusVariant(winner.claimStatus, statusLabel);
+                const resolvedImage = resolvePrizeImage(winner.prize, winner.giveawayTitle, winner.prizeImage);
 
                 return (
                   <article key={winner.id} className={styles.mobileCard} aria-label={`${winner.prize} winner record`}>
@@ -199,7 +202,7 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
                     <div className={styles.mobileCardHeader}>
                       <div className={styles.thumbWrapper}>
                         <img
-                          src={winner.prizeImage || '/assets/prizes/iphone-15-pro.png'}
+                          src={resolvedImage}
                           alt={winner.prize}
                           className={styles.prizeThumb}
                           loading="lazy"
@@ -268,3 +271,4 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
 };
 
 export default WinnerTabs;
+
