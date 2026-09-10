@@ -5,6 +5,7 @@ import { formatCurrency, formatInr } from '../../utils/currencyFormatter.js';
 import { Button } from '../common/ui/Button.jsx';
 import { Badge } from '../common/ui/Badge.jsx';
 import { Skeleton } from '../common/ui/Skeleton.jsx';
+import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './HeroSection.module.css';
 
 /**
@@ -89,6 +90,7 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
   }
 
   const entryText = formatCurrency(giveaway.entry?.amount, giveaway.entry?.currency);
+  const prizeImageSrc = resolvePrizeImage(giveaway.prize, giveaway.title, giveaway.prizeImage);
 
   return (
     <section className={styles.heroSection} aria-label="Featured Giveaway Showcase">
@@ -193,7 +195,7 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
             {/* Official Prize Image */}
             <div className={styles.imagePedestal}>
               <img
-                src={giveaway.prizeImage || '/assets/prizes/iphone-15-pro.png'}
+                src={prizeImageSrc}
                 alt={giveaway.prize || giveaway.title}
                 className={styles.prizeImg}
                 loading="eager"

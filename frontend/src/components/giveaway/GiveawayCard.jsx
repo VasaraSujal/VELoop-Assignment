@@ -6,6 +6,7 @@ import { calculateTimeRemaining, padZero } from '../../utils/countdown.js';
 import { StatusBadge } from '../common/ui/StatusBadge.jsx';
 import { Badge } from '../common/ui/Badge.jsx';
 import { Button } from '../common/ui/Button.jsx';
+import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './GiveawayCard.module.css';
 
 /**
@@ -80,6 +81,7 @@ export const GiveawayCard = ({ giveaway }) => {
   }
 
   const detailUrl = `/giveaway/${giveaway.slug || giveaway.id || giveaway._id}`;
+  const prizeImageSrc = resolvePrizeImage(giveaway.prize, giveaway.title, giveaway.prizeImage);
 
   return (
     <article className={styles.card} aria-label={`${giveaway.title} prize pool card`}>
@@ -100,7 +102,7 @@ export const GiveawayCard = ({ giveaway }) => {
 
         <Link to={detailUrl} className={styles.imageLink} tabIndex={-1} aria-hidden="true">
           <img
-            src={giveaway.prizeImage || '/assets/prizes/iphone-15-pro.png'}
+            src={prizeImageSrc}
             alt={giveaway.prize || giveaway.title}
             className={styles.prizeImg}
             loading="lazy"
