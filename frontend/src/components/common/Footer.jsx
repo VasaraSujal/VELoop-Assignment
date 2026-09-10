@@ -1,106 +1,128 @@
-import { Gift } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Gift, ShieldCheck } from 'lucide-react';
 import styles from './Footer.module.css';
 
+/**
+ * Stage I: Production-Ready Branded Footer Component
+ * Provides scannable navigation, platform integrity links, reward balance summary,
+ * and responsive multi-column layout using Stage A design tokens.
+ */
 export const Footer = () => {
+  const location = useLocation();
+
+  // Helper to construct hash URLs whether on homepage or subpage
+  const getNavHref = (hash) => {
+    return location.pathname === '/' ? hash : `/${hash}`;
+  };
+
   return (
-    <footer className={styles.footer} aria-label="Page Footer">
+    <footer className={styles.footer} aria-label="Footer">
       <div className={styles.container}>
-        {/* Brand & Overview */}
+        {/* Brand & Overview Column */}
         <div className={styles.brandCol}>
-          <div className={styles.brandLink}>
-            <Gift size={24} color="var(--color-primary-light)" />
-            <span>VELOOP Rewards</span>
-          </div>
+          <Link to="/" className={styles.brandLink} aria-label="VELOOP Rewards - Return to Homepage">
+            <div className={styles.logoIconBox}>
+              <Gift size={20} className={styles.logoGiftIcon} aria-hidden="true" />
+            </div>
+            <div className={styles.brandTextWrap}>
+              <span className={styles.brandMain}>VELOP</span>
+              <span className={styles.brandSub}>Rewards</span>
+            </div>
+            <span className={styles.brandBadge}>Giveaways</span>
+          </Link>
           <p className={styles.brandText}>
-            The premium gamified giveaway platform for VELOOP members. Enter verified prize pools using your earned loyalty balances.
+            Reward pools, entries, winners, and prize claims in one clear giveaway experience.
           </p>
+          <div className={styles.platformBadge}>
+            <ShieldCheck size={14} className={styles.platformBadgeIcon} aria-hidden="true" />
+            <span>Official Platform Experience</span>
+          </div>
         </div>
 
-        {/* Quick Navigation */}
-        <div>
-          <h4 className={styles.colTitle}>Giveaway Pools</h4>
+        {/* Navigation Column 1: Giveaway Pools */}
+        <div className={styles.navCol}>
+          <h3 className={styles.colTitle}>Giveaway Pools</h3>
           <ul className={styles.linkList}>
             <li>
-              <a href="#active-giveaways" className={styles.footerLink}>
-                Flagship Electronics
+              <a href={getNavHref('#active-giveaways')} className={styles.footerLink}>
+                Active Giveaways
               </a>
             </li>
             <li>
-              <a href="#active-giveaways" className={styles.footerLink}>
-                Amazon Pay Vouchers
+              <a href={getNavHref('#how-it-works')} className={styles.footerLink}>
+                How It Works
               </a>
             </li>
             <li>
-              <a href="#active-giveaways" className={styles.footerLink}>
-                Micro-Token Pools
+              <a href={getNavHref('#winners')} className={styles.footerLink}>
+                Recent Winners
               </a>
             </li>
             <li>
-              <a href="#how-it-works" className={styles.footerLink}>
-                Participation Guide
+              <a href={getNavHref('#faq')} className={styles.footerLink}>
+                Frequently Asked Questions
               </a>
             </li>
           </ul>
         </div>
 
-        {/* Transparency & Rules */}
-        <div>
-          <h4 className={styles.colTitle}>Fair Play & Trust</h4>
+        {/* Navigation Column 2: Guidelines & Integrity */}
+        <div className={styles.navCol}>
+          <h3 className={styles.colTitle}>Guidelines &amp; Integrity</h3>
           <ul className={styles.linkList}>
             <li>
-              <a href="#winners" className={styles.footerLink}>
-                Verified Winners Roster
+              <a href={getNavHref('#rules')} className={styles.footerLink}>
+                Rules &amp; Eligibility
               </a>
             </li>
             <li>
-              <a href="#how-it-works" className={styles.footerLink}>
-                Cryptographic Draws
+              <a href={getNavHref('#trust')} className={styles.footerLink}>
+                Platform Integrity &amp; Trust
               </a>
             </li>
             <li>
-              <a href="#faq" className={styles.footerLink}>
-                Eligibility Rules
+              <a href={getNavHref('#rules')} className={styles.footerLink}>
+                Single Entry Policy
               </a>
             </li>
             <li>
-              <a href="#faq" className={styles.footerLink}>
-                Prize Claim Support
+              <a href={getNavHref('#faq')} className={styles.footerLink}>
+                Prize Claim Process
               </a>
             </li>
           </ul>
         </div>
 
-        {/* Reward Currencies */}
-        <div>
-          <h4 className={styles.colTitle}>Reward Balances</h4>
+        {/* Navigation Column 3: Reward Balances */}
+        <div className={styles.navCol}>
+          <h3 className={styles.colTitle}>Reward Balances</h3>
           <ul className={styles.linkList}>
-            <li>
-              <span className={styles.footerLink} style={{ color: '#a5b4fc' }}>
-                VEs • Core Loyalty Points
-              </span>
+            <li className={styles.currencyItem}>
+              <span className={styles.currencyBadgeVes}>VEs</span>
+              <span className={styles.currencyLabel}>Core Loyalty Points</span>
             </li>
-            <li>
-              <span className={styles.footerLink} style={{ color: '#fde68a' }}>
-                SVEs • Super-Tier Credits
-              </span>
+            <li className={styles.currencyItem}>
+              <span className={styles.currencyBadgeSves}>SVEs</span>
+              <span className={styles.currencyLabel}>Super Reward Credits</span>
             </li>
-            <li>
-              <span className={styles.footerLink} style={{ color: '#a7f3d0' }}>
-                Tokens • Daily Activity Units
-              </span>
+            <li className={styles.currencyItem}>
+              <span className={styles.currencyBadgeTokens}>Tokens</span>
+              <span className={styles.currencyLabel}>Daily Activity Units</span>
             </li>
           </ul>
         </div>
       </div>
 
-      {/* Bottom Bar */}
+      {/* Bottom Legal & Copyright Bar */}
       <div className={styles.bottomRow}>
-        <span className={styles.demoBadge}>
-          Phase 1 Active • Displayed prize pools and winners are mock demonstration datasets
-        </span>
-        <span className={styles.copyright}>
-          © 2026 VELOOP Rewards. All rights reserved.
-        </span>
+        <div className={styles.bottomContainer}>
+          <span className={styles.copyright}>
+            © {new Date().getFullYear()} VELOOP Rewards. All rights reserved.
+          </span>
+          <span className={styles.bottomTagline}>
+            Official VELOOP Rewards Giveaway System
+          </span>
+        </div>
       </div>
     </footer>
   );
