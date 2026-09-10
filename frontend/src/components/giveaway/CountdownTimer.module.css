@@ -1,103 +1,193 @@
-.countdownContainer {
-  display: flex;
+.countdownWrapper {
+  display: inline-flex;
   flex-direction: column;
   gap: var(--space-2);
 }
 
-.label {
-  font-size: 0.8rem;
+.headerRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.clockIcon {
+  flex-shrink: 0;
+}
+
+.timerLabel {
+  font-size: var(--font-size-label);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--color-text-inverse-muted);
 }
 
-.labelLight {
-  color: var(--color-text-muted);
-}
-
-.timerUnits {
+.timerGrid {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 6px;
 }
 
-.unitBox {
+.segment {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: var(--radius-md);
-  min-width: 58px;
-  padding: 8px 6px;
-  backdrop-filter: blur(8px);
 }
 
-.unitBoxLight {
-  background: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
+.digitBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  height: 48px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .digit {
-  font-size: 1.4rem;
+  font-family: var(--font-family-base);
+  font-size: 1.35rem;
   font-weight: var(--font-weight-bold);
-  color: #ffffff;
-  line-height: 1.1;
   font-variant-numeric: tabular-nums;
-}
-
-.digitLight {
-  color: var(--color-text-primary);
-}
-
-.unitLabel {
-  font-size: 0.65rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-inverse-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 2px;
-}
-
-.unitLabelLight {
-  color: var(--color-text-muted);
-}
-
-.separator {
-  font-size: 1.25rem;
-  font-weight: var(--font-weight-bold);
-  color: rgba(255, 255, 255, 0.4);
   line-height: 1;
 }
 
-.separatorLight {
+.unitLabel {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.colon {
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  margin-top: -16px;
+  user-select: none;
+}
+
+/* ==========================================================================
+   Dark Theme (Hero Section)
+   ========================================================================== */
+.darkTheme .headerRow {
+  color: #a5b4fc;
+}
+
+.darkTheme .clockIcon {
+  color: #818cf8;
+}
+
+.darkTheme .digitBox {
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.darkTheme .digit {
+  color: #ffffff;
+}
+
+.darkTheme .unitLabel {
+  color: #94a3b8;
+}
+
+.darkTheme .colon {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ==========================================================================
+   Light Theme (Giveaway Details / Cards)
+   ========================================================================== */
+.lightTheme .headerRow {
+  color: var(--color-primary);
+}
+
+.lightTheme .clockIcon {
+  color: var(--color-primary);
+}
+
+.lightTheme .digitBox {
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.lightTheme .digit {
+  color: var(--color-text-primary);
+}
+
+.lightTheme .unitLabel {
+  color: var(--color-text-secondary);
+}
+
+.lightTheme .colon {
   color: var(--color-text-muted);
 }
 
-.endedBadge {
+/* Concluded Badge State */
+.concludedBadge {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  padding: 6px 12px;
-  background: rgba(107, 114, 128, 0.2);
-  border: 1px solid rgba(107, 114, 128, 0.3);
-  color: var(--color-text-inverse-muted);
-  font-size: 0.85rem;
-  font-weight: var(--font-weight-medium);
-  border-radius: var(--radius-sm);
+  gap: var(--space-2);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
 }
 
+.darkTheme .concludedBadge {
+  background-color: rgba(100, 116, 139, 0.2);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #cbd5e1;
+}
+
+.lightTheme .concludedBadge {
+  background-color: var(--status-ended-bg);
+  border: 1px solid var(--status-ended-border);
+  color: var(--status-ended-text);
+}
+
+.concludedIcon {
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
 @media (max-width: 480px) {
-  .unitBox {
-    min-width: 48px;
-    padding: 6px 4px;
+  .digitBox {
+    min-width: 44px;
+    height: 42px;
   }
+
   .digit {
     font-size: 1.15rem;
   }
+
   .unitLabel {
-    font-size: 0.6rem;
+    font-size: 0.625rem;
+  }
+
+  .colon {
+    font-size: 1.1rem;
+    margin-top: -14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .timerGrid {
+    gap: 4px;
+  }
+
+  .digitBox {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 4px;
+  }
+
+  .digit {
+    font-size: 1rem;
   }
 }

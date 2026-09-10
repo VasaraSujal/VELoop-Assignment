@@ -1,28 +1,116 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Sparkles, ChevronDown, ShieldCheck, Award, Users } from 'lucide-react';
 import CountdownTimer from './CountdownTimer.jsx';
 import { formatCurrency, formatInr } from '../../utils/currencyFormatter.js';
+import { Button } from '../common/ui/Button.jsx';
+import { Badge } from '../common/ui/Badge.jsx';
+import { Skeleton } from '../common/ui/Skeleton.jsx';
 import styles from './HeroSection.module.css';
 
-export const HeroSection = ({ giveaway }) => {
-  if (!giveaway) {
-    return null;
+/**
+ * Premium Hero Showcase displaying the active featured giveaway with live countdown and official assets.
+ */
+export const HeroSection = ({ giveaway, isLoading = false }) => {
+  if (isLoading || !giveaway) {
+    return (
+      <section className={styles.heroSection} aria-label="Featured Giveaway Loading">
+        <div className={styles.container}>
+          <div className={styles.contentCol}>
+            <div className={styles.badgeRow}>
+              <Skeleton theme="dark" width={140} height={26} borderRadius="var(--radius-full)" />
+              <Skeleton theme="dark" width={130} height={26} borderRadius="var(--radius-full)" />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Skeleton theme="dark" width="85%" height={44} borderRadius="var(--radius-sm)" />
+              <Skeleton theme="dark" width="60%" height={44} borderRadius="var(--radius-sm)" />
+            </div>
+
+            <Skeleton theme="dark" width="95%" height={18} count={2} />
+
+            <div className={styles.metaGrid}>
+              <div className={styles.metaItem}>
+                <Skeleton theme="dark" width={60} height={12} />
+                <Skeleton theme="dark" width={90} height={20} />
+              </div>
+              <div className={styles.metaItem}>
+                <Skeleton theme="dark" width={70} height={12} />
+                <Skeleton theme="dark" width={100} height={20} />
+              </div>
+              <div className={styles.metaItem}>
+                <Skeleton theme="dark" width={80} height={12} />
+                <Skeleton theme="dark" width={70} height={20} />
+              </div>
+            </div>
+
+            <div className={styles.timerCard}>
+              <Skeleton theme="dark" width={240} height={44} borderRadius="var(--radius-sm)" />
+            </div>
+
+            <div className={styles.ctaRow}>
+              <Skeleton theme="dark" width={160} height={48} borderRadius="var(--radius-md)" />
+              <Skeleton theme="dark" width={160} height={48} borderRadius="var(--radius-md)" />
+            </div>
+          </div>
+
+          <div className={styles.visualCol}>
+            <div className={styles.cardShowcase}>
+              <div className={styles.cardHeader}>
+                <Skeleton theme="dark" width={100} height={22} borderRadius="var(--radius-full)" />
+                <Skeleton theme="dark" width={90} height={22} borderRadius="var(--radius-full)" />
+              </div>
+              <div className={styles.imagePedestal}>
+                <Skeleton theme="dark" width="80%" height="80%" borderRadius="var(--radius-md)" />
+              </div>
+              <div className={styles.cardFooter}>
+                <div className={styles.footerDetails}>
+                  <Skeleton theme="dark" width={140} height={20} />
+                  <Skeleton theme="dark" width={100} height={14} />
+                </div>
+                <Skeleton theme="dark" width={110} height={20} borderRadius="var(--radius-full)" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
+
+  const isActive = giveaway.status === 'ACTIVE';
+  const isUpcoming = giveaway.status === 'UPCOMING';
+  const isConcluded = giveaway.status === 'ENDED' || giveaway.status === 'COMPLETED';
+
+  // State-aware primary CTA text
+  let ctaLabel = 'Join Now';
+  if (isUpcoming) {
+    ctaLabel = 'View Details • Opens Soon';
+  } else if (isConcluded) {
+    ctaLabel = 'View Winners Roster';
+  }
+
+  const entryText = formatCurrency(giveaway.entry?.amount, giveaway.entry?.currency);
 
   return (
     <section className={styles.heroSection} aria-label="Featured Giveaway Showcase">
       <div className={styles.container}>
-        {/* Left Column: Information & Actions */}
+        {/* Left Column: Headline, Value Proposition & Actions */}
         <div className={styles.contentCol}>
           <div className={styles.badgeRow}>
-            <span className={styles.liveBadge}>
-              <span className={styles.pulseDot} />
-              Active Giveaway
-            </span>
-            <span className={styles.featuredPill}>
-              <Sparkles size={14} />
+            {isActive && (
+              <span className={styles.liveBadge} role="status">
+                <span className={styles.pulseDot} aria-hidden="true" />
+                <span>Active Giveaway</span>
+              </span>
+            )}
+            {isUpcoming && (
+              <Badge variant="info" size="md">Upcoming Pool</Badge>
+            )}
+            {isConcluded && (
+              <Badge variant="neutral" size="md">Concluded Pool</Badge>
+            )}
+            <Badge variant="navy" size="md" icon={<Sparkles size={13} />}>
               Featured Reward
-            </span>
+            </Badge>
           </div>
 
           <h1 className={styles.title}>
@@ -31,26 +119,27 @@ export const HeroSection = ({ giveaway }) => {
 
           <p className={styles.description}>{giveaway.description}</p>
 
+          {/* Quick Metrics Grid */}
           <div className={styles.metaGrid}>
             <div className={styles.metaItem}>
               <span className={styles.metaLabel}>Entry Fee</span>
-              <span className={styles.metaValue}>
-                {formatCurrency(giveaway.entry?.amount, giveaway.entry?.currency)}
-              </span>
+              <span className={styles.metaValueHighlight}>{entryText}</span>
             </div>
             <div className={styles.metaItem}>
               <span className={styles.metaLabel}>Retail Value</span>
-              <span className={styles.metaValue}>
-                {formatInr(giveaway.retailValueInr)}
-              </span>
+              <span className={styles.metaValue}>{formatInr(giveaway.retailValueInr)}</span>
             </div>
             <div className={styles.metaItem}>
-              <span className={styles.metaLabel}>Winners</span>
-              <span className={styles.metaValue}>{giveaway.winnerCount} Lucky Winner</span>
+              <span className={styles.metaLabel}>Winners Drawn</span>
+              <span className={styles.metaValue}>
+                <Award size={14} className={styles.metaIcon} aria-hidden="true" />
+                <span>{giveaway.winnerCount} {giveaway.winnerCount === 1 ? 'Winner' : 'Winners'}</span>
+              </span>
             </div>
           </div>
 
-          <div className={styles.timerWrapper}>
+          {/* Integrated Countdown Timer Box */}
+          <div className={styles.timerCard}>
             <CountdownTimer
               startsAt={giveaway.startsAt}
               endsAt={giveaway.endsAt}
@@ -59,30 +148,50 @@ export const HeroSection = ({ giveaway }) => {
             />
           </div>
 
+          {/* Action CTAs */}
           <div className={styles.ctaRow}>
             <Link
               to={`/giveaway/${giveaway.slug}`}
-              className={styles.primaryCta}
+              className={styles.ctaLink}
               aria-label={`Enter ${giveaway.title} giveaway`}
             >
-              <span>Join Now</span>
-              <ArrowRight size={18} />
+              <Button
+                variant="primary"
+                size="lg"
+                iconRight={<ArrowRight size={18} />}
+              >
+                {ctaLabel}
+              </Button>
             </Link>
-            <a href="#active-giveaways" className={styles.secondaryCta}>
-              <span>Browse All Giveaways</span>
-              <ChevronDown size={16} />
+
+            <a href="#active-giveaways" className={styles.secondaryLink}>
+              <Button
+                variant="navy"
+                size="lg"
+                iconRight={<ChevronDown size={16} />}
+              >
+                Browse All Pools
+              </Button>
             </a>
           </div>
         </div>
 
-        {/* Right Column: Visual Product Card Showcase */}
+        {/* Right Column: Official Prize Visual Showcase */}
         <div className={styles.visualCol}>
           <div className={styles.cardShowcase}>
-            <div className={styles.floatingTag}>
-              {giveaway.participantCount?.toLocaleString()} Entered
+            {/* Top Badges */}
+            <div className={styles.cardHeader}>
+              <span className={styles.prizeTypeBadge}>{giveaway.prizeType} PRIZE</span>
+              {giveaway.participantCount !== undefined && (
+                <span className={styles.participantBadge}>
+                  <Users size={12} aria-hidden="true" />
+                  <span>{giveaway.participantCount?.toLocaleString()} Entered</span>
+                </span>
+              )}
             </div>
 
-            <div className={styles.imageContainer}>
+            {/* Official Prize Image */}
+            <div className={styles.imagePedestal}>
               <img
                 src={giveaway.prizeImage || '/assets/prizes/iphone-15-pro.png'}
                 alt={giveaway.prize || giveaway.title}
@@ -91,16 +200,17 @@ export const HeroSection = ({ giveaway }) => {
               />
             </div>
 
+            {/* Card Footer Summary */}
             <div className={styles.cardFooter}>
-              <div>
+              <div className={styles.footerDetails}>
                 <div className={styles.footerPrizeName}>{giveaway.prize}</div>
                 <div className={styles.footerTier}>
-                  {giveaway.eligibility?.description || 'All VELOOP Members'}
+                  {giveaway.eligibility?.description || 'Open to all VELOOP Members'}
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#34d399', fontSize: '0.8rem' }}>
-                <CheckCircle2 size={15} />
-                <span>Verified Pool</span>
+              <div className={styles.verifiedTag}>
+                <ShieldCheck size={15} />
+                <span>Fair & Transparent</span>
               </div>
             </div>
           </div>

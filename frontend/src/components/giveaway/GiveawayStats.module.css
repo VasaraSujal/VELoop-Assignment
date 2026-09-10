@@ -1,73 +1,136 @@
 .statsSection {
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
-  padding: var(--space-8) var(--space-6);
+  padding: var(--space-6) 0;
+  position: relative;
+  box-shadow: var(--shadow-xs);
 }
 
 .container {
-  max-width: 1200px;
+  max-width: var(--container-max);
   margin: 0 auto;
+  padding: 0 var(--container-padding);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-6);
+  gap: var(--space-4);
 }
 
 .statCard {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  padding: var(--space-4);
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
-  transition: transform var(--transition-fast);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .statCard:hover {
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-surface-hover);
 }
 
 .iconWrapper {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconActive {
   background-color: var(--color-primary-light);
   color: var(--color-primary);
-  flex-shrink: 0;
+  border: 1px solid var(--color-primary-border);
+}
+
+.iconVes {
+  background-color: var(--currency-ves-bg);
+  color: var(--currency-ves-text);
+  border: 1px solid var(--currency-ves-border);
+}
+
+.iconSves {
+  background-color: var(--currency-sves-bg);
+  color: var(--currency-sves-text);
+  border: 1px solid var(--currency-sves-border);
+}
+
+.iconTokens {
+  background-color: var(--currency-tokens-bg);
+  color: var(--currency-tokens-text);
+  border: 1px solid var(--currency-tokens-border);
 }
 
 .statInfo {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .statValue {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
-.statLabel {
-  font-size: 0.85rem;
+.unitText {
+  font-size: var(--font-size-caption);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
 }
 
+.statLabel {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
 @media (max-width: 992px) {
   .container {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
+    gap: var(--space-3);
+  }
+
+  .statsSection {
+    padding: var(--space-4) 0;
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 480px) {
   .container {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+  }
+
+  .statCard {
+    padding: var(--space-2);
     gap: var(--space-3);
   }
-  .statCard {
-    padding: var(--space-3) var(--space-2);
+
+  .iconWrapper {
+    width: 38px;
+    height: 38px;
+  }
+
+  .statValue {
+    font-size: 1.15rem;
+  }
+
+  .statLabel {
+    font-size: var(--font-size-label);
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    grid-template-columns: 1fr;
   }
 }

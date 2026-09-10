@@ -1,22 +1,29 @@
 import { useState, useEffect } from 'react';
 import { calculateTimeRemaining, padZero } from '../../utils/countdown.js';
-import { GIVEAWAY_STATUS } from '../../data/constants.js';
+import { Clock, CheckCircle2 } from 'lucide-react';
 import styles from './CountdownTimer.module.css';
 
-export const CountdownTimer = ({ startsAt, endsAt, status = GIVEAWAY_STATUS.ACTIVE, theme = 'dark' }) => {
+/**
+ * Reusable, accessible countdown timer with real-time updates and tabular digits.
+ * Supports dark theme (Hero) and light theme (Details & Cards).
+ */
+export const CountdownTimer = ({
+  startsAt,
+  endsAt,
+  status = 'ACTIVE',
+  theme = 'dark',
+  customLabel,
+  className = '',
+}) => {
   const isLight = theme === 'light';
-  
-  // Determine active target date and state
-  const isUpcoming = status === GIVEAWAY_STATUS.UPCOMING;
+  const isUpcoming = status === 'UPCOMING';
   const targetDate = isUpcoming ? startsAt : endsAt;
 
   const [timeLeft, setTimeLeft] = useState(() => calculateTimeRemaining(targetDate));
 
   useEffect(() => {
-    // Immediate calculation
     setTimeLeft(calculateTimeRemaining(targetDate));
 
-    // Live 1-second interval with cleanup
     const interval = setInterval(() => {
       const remaining = calculateTimeRemaining(targetDate);
       setTimeLeft(remaining);
@@ -28,42 +35,70 @@ export const CountdownTimer = ({ startsAt, endsAt, status = GIVEAWAY_STATUS.ACTI
     return () => clearInterval(interval);
   }, [targetDate]);
 
-  if (status === GIVEAWAY_STATUS.ENDED || status === GIVEAWAY_STATUS.COMPLETED || timeLeft.isExpired) {
+  const isConcluded = status === 'ENDED' || status === 'COMPLETED' || timeLeft.isExpired;
+
+  if (isConcluded) {
     return (
-      <div className={styles.countdownContainer}>
-        <div className={styles.endedBadge}>
+      <div className={`${styles.countdownWrapper} ${isLight ? styles.lightTheme : styles.darkTheme} ${className}`}>
+        <div className={styles.concludedBadge} role="status">
+          <CheckCircle2 size={16} className={styles.concludedIcon} />
           <span>Giveaway Concluded</span>
         </div>
       </div>
     );
   }
 
-  const labelText = isUpcoming ? 'Starts in' : 'Ends in';
+  const defaultLabel = isUpcoming ? 'Pool Opens In' : 'Giveaway Ends In';
+  const activeLabel = customLabel || defaultLabel;
 
   return (
-    <div className={styles.countdownContainer}>
-      <span className={`${styles.label} ${isLight ? styles.labelLight : ''}`}>
-        {labelText}
-      </span>
-      <div className={styles.timerUnits} aria-label={`Time remaining: ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes, ${timeLeft.seconds} seconds`}>
-        <div className={`${styles.unitBox} ${isLight ? styles.unitBoxLight : ''}`}>
-          <span className={`${styles.digit} ${isLight ? styles.digitLight : ''}`}>{padZero(timeLeft.days)}</span>
-          <span className={`${styles.unitLabel} ${isLight ? styles.unitLabelLight : ''}`}>Days</span>
+    <div
+      className={`${styles.countdownWrapper} ${isLight ? styles.lightTheme : styles.darkTheme} ${className}`}
+      role="timer"
+      aria-label={`${activeLabel}: ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes, ${timeLeft.seconds} seconds`}
+    >
+      <div className={styles.headerRow}>
+        <Clock size={14} className={styles.clockIcon} aria-hidden="true" />
+        <span className={styles.timerLabel}>{activeLabel}</span>
+      </div>
+
+      <div className={styles.timerGrid}>
+        {/* Days */}
+        <div className={styles.segment}>
+          <div className={styles.digitBox}>
+            <span className={styles.digit}>{padZero(timeLeft.days)}</span>
+          </div>
+          <span className={styles.unitLabel}>Days</span>
         </div>
-        <span className={`${styles.separator} ${isLight ? styles.separatorLight : ''}`}>:</span>
-        <div className={`${styles.unitBox} ${isLight ? styles.unitBoxLight : ''}`}>
-          <span className={`${styles.digit} ${isLight ? styles.digitLight : ''}`}>{padZero(timeLeft.hours)}</span>
-          <span className={`${styles.unitLabel} ${isLight ? styles.unitLabelLight : ''}`}>Hours</span>
+
+        <span className={styles.colon} aria-hidden="true">:</span>
+
+        {/* Hours */}
+        <div className={styles.segment}>
+          <div className={styles.digitBox}>
+            <span className={styles.digit}>{padZero(timeLeft.hours)}</span>
+          </div>
+          <span className={styles.unitLabel}>Hours</span>
         </div>
-        <span className={`${styles.separator} ${isLight ? styles.separatorLight : ''}`}>:</span>
-        <div className={`${styles.unitBox} ${isLight ? styles.unitBoxLight : ''}`}>
-          <span className={`${styles.digit} ${isLight ? styles.digitLight : ''}`}>{padZero(timeLeft.minutes)}</span>
-          <span className={`${styles.unitLabel} ${isLight ? styles.unitLabelLight : ''}`}>Mins</span>
+
+        <span className={styles.colon} aria-hidden="true">:</span>
+
+        {/* Minutes */}
+        <div className={styles.segment}>
+          <div className={styles.digitBox}>
+            <span className={styles.digit}>{padZero(timeLeft.minutes)}</span>
+          </div>
+          <span className={styles.unitLabel}>Mins</span>
         </div>
-        <span className={`${styles.separator} ${isLight ? styles.separatorLight : ''}`}>:</span>
-        <div className={`${styles.unitBox} ${isLight ? styles.unitBoxLight : ''}`}>
-          <span className={`${styles.digit} ${isLight ? styles.digitLight : ''}`}>{padZero(timeLeft.seconds)}</span>
-          <span className={`${styles.unitLabel} ${isLight ? styles.unitLabelLight : ''}`}>Secs</span>
+
+        <span className={styles.colon} aria-hidden="true">:</span>
+
+        {/* Seconds */}
+        <div className={styles.segment}>
+          <div className={styles.digitBox}>
+            <span className={styles.digit}>{padZero(timeLeft.seconds)}</span>
+          </div>
+          <span className={styles.unitLabel}>Secs</span>
         </div>
       </div>
     </div>
