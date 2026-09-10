@@ -1,8 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
-import { ShieldCheck, ChevronDown, RefreshCw, Sparkles, Check, UserCircle, LogOut } from 'lucide-react';
+import { ChevronDown, RefreshCw, Check, User, LogOut, Sparkles } from 'lucide-react';
 import { formatNumber } from '../../utils/currencyFormatter.js';
-import { Badge } from './ui/Badge.jsx';
 import { Skeleton } from './ui/Skeleton.jsx';
 import styles from './UserBar.module.css';
 
@@ -14,6 +13,7 @@ export const UserBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const dropdownRef = useRef(null);
+  const triggerRef = useRef(null);
 
   // Close dropdown on outside click or Escape key
   useEffect(() => {
@@ -26,21 +26,27 @@ export const UserBar = () => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && dropdownOpen) {
         setDropdownOpen(false);
+        if (triggerRef.current) {
+          triggerRef.current.focus();
+        }
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
+    if (dropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [dropdownOpen]);
 
-  const handleUserChange = async (targetUserId) => {
+  const handleUserChange = useCallback(async (targetUserId) => {
     setDropdownOpen(false);
     await login(targetUserId);
-  };
+  }, [login]);
 
   const handleManualRefresh = async () => {
     if (isRefreshing) return;
@@ -54,26 +60,23 @@ export const UserBar = () => {
       <div className={styles.container}>
         {/* Left: Persona / Environment Indicator */}
         <div className={styles.leftSection}>
-          <span className={styles.envTag}>
+          <span className={styles.demoTag}>
             <span className={styles.statusDot} aria-hidden="true" />
-            <span className={styles.envLabel}>Demo Profile</span>
+            <span className={styles.demoLabel}>Demo Profile</span>
           </span>
 
           {loading ? (
             <Skeleton variant="text" width={140} height={18} />
           ) : isAuthenticated ? (
             <div className={styles.userInfo}>
-              <span className={styles.userName}>{user?.name || 'Account Active'}</span>
-              <span className={styles.userTier}>Tier {user?.tier || 1}</span>
-              {user?.isKycVerified && (
-                <span className={styles.kycVerified} title="Verified Member Account">
-                  <ShieldCheck size={13} />
-                  <span>Verified</span>
-                </span>
-              )}
+              <span className={styles.userName}>{user?.name || 'Active Account'}</span>
+              <span className={styles.userTier}>Tier {user?.tier ?? 1}</span>
+              <span className={styles.accountStatus}>Active</span>
             </div>
           ) : (
-            <span className={styles.guestText}>Viewing as Guest</span>
+            <div className={styles.userInfo}>
+              <span className={styles.guestText}>Viewing as Guest</span>
+            </div>
           )}
         </div>
 
@@ -82,27 +85,27 @@ export const UserBar = () => {
           {isAuthenticated && (
             <div className={styles.balancesGroup} aria-label="Wallet Balances">
               {loading ? (
-                <Skeleton variant="text" width={180} height={20} />
+                <Skeleton variant="text" width={180} height={24} />
               ) : (
                 <>
-                  <span className={`${styles.balanceItem} ${styles.vesItem}`} title="VEs Core Balance">
+                  <div className={`${styles.balanceChip} ${styles.vesChip}`} title="VEs Core Balance">
                     <span className={styles.currKey}>VEs</span>
-                    <span className={styles.currVal}>{formatNumber(balances.VEs || 0)}</span>
-                  </span>
-                  <span className={`${styles.balanceItem} ${styles.svesItem}`} title="SVEs Super-Tier Balance">
+                    <strong className={styles.currVal}>{formatNumber(balances.VEs || 0)}</strong>
+                  </div>
+                  <div className={`${styles.balanceChip} ${styles.svesChip}`} title="SVEs Super-Tier Balance">
                     <span className={styles.currKey}>SVEs</span>
-                    <span className={styles.currVal}>{formatNumber(balances.SVEs || 0)}</span>
-                  </span>
-                  <span className={`${styles.balanceItem} ${styles.tokensItem}`} title="Daily Tokens Balance">
+                    <strong className={styles.currVal}>{formatNumber(balances.SVEs || 0)}</strong>
+                  </div>
+                  <div className={`${styles.balanceChip} ${styles.tokensChip}`} title="Daily Tokens Balance">
                     <span className={styles.currKey}>Tokens</span>
-                    <span className={styles.currVal}>{formatNumber(balances.Tokens || 0)}</span>
-                  </span>
+                    <strong className={styles.currVal}>{formatNumber(balances.Tokens || 0)}</strong>
+                  </div>
                   <button
                     type="button"
                     className={styles.refreshBtn}
                     onClick={handleManualRefresh}
                     disabled={isRefreshing}
-                    title="Refresh live wallet balances"
+                    title="Refresh wallet balances"
                     aria-label="Refresh wallet balances"
                   >
                     <RefreshCw size={12} className={isRefreshing ? styles.spinning : ''} />
@@ -115,28 +118,35 @@ export const UserBar = () => {
           {/* Persona Switcher Dropdown */}
           <div className={styles.dropdownContainer} ref={dropdownRef}>
             <button
+              ref={triggerRef}
               type="button"
-              className={styles.switcherBtn}
+              className={`${styles.switcherBtn} ${dropdownOpen ? styles.switcherBtnActive : ''}`}
               onClick={() => setDropdownOpen((prev) => !prev)}
               aria-expanded={dropdownOpen}
               aria-haspopup="true"
               aria-label="Switch Demo Profile"
             >
-              <UserCircle size={14} />
-              <span>Switch Profile</span>
-              <ChevronDown size={12} className={`${styles.chevron} ${dropdownOpen ? styles.chevronOpen : ''}`} />
+              <User size={14} className={styles.userIcon} />
+              <span className={styles.switcherText}>Switch Profile</span>
+              <ChevronDown size={13} className={`${styles.chevron} ${dropdownOpen ? styles.chevronOpen : ''}`} />
             </button>
 
             {dropdownOpen && (
               <div className={styles.dropdownMenu} role="menu" aria-label="Demo Profile Selector">
+                {/* Dropdown Header */}
                 <div className={styles.dropdownHeader}>
-                  <span>Select Test Persona</span>
-                  <Badge variant="primary" size="sm">Evaluation Mode</Badge>
+                  <div className={styles.headerTextGroup}>
+                    <span className={styles.headerEyebrow}>SWITCH PROFILE</span>
+                    <p className={styles.headerSub}>Choose an account for this demo session</p>
+                  </div>
                 </div>
 
-                <div className={styles.profileList}>
+                {/* Profile List */}
+                <div className={styles.profileList} role="group" aria-label="Available Profiles">
                   {demoUsers.map((du) => {
                     const isCurrent = user?.userId === du.userId;
+                    const avatarChar = du.name ? du.name.charAt(0).toUpperCase() : 'U';
+
                     return (
                       <button
                         key={du.userId}
@@ -144,19 +154,28 @@ export const UserBar = () => {
                         role="menuitem"
                         className={`${styles.profileItem} ${isCurrent ? styles.activeProfileItem : ''}`}
                         onClick={() => handleUserChange(du.userId)}
+                        aria-current={isCurrent ? 'true' : undefined}
                       >
                         <div className={styles.profileAvatar}>
-                          {du.name ? du.name.charAt(0).toUpperCase() : 'U'}
+                          {avatarChar}
                         </div>
                         <div className={styles.profileDetails}>
                           <div className={styles.profileNameRow}>
-                            <span className={styles.profileName}>{du.name}</span>
-                            <span className={styles.profileTierBadge}>Tier {du.tier}</span>
-                            {isCurrent && <Check size={14} className={styles.checkIcon} />}
+                            <span className={styles.profileName} title={du.name}>
+                              {du.name}
+                            </span>
+                            <span className={styles.profileTierBadge}>
+                              Tier {du.tier}
+                            </span>
+                            {isCurrent && (
+                              <Check size={14} className={styles.checkIcon} aria-hidden="true" />
+                            )}
                           </div>
                           <div className={styles.profileBalancesRow}>
-                            <span>{formatNumber(du.balances?.VEs || 0)} VEs</span> •{' '}
-                            <span>{formatNumber(du.balances?.SVEs || 0)} SVEs</span> •{' '}
+                            <span>{formatNumber(du.balances?.VEs || 0)} VEs</span>
+                            <span className={styles.dotSeparator}>•</span>
+                            <span>{formatNumber(du.balances?.SVEs || 0)} SVEs</span>
+                            <span className={styles.dotSeparator}>•</span>
                             <span>{formatNumber(du.balances?.Tokens || 0)} Tokens</span>
                           </div>
                         </div>
@@ -167,28 +186,39 @@ export const UserBar = () => {
 
                 <div className={styles.dropdownDivider} />
 
+                {/* Bottom Action: Guest Toggle */}
                 {isAuthenticated ? (
                   <button
                     type="button"
                     role="menuitem"
-                    className={styles.logoutBtn}
+                    className={styles.guestActionBtn}
                     onClick={() => {
                       setDropdownOpen(false);
                       logout();
                     }}
                   >
-                    <LogOut size={13} />
-                    <span>Switch to Unauthenticated Guest</span>
+                    <div className={styles.guestIconBox}>
+                      <LogOut size={13} />
+                    </div>
+                    <div className={styles.guestTextCol}>
+                      <span className={styles.guestActionTitle}>Switch to Unauthenticated Guest</span>
+                      <span className={styles.guestActionSub}>Browse without an active session</span>
+                    </div>
                   </button>
                 ) : (
                   <button
                     type="button"
                     role="menuitem"
-                    className={styles.loginQuickBtn}
+                    className={styles.guestActionBtn}
                     onClick={() => handleUserChange('user_alex')}
                   >
-                    <Sparkles size={13} />
-                    <span>Log in as Alex Rivera (VIP Tier 2)</span>
+                    <div className={styles.guestIconBox}>
+                      <Sparkles size={13} />
+                    </div>
+                    <div className={styles.guestTextCol}>
+                      <span className={styles.guestActionTitle}>Sign in as Alex Rivera</span>
+                      <span className={styles.guestActionSub}>VIP Tier 2 demo account</span>
+                    </div>
                   </button>
                 )}
               </div>
