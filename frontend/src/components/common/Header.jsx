@@ -66,7 +66,7 @@ export const Header = () => {
           onClick={closeMobileMenu}
         >
           <div className={styles.logoIconBox}>
-            <Gift size={20} className={styles.logoGiftIcon} />
+            <Gift size={18} className={styles.logoGiftIcon} />
           </div>
           <div className={styles.brandText}>
             <span className={styles.brandMain}>VELOP</span>
@@ -112,7 +112,7 @@ export const Header = () => {
             aria-controls="mobile-navigation-drawer"
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
@@ -136,7 +136,7 @@ export const Header = () => {
         <div className={styles.drawerHeader}>
           <div className={styles.drawerBrand}>
             <div className={styles.logoIconBox}>
-              <Gift size={18} />
+              <Gift size={16} />
             </div>
             <span className={styles.drawerBrandText}>VELOP Rewards</span>
           </div>
@@ -146,7 +146,7 @@ export const Header = () => {
             onClick={closeMobileMenu}
             aria-label="Close menu"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
@@ -279,8 +279,8 @@ export const Header = () => {
                 logout();
               }}
             >
-              <LogOut size={15} />
-              <span>Switch to Guest View</span>
+              <LogOut size={14} />
+              <span>Switch to Unauthenticated Guest</span>
             </button>
           ) : (
             <button
@@ -291,8 +291,8 @@ export const Header = () => {
                 login('user_alex');
               }}
             >
-              <UserCircle size={15} />
-              <span>Log in as Alex (VIP)</span>
+              <UserCircle size={14} />
+              <span>Log in as Alex Rivera (VIP Tier 2)</span>
             </button>
           )}
         </div>
