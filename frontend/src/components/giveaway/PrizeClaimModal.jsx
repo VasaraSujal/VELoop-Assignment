@@ -14,18 +14,17 @@ import {
 import { giveawayService } from '../../services/giveawayService.js';
 import { Button } from '../common/ui/Button.jsx';
 import { Badge } from '../common/ui/Badge.jsx';
+import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './PrizeClaimModal.module.css';
 
 /**
- * Stage H: Production-Quality Prize Claim Modal Component
- * Supports physical delivery & gift card code claim flows, authoritative lifecycle states,
- * strict security sanitation, accessible keyboard navigation, and responsive mobile UX.
+ * Production-ready Prize Claim Modal with strict verification, multi-stage forms, and accessible focus trapping.
  */
 export const PrizeClaimModal = ({
-  giveaway,
-  claimState,
   isOpen,
   onClose,
+  giveaway,
+  claimState,
   onSuccess,
 }) => {
   const [formData, setFormData] = useState({
@@ -35,7 +34,8 @@ export const PrizeClaimModal = ({
     addressLine2: '',
     city: '',
     state: '',
-    postalCode: '',
+    pincode: '',
+    notes: '',
     email: '',
   });
 
@@ -51,8 +51,11 @@ export const PrizeClaimModal = ({
   const authoritativeClaimType =
     claimState?.claimType || giveaway?.claimType || 'PHYSICAL_DELIVERY';
   const prizeName = claimState?.prizeName || giveaway?.prize || giveaway?.title || 'Prize Reward';
-  const prizeImage =
-    claimState?.prizeImage || giveaway?.prizeImage || '/assets/prizes/iphone-15-pro.png';
+  const prizeImage = resolvePrizeImage(
+    prizeName,
+    giveaway?.title || '',
+    claimState?.prizeImage || giveaway?.prizeImage
+  );
   const claimDeadline = claimState?.claimDeadline ? new Date(claimState.claimDeadline) : null;
   const userFacingStatus = claimState?.userFacingStatus || 'NOT_SUBMITTED';
   const canClaim = Boolean(claimState?.canClaim ?? (userFacingStatus === 'NOT_SUBMITTED'));

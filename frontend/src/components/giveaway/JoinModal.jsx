@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { giveawayService } from '../../services/giveawayService.js';
 import { formatCurrency, formatInr } from '../../utils/currencyFormatter.js';
+import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import {
   X,
   CheckCircle2,
@@ -144,7 +145,7 @@ export const JoinModal = ({ giveaway, isOpen, onClose, onSuccess }) => {
             {/* Prize preview snapshot */}
             <div className={styles.prizeSnapshot}>
               <img
-                src={giveaway.prizeImage || '/assets/prizes/iphone-15-pro.png'}
+                src={resolvePrizeImage(giveaway.prize, giveaway.title, giveaway.prizeImage)}
                 alt={giveaway.prize || giveaway.title}
                 className={styles.prizeThumb}
               />
