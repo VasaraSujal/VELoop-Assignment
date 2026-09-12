@@ -3,7 +3,7 @@
   border-bottom: 1px solid var(--color-border);
   padding: var(--space-6) 0;
   position: relative;
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
 }
 
 .container {
@@ -21,11 +21,15 @@
   gap: var(--space-4);
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  transition: background-color var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
 }
 
 .statCard:hover {
   background-color: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
+  transform: translateY(-1px);
 }
 
 .iconWrapper {
@@ -46,19 +50,19 @@
 
 .iconVes {
   background-color: var(--currency-ves-bg);
-  color: var(--currency-ves-text);
+  color: var(--currency-ves);
   border: 1px solid var(--currency-ves-border);
 }
 
 .iconSves {
   background-color: var(--currency-sves-bg);
-  color: var(--currency-sves-text);
+  color: var(--currency-sves);
   border: 1px solid var(--currency-sves-border);
 }
 
 .iconTokens {
   background-color: var(--currency-tokens-bg);
-  color: var(--currency-tokens-text);
+  color: var(--currency-tokens);
   border: 1px solid var(--currency-tokens-border);
 }
 
@@ -69,7 +73,7 @@
 }
 
 .statValue {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   line-height: 1.2;
@@ -80,7 +84,7 @@
 .unitText {
   font-size: var(--font-size-caption);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
 }
 
 .statLabel {
