@@ -40,15 +40,19 @@ export const resolvePrizeImage = (prizeOrWinner, giveawayTitle = '', currentImag
 
   const text = `${prizeName} ${poolTitle} ${slug}`.toLowerCase();
 
-  // 1. Amazon Gift Cards / Vouchers / Pay Cards
+  // 1. Amazon Gift Cards / Vouchers / Pay Cards / E-Cards (Must NEVER show iPhone!)
   if (
     text.includes('amazon') ||
     text.includes('gift card') ||
     text.includes('gift voucher') ||
     text.includes('pay gift') ||
+    text.includes('pay e-gift') ||
+    text.includes('pay voucher') ||
     text.includes('e-voucher') ||
     text.includes('e-gift') ||
-    slug.includes('amazon')
+    text.includes('voucher') ||
+    slug.includes('amazon') ||
+    slug.includes('voucher')
   ) {
     if (
       text.includes('2000') ||
@@ -65,6 +69,7 @@ export const resolvePrizeImage = (prizeOrWinner, giveawayTitle = '', currentImag
     }
     if (
       text.includes('200') ||
+      text.includes('₹200') ||
       text.includes('₹20') ||
       text.includes('20 ') ||
       slug.includes('20') ||
@@ -76,7 +81,7 @@ export const resolvePrizeImage = (prizeOrWinner, giveawayTitle = '', currentImag
     return OFFICIAL_PRIZE_ASSETS.AMAZON_500;
   }
 
-  // 2. Apple Watch
+  // 2. Apple Watch / Smartwatch
   if (
     text.includes('watch') ||
     text.includes('s9') ||
@@ -88,7 +93,7 @@ export const resolvePrizeImage = (prizeOrWinner, giveawayTitle = '', currentImag
     return OFFICIAL_PRIZE_ASSETS.APPLE_WATCH_S9;
   }
 
-  // 3. Apple AirPods / Earbuds
+  // 3. Apple AirPods / Earbuds / Headphones
   if (
     text.includes('airpod') ||
     text.includes('earbud') ||
@@ -100,27 +105,35 @@ export const resolvePrizeImage = (prizeOrWinner, giveawayTitle = '', currentImag
     return OFFICIAL_PRIZE_ASSETS.AIRPODS_PRO;
   }
 
-  // 4. Apple iPhone
+  // 4. Apple iPhone / Smartphone
   if (
     text.includes('iphone') ||
     text.includes('15 pro') ||
     text.includes('titanium') ||
-    slug.includes('iphone')
+    slug.includes('iphone') ||
+    text.includes('smartphone') ||
+    text.includes('phone') ||
+    text.includes('mobile')
   ) {
     return OFFICIAL_PRIZE_ASSETS.IPHONE_15_PRO;
   }
 
-  // 5. Tickets / Token Giveaways
+  // 5. Tickets / Token Passes / Giveaways
   if (text.includes('ticket') || text.includes('pass') || slug.includes('ticket')) {
     return OFFICIAL_PRIZE_ASSETS.TICKET;
   }
 
-  // 6. Generic Gift / MacBook / Other
+  // 6. Generic Gift / MacBook / Laptop / Pedestal
   if (text.includes('macbook') || text.includes('laptop') || text.includes('pedestal')) {
     return OFFICIAL_PRIZE_ASSETS.GIFT_BOX_PEDESTAL;
   }
 
-  // 7. If existing image is already a valid specific asset other than iphone-15-pro, preserve it
+  // 7. Ribbon Gift Box
+  if (text.includes('gift box') || text.includes('ribbon') || text.includes('mystery box')) {
+    return OFFICIAL_PRIZE_ASSETS.GIFT_BOX_RIBBON;
+  }
+
+  // 8. If existing image is already a valid specific asset other than generic iphone fallback, preserve it
   if (
     rawImage &&
     rawImage !== OFFICIAL_PRIZE_ASSETS.IPHONE_15_PRO &&
@@ -129,13 +142,8 @@ export const resolvePrizeImage = (prizeOrWinner, giveawayTitle = '', currentImag
     return rawImage;
   }
 
-  // 8. If text mentions phone or mobile
-  if (text.includes('phone') || text.includes('mobile')) {
-    return OFFICIAL_PRIZE_ASSETS.IPHONE_15_PRO;
-  }
-
-  // 9. Default Fallback
-  return rawImage || OFFICIAL_PRIZE_ASSETS.IPHONE_15_PRO;
+  // 9. Safe Default Fallback
+  return OFFICIAL_PRIZE_ASSETS.IPHONE_15_PRO;
 };
 
 /**
