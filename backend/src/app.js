@@ -47,6 +47,7 @@ app.use('/api', routes);
 app.use('/api/*', (req, res) => {
   res.status(404).json({
     success: false,
+    code: 'NOT_FOUND',
     message: `API endpoint '${req.originalUrl}' not found.`,
   });
 });
