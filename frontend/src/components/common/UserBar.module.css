@@ -4,7 +4,7 @@
   font-size: var(--font-size-caption);
   color: var(--color-text-secondary);
   position: relative;
-  z-index: var(--z-sticky);
+  z-index: var(--z-dropdown);
 }
 
 .container {
@@ -15,7 +15,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  min-height: 42px;
+  min-height: 44px;
 }
 
 /* ==========================================================================
@@ -32,10 +32,10 @@
 .demoTag {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   background-color: var(--color-surface-muted);
   border: 1px solid var(--color-border);
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: var(--radius-full);
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
@@ -49,7 +49,8 @@
   width: 6px;
   height: 6px;
   border-radius: var(--radius-full);
-  background-color: var(--color-primary);
+  background-color: var(--status-active);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
 }
 
 .userInfo {
@@ -66,13 +67,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 180px;
 }
 
 .userTier {
   background-color: var(--color-primary-light);
   color: var(--color-primary);
   border: 1px solid var(--color-primary-border);
-  padding: 1px 6px;
+  padding: 2px 7px;
   border-radius: var(--radius-xs);
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
@@ -82,9 +84,9 @@
 
 .accountStatus {
   background-color: var(--status-active-bg);
-  color: var(--status-active);
+  color: var(--status-active-text);
   border: 1px solid var(--status-active-border);
-  padding: 1px 6px;
+  padding: 2px 7px;
   border-radius: var(--radius-xs);
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-semibold);
@@ -111,25 +113,26 @@
 .balancesGroup {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .balanceChip {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 9px;
+  gap: 6px;
+  padding: 4px 10px;
   border-radius: var(--radius-sm);
   font-size: var(--font-size-caption);
   border: 1px solid transparent;
   line-height: 1.2;
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
 .currKey {
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-label);
-  opacity: 0.85;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
 }
 
 .currVal {
@@ -159,11 +162,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border-radius: var(--radius-sm);
   color: var(--color-text-secondary);
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-muted);
   border: 1px solid var(--color-border);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -191,7 +194,7 @@
 }
 
 /* ==========================================================================
-   Switcher Button & Dropdown Menu
+   Switcher Button & Dropdown Menu (PM Requirements 6, 7, 8)
    ========================================================================== */
 .dropdownContainer {
   position: relative;
@@ -200,12 +203,12 @@
 .switcherBtn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  min-height: 32px;
-  background-color: var(--color-surface);
+  gap: 8px;
+  padding: 0 12px;
+  height: 38px;
+  background-color: var(--color-surface-muted);
   border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   font-size: var(--font-size-caption);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
@@ -224,6 +227,7 @@
   border-color: var(--color-primary);
   background-color: var(--color-primary-light);
   color: var(--color-primary);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.15);
 }
 
 .switcherBtn:focus-visible {
@@ -250,19 +254,19 @@
   color: var(--color-primary);
 }
 
-/* Dropdown Menu Overlay */
+/* Dropdown Menu Popover */
 .dropdownMenu {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  width: 340px;
+  width: 350px;
   max-width: calc(100vw - 24px);
   max-height: 420px;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
-  padding: var(--space-2);
+  padding: var(--space-3);
   z-index: var(--z-dropdown);
   display: flex;
   flex-direction: column;
@@ -281,22 +285,22 @@
 }
 
 .dropdownHeader {
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-2) var(--space-3);
   border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .headerTextGroup {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .headerEyebrow {
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-muted);
+  color: var(--color-primary);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .headerSub {
@@ -309,11 +313,10 @@
 .profileList {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  max-height: 240px;
+  gap: 4px;
+  max-height: 250px;
   overflow-y: auto;
-  padding: var(--space-1) 0;
-  margin-top: 4px;
+  padding: var(--space-2) 0;
 }
 
 /* Custom Scrollbar for Dropdown List */
@@ -326,7 +329,7 @@
 }
 
 .profileList::-webkit-scrollbar-thumb {
-  background: var(--color-border-strong);
+  background: var(--color-border);
   border-radius: var(--radius-full);
 }
 
@@ -335,7 +338,7 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px;
   border-radius: var(--radius-md);
   text-align: left;
   border: 1px solid transparent;
@@ -346,6 +349,7 @@
 
 .profileItem:hover {
   background-color: var(--color-surface-hover);
+  border-color: var(--color-border);
 }
 
 .profileItem:focus-visible {
@@ -359,10 +363,10 @@
 }
 
 .profileAvatar {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--color-primary), #6366f1);
+  background: var(--color-accent-gradient);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -370,6 +374,7 @@
   font-weight: var(--font-weight-bold);
   font-size: 13px;
   flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.25);
 }
 
 .profileDetails {
@@ -377,12 +382,13 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .profileNameRow {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 6px;
   min-width: 0;
 }
@@ -403,8 +409,8 @@
   font-size: 11px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-primary);
-  background-color: var(--color-surface);
-  padding: 0 5px;
+  background-color: var(--color-primary-light);
+  padding: 1px 6px;
   border-radius: var(--radius-xs);
   border: 1px solid var(--color-primary-border);
 }
@@ -412,6 +418,7 @@
 .checkIcon {
   color: var(--color-primary);
   flex-shrink: 0;
+  margin-left: 2px;
 }
 
 .profileBalancesRow {
@@ -426,7 +433,7 @@
 }
 
 .dotSeparator {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .dropdownDivider {
@@ -451,7 +458,8 @@
 }
 
 .guestActionBtn:hover {
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-border);
 }
 
 .guestActionBtn:focus-visible {
