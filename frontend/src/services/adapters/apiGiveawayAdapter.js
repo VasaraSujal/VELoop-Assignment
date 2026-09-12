@@ -16,14 +16,14 @@ export const apiGiveawayAdapter = {
     return list.map(normalizeGiveawayPrizeImage);
   },
 
-  async getFeaturedGiveaway() {
-    const list = await this.getCurrentGiveaways();
+  async getFeaturedGiveaway(providedList = null) {
+    const list = Array.isArray(providedList) ? providedList : await this.getCurrentGiveaways();
     if (!Array.isArray(list) || list.length === 0) return null;
-    return list.find((g) => g.isFeatured) || list[0];
+    return list.find((g) => g.isFeatured) || list[0] || null;
   },
 
-  async getCurrentGiveaway() {
-    return this.getFeaturedGiveaway();
+  async getCurrentGiveaway(providedList = null) {
+    return this.getFeaturedGiveaway(providedList);
   },
 
   async getGiveawayBySlug(slug) {

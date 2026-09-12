@@ -17,12 +17,12 @@ export const giveawayService = {
     return activeAdapter.getCurrentGiveaways();
   },
 
-  async getFeaturedGiveaway() {
-    return activeAdapter.getFeaturedGiveaway();
+  async getFeaturedGiveaway(providedList = null) {
+    return activeAdapter.getFeaturedGiveaway(providedList);
   },
 
-  async getCurrentGiveaway() {
-    return activeAdapter.getCurrentGiveaway();
+  async getCurrentGiveaway(providedList = null) {
+    return activeAdapter.getCurrentGiveaway(providedList);
   },
 
   async getGiveawayBySlug(slug) {

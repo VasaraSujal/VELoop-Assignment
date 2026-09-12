@@ -22,29 +22,50 @@ export const GiveawayPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const loadData = () => {
+  const loadData = async () => {
     setLoading(true);
     setError(null);
 
-    Promise.all([
-      giveawayService.getCurrentGiveaways(),
-      giveawayService.getFeaturedGiveaway(),
-      giveawayService.getGiveawayStats(),
-      giveawayService.getRecentWinners(),
-      giveawayService.getPreviousWinners(),
-    ])
-      .then(([allGw, featuredGw, statsData, recentWins, prevWins]) => {
-        setGiveaways(Array.isArray(allGw) ? allGw : []);
-        setFeaturedGiveaway(featuredGw || (Array.isArray(allGw) && allGw[0]) || null);
-        setStats(statsData || null);
-        setRecentWinners(Array.isArray(recentWins) ? recentWins : []);
-        setPreviousWinners(Array.isArray(prevWins) ? prevWins : []);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message || "We couldn't load giveaways right now. Please try again.");
-        setLoading(false);
-      });
+    try {
+      // 1. Primary critical request: Fetch current active giveaways
+      const allGw = await giveawayService.getCurrentGiveaways();
+      const currentList = Array.isArray(allGw) ? allGw : [];
+      setGiveaways(currentList);
+      
+      const featured = currentList.find((g) => g.isFeatured) || currentList[0] || null;
+      setFeaturedGiveaway(featured);
+
+      // 2. Supplementary non-blocking requests in parallel (Promise.allSettled guarantees failure in stats/winners does not break page)
+      const [statsRes, recentWinsRes, prevWinsRes] = await Promise.allSettled([
+        giveawayService.getGiveawayStats(),
+        giveawayService.getRecentWinners(),
+        giveawayService.getPreviousWinners(),
+      ]);
+
+      if (statsRes.status === 'fulfilled' && statsRes.value) {
+        setStats(statsRes.value);
+      } else {
+        setStats(null);
+      }
+
+      if (recentWinsRes.status === 'fulfilled' && Array.isArray(recentWinsRes.value)) {
+        setRecentWinners(recentWinsRes.value);
+      } else {
+        setRecentWinners([]);
+      }
+
+      if (prevWinsRes.status === 'fulfilled' && Array.isArray(prevWinsRes.value)) {
+        setPreviousWinners(prevWinsRes.value);
+      } else {
+        setPreviousWinners([]);
+      }
+
+      setLoading(false);
+    } catch (err) {
+      // If primary giveaway fetch fails after all bounded retries, show error state
+      setError(err.message || "We couldn't load giveaways right now. Please try again.");
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

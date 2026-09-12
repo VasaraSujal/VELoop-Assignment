@@ -7,7 +7,7 @@ export const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000,
+  timeout: 25000, // 25s timeout to gracefully accommodate backend cold starts (Render/serverless)
 });
 
 // Request interceptor: Attach Bearer token if present
@@ -22,7 +22,18 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor: Extract data and normalize error structures
+// Helper to determine if an error is transient and eligible for retry
+const isTransientError = (error) => {
+  if (!error.response) {
+    // Network drop, connection refused, or client timeout
+    return true;
+  }
+  const status = error.response.status;
+  // 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout, 500 Internal Server Error
+  return status >= 500 && status <= 504;
+};
+
+// Response interceptor: Extract data, handle retries, and normalize error structures
 apiClient.interceptors.response.use(
   (response) => {
     // If backend returns standardized wrapper { success: true, data: ... }, extract data
@@ -31,7 +42,26 @@ apiClient.interceptors.response.use(
     }
     return response.data;
   },
-  (error) => {
+  async (error) => {
+    const config = error.config;
+
+    // Retry transient failures for GET requests or explicitly marked retryable requests
+    const isGet = config?.method?.toLowerCase() === 'get';
+    const isRetryable = config?.retryable === true || isGet;
+    const maxRetries = config?.maxRetries ?? (isRetryable ? 3 : 0);
+
+    if (config && isTransientError(error)) {
+      config._retryCount = config._retryCount || 0;
+
+      if (config._retryCount < maxRetries) {
+        config._retryCount += 1;
+        // Progressive backoff delay: 1.5s, 3s, 4.5s
+        const backoffDelay = config._retryCount * 1500;
+        await new Promise((resolve) => setTimeout(resolve, backoffDelay));
+        return apiClient(config);
+      }
+    }
+
     let message = 'Something went wrong. Please try again.';
 
     if (!error.response) {
