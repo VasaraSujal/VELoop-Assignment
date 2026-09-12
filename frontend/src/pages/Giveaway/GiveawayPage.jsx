@@ -3,6 +3,7 @@ import { giveawayService } from '../../services/giveawayService.js';
 import HeroSection from '../../components/giveaway/HeroSection.jsx';
 import GiveawayStats from '../../components/giveaway/GiveawayStats.jsx';
 import GiveawayGrid from '../../components/giveaway/GiveawayGrid.jsx';
+import GiveawayLeaderboard from '../../components/giveaway/GiveawayLeaderboard.jsx';
 import WinnerAnnouncement from '../../components/giveaway/WinnerAnnouncement.jsx';
 import WinnerTabs from '../../components/giveaway/WinnerTabs.jsx';
 import HowToParticipate from '../../components/giveaway/HowToParticipate.jsx';
@@ -73,10 +74,13 @@ export const GiveawayPage = () => {
       {/* 2. Platform Statistics */}
       <GiveawayStats stats={stats} isLoading={loading} />
 
-      {/* 3. Active Giveaway / Prize Cards Grid */}
+      {/* 3. Active Giveaway / Choose Your Giveaway (Horizontal Premium Carousel) */}
       <GiveawayGrid giveaways={giveaways} isLoading={loading} />
 
-      {/* 4. Verified Winner Announcement Slider */}
+      {/* 4. Giveaway Leaderboard (Top Participants & Prize Draws) */}
+      <GiveawayLeaderboard winners={recentWinners} />
+
+      {/* 5. Verified Winner Announcement Slider */}
       <div id="winners" className={styles.winnersAnchor}>
         <WinnerAnnouncement winners={recentWinners} isLoading={loading} />
       </div>
