@@ -1,108 +1,115 @@
 :root {
   /* ==========================================================================
-     VELOP Rewards Design System Tokens (Light-First Fintech & Rewards Theme)
+     VELOP Rewards Design System Tokens (Dark Premium Visual Language)
      ========================================================================== */
 
   /* --------------------------------------------------------------------------
-     1. Primary Brand & Accent Colors
+     1. Primary Brand & Accent Colors (Electric Indigo, Vivid Violet, Purple)
      -------------------------------------------------------------------------- */
-  --color-primary: #4f46e5;             /* Deep Indigo Primary */
-  --color-primary-hover: #4338ca;       /* Darker on hover */
-  --color-primary-active: #3730a3;      /* Pressed state */
-  --color-primary-light: #eef2ff;       /* Very soft indigo tint for backgrounds */
-  --color-primary-subtle: rgba(79, 70, 229, 0.08);
-  --color-primary-border: #c7d2fe;      /* Subtle indigo border */
+  --color-primary: #7c3aed;             /* Vivid Violet / VELOOP Brand */
+  --color-primary-hover: #8b5cf6;       /* Radiant Purple hover */
+  --color-primary-active: #6d28d9;      /* Deep Pressed state */
+  --color-primary-light: rgba(124, 58, 237, 0.15); /* Soft purple tint */
+  --color-primary-subtle: rgba(124, 58, 237, 0.08);
+  --color-primary-border: rgba(139, 92, 246, 0.35); /* Subtle purple glowing border */
+  --color-primary-glow: 0 0 24px rgba(124, 58, 237, 0.25);
+  --color-accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+  --color-accent-cyan: #06b6d4;
+  --color-accent-pink: #ec4899;
 
   /* --------------------------------------------------------------------------
-     2. Strategic Dark Navy Anchors (Hero & Footer Sections)
+     2. Dark Layered Theme Surfaces & Foundations
      -------------------------------------------------------------------------- */
-  --color-navy: #0f172a;                /* Deep Navy Hero / Anchor Background */
-  --color-navy-surface: #1e293b;        /* Elevated dark card surface */
-  --color-navy-soft: #334155;           /* Secondary dark surface */
-  --color-navy-border: rgba(255, 255, 255, 0.12);
-  --color-navy-border-subtle: rgba(255, 255, 255, 0.06);
-  --color-navy-text-primary: #f8fafc;   /* White text on dark navy */
-  --color-navy-text-secondary: #94a3b8; /* Muted slate on dark navy */
-  --color-navy-text-muted: #64748b;
+  --color-background: #050611;          /* Deep Black-Navy Page Root */
+  --color-surface: #0b0d1c;             /* Primary Dark Section Surface */
+  --color-surface-card: #111329;        /* Rich Dark Card Surface */
+  --color-surface-card-hover: #151834;  /* Card Hover Elevation */
+  --color-surface-elevated: #191c3b;    /* Popover / Modal / Dropdown Surface */
+  --color-surface-muted: #151832;       /* Inset / Secondary Background */
+  --color-surface-subtle: #0f1124;      /* Subtle Dark Surface Tint */
+  --color-surface-hover: #1a1d42;       /* List / Row Hover Background */
 
   /* --------------------------------------------------------------------------
-     3. Light Theme Backgrounds & Surfaces (75%+ Light Foundation)
+     3. Selective Dark Navy Tokens (Hero, Trust Panel, Footer)
      -------------------------------------------------------------------------- */
-  --color-background: #f7f8fc;          /* Page background */
-  --color-surface: #ffffff;             /* Primary card / modal surface */
-  --color-surface-muted: #f1f3f8;       /* Inset / elevated secondary background */
-  --color-surface-subtle: #f8fafc;      /* Lightest surface tint */
-  --color-surface-hover: #f9fafb;       /* Card hover background */
+  --color-navy: #050611;
+  --color-navy-surface: #0b0d1c;
+  --color-navy-soft: #111329;
+  --color-navy-border: rgba(255, 255, 255, 0.10);
+  --color-navy-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-navy-text-primary: #ffffff;
+  --color-navy-text-secondary: #c4c1d4;
+  --color-navy-text-muted: #77748d;
 
   /* --------------------------------------------------------------------------
-     4. Typography Colors (Light Foundation)
+     4. Typography Colors (Crisp White & Lavender Hierarchy)
      -------------------------------------------------------------------------- */
-  --color-text-primary: #111827;        /* High contrast charcoal/navy */
-  --color-text-secondary: #5b6475;      /* Slate body/subtitle text */
-  --color-text-muted: #8a94a6;          /* Captions, labels, timestamps */
-  --color-text-disabled: #cbd5e1;       /* Inactive / disabled states */
-  --color-text-inverse: #ffffff;        /* White text for badges / buttons */
-  --color-text-inverse-muted: #94a3b8;
+  --color-text-primary: #ffffff;        /* Pure White Headings & Primary Text */
+  --color-text-secondary: #c4c1d4;      /* Soft Lavender Muted Descriptions */
+  --color-text-muted: #77748d;          /* Subtle Captions, Labels, Timestamps */
+  --color-text-disabled: #4a4760;       /* Inactive / Disabled States */
+  --color-text-inverse: #050611;        /* Inverted Dark Text on Bright Elements */
+  --color-text-inverse-muted: #1e1b38;
 
   /* --------------------------------------------------------------------------
-     5. Borders & Neutral Dividers
+     5. Borders & Dividers
      -------------------------------------------------------------------------- */
-  --color-border: #e5e7eb;             /* Standard clean neutral border */
-  --color-border-subtle: #f1f3f8;      /* Very soft divider */
-  --color-border-strong: #d1d5db;      /* Input / focused element boundary */
-  --color-border-focus: #4f46e5;       /* Focus outline */
-  --color-focus-ring: rgba(79, 70, 229, 0.25);
+  --color-border: rgba(255, 255, 255, 0.08);        /* Subtle Dark Border */
+  --color-border-subtle: rgba(255, 255, 255, 0.04); /* Faint Inner Divider */
+  --color-border-strong: rgba(139, 92, 246, 0.35);  /* Active / Focused Boundary */
+  --color-border-focus: #8b5cf6;                     /* Focus Glow Ring */
+  --color-focus-ring: rgba(139, 92, 246, 0.35);
 
   /* --------------------------------------------------------------------------
      6. Currency & Reward Tokens (VEs, SVEs, Tokens)
      -------------------------------------------------------------------------- */
-  --currency-ves: #4f46e5;              /* VEs Indigo */
-  --currency-ves-bg: #eef2ff;
-  --currency-ves-border: #c7d2fe;
-  --currency-ves-text: #3730a3;
+  --currency-ves: #818cf8;              /* VEs Radiant Indigo */
+  --currency-ves-bg: rgba(99, 102, 241, 0.14);
+  --currency-ves-border: rgba(99, 102, 241, 0.35);
+  --currency-ves-text: #a5b4fc;
 
-  --currency-sves: #d97706;             /* SVEs Amber Gold */
-  --currency-sves-bg: #fef3c7;
-  --currency-sves-border: #fde68a;
-  --currency-sves-text: #92400e;
+  --currency-sves: #fbbf24;             /* SVEs Amber Gold */
+  --currency-sves-bg: rgba(245, 158, 11, 0.14);
+  --currency-sves-border: rgba(245, 158, 11, 0.35);
+  --currency-sves-text: #fde68a;
 
-  --currency-tokens: #059669;           /* Tokens Emerald */
-  --currency-tokens-bg: #ecfdf5;
-  --currency-tokens-border: #a7f3d0;
-  --currency-tokens-text: #065f46;
+  --currency-tokens: #34d399;           /* Tokens Emerald */
+  --currency-tokens-bg: rgba(16, 185, 129, 0.14);
+  --currency-tokens-border: rgba(16, 185, 129, 0.35);
+  --currency-tokens-text: #6ee7b7;
 
   /* --------------------------------------------------------------------------
      7. Semantic Status Colors
      -------------------------------------------------------------------------- */
-  --status-active: #059669;             /* Live Now / Active Pool */
-  --status-active-bg: #ecfdf5;
-  --status-active-border: #a7f3d0;
-  --status-active-text: #065f46;
+  --status-active: #22c55e;             /* Live Now / Active Pool */
+  --status-active-bg: rgba(34, 197, 94, 0.14);
+  --status-active-border: rgba(34, 197, 94, 0.35);
+  --status-active-text: #4ade80;
 
-  --status-upcoming: #2563eb;           /* Upcoming Pool */
-  --status-upcoming-bg: #eff6ff;
-  --status-upcoming-border: #bfdbfe;
-  --status-upcoming-text: #1e40af;
+  --status-upcoming: #38bdf8;           /* Upcoming Pool */
+  --status-upcoming-bg: rgba(56, 189, 248, 0.14);
+  --status-upcoming-border: rgba(56, 189, 248, 0.35);
+  --status-upcoming-text: #7dd3fc;
 
-  --status-ended: #64748b;              /* Closed / Concluded */
-  --status-ended-bg: #f1f5f9;
-  --status-ended-border: #e2e8f0;
-  --status-ended-text: #475569;
+  --status-ended: #94a3b8;              /* Closed / Concluded */
+  --status-ended-bg: rgba(148, 163, 184, 0.12);
+  --status-ended-border: rgba(148, 163, 184, 0.25);
+  --status-ended-text: #cbd5e1;
 
-  --status-winner: #d97706;             /* Winner Drawn / Celebratory */
-  --status-winner-bg: #fef3c7;
-  --status-winner-border: #fde68a;
-  --status-winner-text: #92400e;
+  --status-winner: #fbbf24;             /* Winner Drawn / Celebratory Gold */
+  --status-winner-bg: rgba(251, 191, 36, 0.14);
+  --status-winner-border: rgba(251, 191, 36, 0.35);
+  --status-winner-text: #fde68a;
 
-  --status-danger: #dc2626;             /* Danger / Error / Shortage */
-  --status-danger-bg: #fef2f2;
-  --status-danger-border: #fecaca;
-  --status-danger-text: #991b1b;
+  --status-danger: #f87171;             /* Danger / Error / Shortage */
+  --status-danger-bg: rgba(239, 68, 68, 0.14);
+  --status-danger-border: rgba(239, 68, 68, 0.35);
+  --status-danger-text: #fca5a5;
 
-  --status-info: #0284c7;               /* Informational Notice */
-  --status-info-bg: #f0f9ff;
-  --status-info-border: #bae6fd;
-  --status-info-text: #0369a1;
+  --status-info: #818cf8;               /* Informational Notice */
+  --status-info-bg: rgba(99, 102, 241, 0.14);
+  --status-info-border: rgba(99, 102, 241, 0.35);
+  --status-info-text: #c7d2fe;
 
   /* --------------------------------------------------------------------------
      8. Typography Standards & Font Hierarchy
@@ -156,13 +163,15 @@
   --radius-full: 9999px;
 
   /* --------------------------------------------------------------------------
-     11. Soft Fintech Shadows (Elevated without neon glowing blur)
+     11. Controlled Elevation Shadows & Purple Glows
      -------------------------------------------------------------------------- */
-  --shadow-xs: 0 1px 2px 0 rgba(16, 24, 40, 0.04);
-  --shadow-sm: 0 1px 3px 0 rgba(16, 24, 40, 0.07), 0 1px 2px -1px rgba(16, 24, 40, 0.04);
-  --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.06), 0 2px 4px -2px rgba(16, 24, 40, 0.04);
-  --shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
-  --shadow-xl: 0 20px 24px -4px rgba(16, 24, 40, 0.10), 0 8px 8px -4px rgba(16, 24, 40, 0.04);
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 12px -2px rgba(0, 0, 0, 0.6), 0 3px 6px -3px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.7), 0 6px 12px -4px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 24px 38px -8px rgba(0, 0, 0, 0.8), 0 12px 18px -6px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 24px rgba(124, 58, 237, 0.25);
+  --shadow-glow-gold: 0 0 24px rgba(245, 158, 11, 0.3);
 
   /* --------------------------------------------------------------------------
      12. Container Widths & Layout Scale
