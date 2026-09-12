@@ -80,6 +80,9 @@ export const Header = () => {
           <a href={getNavHref('#active-giveaways')} className={styles.navLink}>
             <span>Giveaways</span>
           </a>
+          <a href={getNavHref('#leaderboard')} className={styles.navLink}>
+            <span>Leaderboard</span>
+          </a>
           <a href={getNavHref('#how-it-works')} className={styles.navLink}>
             <span>How It Works</span>
           </a>
@@ -226,6 +229,14 @@ export const Header = () => {
           >
             <Layers size={18} className={styles.linkIcon} />
             <span>Active Giveaways</span>
+          </a>
+          <a
+            href={getNavHref('#leaderboard')}
+            className={styles.mobileLink}
+            onClick={closeMobileMenu}
+          >
+            <Trophy size={18} className={styles.linkIcon} />
+            <span>Leaderboard</span>
           </a>
           <a
             href={getNavHref('#how-it-works')}

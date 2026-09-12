@@ -2,10 +2,12 @@
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  background-color: var(--color-surface);
+  background-color: rgba(8, 10, 22, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--color-border);
-  box-shadow: var(--shadow-xs);
-  transition: box-shadow var(--transition-fast);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  transition: box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 
 .navContainer {
@@ -37,33 +39,34 @@
 }
 
 .logoIconBox {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-md);
-  background-color: var(--color-primary-light);
-  border: 1px solid var(--color-primary-border);
+  background: var(--color-accent-gradient);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-primary);
+  color: #ffffff;
   flex-shrink: 0;
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .brand:hover .logoIconBox {
   transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
 }
 
 .brandText {
   display: flex;
   align-items: baseline;
-  gap: 3px;
+  gap: 4px;
 }
 
 .brandMain {
   font-size: var(--font-size-h3);
   font-weight: var(--font-weight-extrabold);
-  color: var(--color-navy);
+  color: var(--color-text-primary);
   letter-spacing: -0.03em;
 }
 
@@ -78,7 +81,7 @@
   background-color: var(--color-surface-muted);
   color: var(--color-text-secondary);
   border: 1px solid var(--color-border);
-  padding: 1px 7px;
+  padding: 2px 8px;
   border-radius: var(--radius-full);
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-semibold);
@@ -92,7 +95,7 @@
 .desktopNav {
   display: flex;
   align-items: center;
-  gap: var(--space-8);
+  gap: var(--space-6);
 }
 
 .navLink {
@@ -123,7 +126,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--color-primary);
+  background: var(--color-accent-gradient);
   border-radius: var(--radius-full);
   transition: width var(--transition-fast);
 }
@@ -153,14 +156,14 @@
   height: 44px;
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
-  background: transparent;
+  background: var(--color-surface-muted);
   border: 1px solid var(--color-border);
   cursor: pointer;
   transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .mobileMenuBtn:hover {
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-surface-hover);
   color: var(--color-primary);
   border-color: var(--color-primary-border);
 }
@@ -180,7 +183,8 @@
   right: 0;
   bottom: 0;
   background-color: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: var(--z-modal-backdrop);
   animation: fadeIn var(--transition-fast);
 }
@@ -193,6 +197,7 @@
   width: 320px;
   max-width: 85vw;
   background-color: var(--color-surface);
+  border-left: 1px solid var(--color-border);
   z-index: var(--z-modal);
   box-shadow: var(--shadow-xl);
   display: flex;
@@ -233,7 +238,7 @@
 .drawerBrandText {
   font-size: var(--font-size-h4);
   font-weight: var(--font-weight-bold);
-  color: var(--color-navy);
+  color: var(--color-text-primary);
 }
 
 .drawerCloseBtn {
@@ -250,14 +255,15 @@
 }
 
 .drawerCloseBtn:hover {
-  color: var(--color-text-primary);
+  color: var(--color-primary);
+  background-color: var(--color-surface-hover);
 }
 
 /* Mobile Account Summary Card */
 .mobileAccountCard {
   margin: var(--space-4) var(--space-5);
   padding: var(--space-4);
-  background-color: var(--color-surface-subtle);
+  background-color: var(--color-surface-muted);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   display: flex;
@@ -275,7 +281,7 @@
   width: 36px;
   height: 36px;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--color-primary), #6366f1);
+  background: var(--color-accent-gradient);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -374,7 +380,7 @@
 
 .personaSelectInput {
   width: 100%;
-  padding: 6px 8px;
+  padding: 8px 10px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border-strong);
   background-color: var(--color-surface);
@@ -387,7 +393,7 @@
   display: flex;
   flex-direction: column;
   padding: 0 var(--space-5);
-  gap: 2px;
+  gap: 3px;
 }
 
 .mobileLink {
@@ -405,7 +411,7 @@
 }
 
 .mobileLink:hover {
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-surface-hover);
   color: var(--color-primary);
 }
 
@@ -444,18 +450,18 @@
   border-radius: var(--radius-sm);
   font-size: var(--font-size-caption);
   font-weight: var(--font-weight-medium);
-  min-height: 40px;
+  min-height: 44px;
 }
 
 .mobileLogoutBtn {
-  color: var(--status-danger);
+  color: var(--status-danger-text);
   background-color: var(--status-danger-bg);
   border: 1px solid var(--status-danger-border);
 }
 
 .mobileLoginBtn {
-  color: var(--color-primary);
-  background-color: var(--color-primary-light);
+  color: #ffffff;
+  background-color: var(--color-primary);
   border: 1px solid var(--color-primary-border);
 }
 
@@ -464,7 +470,7 @@
    ========================================================================== */
 @media (max-width: 992px) {
   .desktopNav {
-    gap: var(--space-5);
+    gap: var(--space-4);
   }
 }
 
