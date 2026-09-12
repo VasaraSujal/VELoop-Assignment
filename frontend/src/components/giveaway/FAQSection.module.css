@@ -1,13 +1,13 @@
 .section {
   width: 100%;
   padding: var(--space-12) 0;
-  background-color: var(--color-bg);
+  background-color: var(--color-background);
 }
 
 .container {
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 var(--container-padding);
   width: 100%;
 }
 
@@ -58,11 +58,11 @@
 }
 
 .accordionItem {
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--shadow-sm);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -72,7 +72,7 @@
 
 .accordionItemActive {
   border-color: var(--color-primary);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md), 0 0 16px rgba(99, 102, 241, 0.12);
 }
 
 .accordionButton {
@@ -92,7 +92,7 @@
 }
 
 .accordionButton:hover {
-  background-color: var(--color-surface-subtle, #fbfcfe);
+  background-color: var(--color-surface-hover);
 }
 
 .accordionButton:focus-visible {
@@ -116,7 +116,7 @@
   height: 32px;
   border-radius: var(--radius-full);
   background-color: var(--color-surface-muted);
-  border: 1px solid var(--color-border-subtle);
+  border: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,7 +125,7 @@
 }
 
 .iconWrapperActive {
-  background-color: var(--color-primary-light);
+  background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
 
@@ -135,7 +135,7 @@
 }
 
 .iconWrapperActive .icon {
-  color: var(--color-primary);
+  color: #ffffff;
 }
 
 .iconOpen {
@@ -173,10 +173,6 @@
 @media (max-width: 768px) {
   .section {
     padding: var(--space-8) 0;
-  }
-
-  .container {
-    padding: 0 var(--space-4);
   }
 
   .accordionButton {
