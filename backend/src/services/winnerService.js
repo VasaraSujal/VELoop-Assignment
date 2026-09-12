@@ -5,6 +5,7 @@ import GiveawayParticipation from '../models/GiveawayParticipation.js';
 import UserAccount from '../models/UserAccount.js';
 import Winner from '../models/Winner.js';
 import AuditLog from '../models/AuditLog.js';
+import { isTransientTransactionError, getMaxTransactionRetries } from '../utils/transactionUtils.js';
 
 /**
  * Mask an identifier (email, username, or userId) for privacy-preserving public display.
@@ -269,80 +270,134 @@ export class WinnerService {
     }
 
     if (isReplicaSet && session) {
-      try {
-        // Atomically update giveaway status from ENDED (or COMPLETED in recovery) to COMPLETED
-        const updatedGiveaway = await Giveaway.findOneAndUpdate(
-          { _id: giveaway._id, status: { $in: ['ENDED', 'COMPLETED'] } },
-          { $set: { status: 'COMPLETED' } },
-          { session, new: true }
-        );
+      const MAX_TX_RETRIES = getMaxTransactionRetries();
+      for (let attempt = 0; attempt < MAX_TX_RETRIES; attempt += 1) {
+        try {
+          if (attempt > 0) {
+            // A fresh, clean transaction for retry. All writes from the aborted
+            // attempt were rolled back, so the retry can never duplicate winners.
+            session = await mongoose.startSession();
+            session.startTransaction();
+          }
 
-        if (!updatedGiveaway) {
-          // Another concurrent admin request finalized this giveaway first
-          await session.abortTransaction();
+          // Atomically update giveaway status from ENDED (or COMPLETED in recovery) to COMPLETED
+          const updatedGiveaway = await Giveaway.findOneAndUpdate(
+            { _id: giveaway._id, status: { $in: ['ENDED', 'COMPLETED'] } },
+            { $set: { status: 'COMPLETED' } },
+            { session, new: true }
+          );
+
+          if (!updatedGiveaway) {
+            // Another concurrent admin request finalized this giveaway first
+            await session.abortTransaction().catch(() => {});
+            await session.endSession().catch(() => {});
+            session = null;
+            const err = new Error('Winners for this giveaway have already been finalized.');
+            err.code = 'WINNERS_ALREADY_FINALIZED';
+            err.statusCode = 409;
+            throw err;
+          }
+
+          // Insert Winner records in transaction.
+          // `ordered: true` is required when inserting multiple documents on a session.
+          const createdWinners = await Winner.create(winnerDocsToCreate, {
+            session,
+            ordered: true,
+          });
+
+          // Record Audit Log
+          await AuditLog.create(
+            [
+              {
+                action: 'WINNER_FINALIZATION',
+                entityType: 'Giveaway',
+                entityId: giveaway._id.toString(),
+                actorId: adminUser.userId,
+                previousState: { status: giveaway.status },
+                newState: {
+                  status: 'COMPLETED',
+                  winnerCount: createdWinners.length,
+                  selectionMethod: 'CRYPTO_RANDOM',
+                },
+                metadata: {
+                  winnerCount: createdWinners.length,
+                  selectionMethod: 'CRYPTO_RANDOM',
+                  winnerUserIds: selectedUserIds,
+                  totalEligibleParticipants: participants.length,
+                },
+                ipAddress: req.ip || '',
+              },
+            ],
+            { session }
+          );
+
+          await session.commitTransaction();
           await session.endSession();
-          const err = new Error('Winners for this giveaway have already been finalized.');
-          err.code = 'WINNERS_ALREADY_FINALIZED';
-          err.statusCode = 409;
-          throw err;
-        }
+          session = null;
 
-        // Insert Winner records in transaction
-        const createdWinners = await Winner.create(winnerDocsToCreate, { session });
+          return {
+            isAlreadyFinalized: false,
+            giveawayId: giveaway._id.toString(),
+            slug: giveaway.slug,
+            title: giveaway.title,
+            status: 'COMPLETED',
+            winnerCount: createdWinners.length,
+            selectionMethod: 'CRYPTO_RANDOM',
+            drawnAt: drawDate,
+            winners: createdWinners.map(formatPublicWinner),
+            message: `Successfully finalized ${createdWinners.length} winner(s) for '${giveaway.title}'.`,
+          };
+        } catch (error) {
+          if (session) {
+            await session.abortTransaction().catch(() => {});
+            await session.endSession().catch(() => {});
+            session = null;
+          }
+          if (error.code === 11000) {
+            const err = new Error('Winners for this giveaway have already been finalized.');
+            err.code = 'WINNERS_ALREADY_FINALIZED';
+            err.statusCode = 409;
+            throw err;
+          }
 
-        // Record Audit Log
-        await AuditLog.create(
-          [
-            {
-              action: 'WINNER_FINALIZATION',
-              entityType: 'Giveaway',
-              entityId: giveaway._id.toString(),
-              actorId: adminUser.userId,
-              previousState: { status: giveaway.status },
-              newState: {
+          if (isTransientTransactionError(error)) {
+            // If the winning concurrent request committed while we conflicted,
+            // respond idempotently instead of failing with a raw server error.
+            const committedWinners = await Winner.find({ giveawayId: giveaway._id })
+              .populate('prizeId')
+              .sort({ rank: 1 })
+              .lean();
+
+            if (committedWinners.length > 0) {
+              if (giveaway.status !== 'COMPLETED') {
+                await Giveaway.findByIdAndUpdate(giveaway._id, { $set: { status: 'COMPLETED' } });
+              }
+              return {
+                isAlreadyFinalized: true,
+                giveawayId: giveaway._id.toString(),
+                slug: giveaway.slug,
+                title: giveaway.title,
                 status: 'COMPLETED',
-                winnerCount: createdWinners.length,
-                selectionMethod: 'CRYPTO_RANDOM',
-              },
-              metadata: {
-                winnerCount: createdWinners.length,
-                selectionMethod: 'CRYPTO_RANDOM',
-                winnerUserIds: selectedUserIds,
-                totalEligibleParticipants: participants.length,
-              },
-              ipAddress: req.ip || '',
-            },
-          ],
-          { session }
-        );
+                winnerCount: committedWinners.length,
+                winners: committedWinners.map(formatPublicWinner),
+                message: 'Winners for this giveaway have already been finalized.',
+              };
+            }
 
-        await session.commitTransaction();
-        await session.endSession();
+            if (attempt < MAX_TX_RETRIES - 1) {
+              continue;
+            }
 
-        return {
-          isAlreadyFinalized: false,
-          giveawayId: giveaway._id.toString(),
-          slug: giveaway.slug,
-          title: giveaway.title,
-          status: 'COMPLETED',
-          winnerCount: createdWinners.length,
-          selectionMethod: 'CRYPTO_RANDOM',
-          drawnAt: drawDate,
-          winners: createdWinners.map(formatPublicWinner),
-          message: `Successfully finalized ${createdWinners.length} winner(s) for '${giveaway.title}'.`,
-        };
-      } catch (error) {
-        if (session) {
-          await session.abortTransaction().catch(() => {});
-          await session.endSession().catch(() => {});
+            const conflictErr = new Error(
+              'Concurrent write conflict while finalizing winners. Please try again.'
+            );
+            conflictErr.code = 'CONCURRENT_WRITE_CONFLICT';
+            conflictErr.statusCode = 409;
+            throw conflictErr;
+          }
+
+          throw error;
         }
-        if (error.code === 11000) {
-          const err = new Error('Winners for this giveaway have already been finalized.');
-          err.code = 'WINNERS_ALREADY_FINALIZED';
-          err.statusCode = 409;
-          throw err;
-        }
-        throw error;
       }
     } else {
       // Standalone MongoDB Development Fallback
@@ -395,10 +450,11 @@ export class WinnerService {
           err.statusCode = 409;
           throw err;
         }
-        // If Winner.create failed before completing all records, clean up any partial writes
-        if (!createdWinners) {
-          await Winner.deleteMany({ giveawayId: giveaway._id }).catch(() => {});
-        }
+        // Note: `Winner.create` uses an ordered bulk insert, and every
+        // finalization request for the same giveaway targets the same rank set,
+        // so a losing request conflicts on its first document and never writes
+        // a partial batch. We therefore do NOT attempt any cleanup here: doing
+        // so could delete winners committed by a concurrent successful request.
         throw error;
       }
     }
