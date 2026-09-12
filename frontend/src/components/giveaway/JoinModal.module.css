@@ -6,16 +6,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: var(--z-modal);
   padding: var(--space-4);
   animation: fadeIn 0.2s ease-out;
 }
 
 .modalCard {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-card);
   border-radius: var(--radius-xl);
-  box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-modal), 0 0 25px rgba(124, 58, 237, 0.12);
   width: 100%;
   max-width: 520px;
   position: relative;
@@ -61,12 +61,14 @@
 .headerIcon {
   width: 48px;
   height: 48px;
-  background-color: rgba(79, 70, 229, 0.1);
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.25);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: var(--color-primary-light);
 }
 
 .title {
@@ -86,7 +88,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-surface-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
@@ -96,10 +98,10 @@
   width: 60px;
   height: 60px;
   object-fit: contain;
-  background-color: #ffffff;
+  background: radial-gradient(circle at center, #1a1d42 0%, #0b0d1c 100%);
   border-radius: var(--radius-sm);
   padding: 4px;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
 .prizeDetails {
@@ -111,7 +113,7 @@
 .prizeCategory {
   font-size: 0.675rem;
   font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
+  color: var(--color-primary-light);
   letter-spacing: 0.05em;
 }
 
@@ -128,7 +130,7 @@
 }
 
 .ledgerCard {
-  background: linear-gradient(180deg, #fafafa 0%, #f4f4f5 100%);
+  background: var(--color-surface-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-4);
@@ -150,7 +152,7 @@
 
 .ledgerFee {
   font-weight: var(--font-weight-bold);
-  color: #b45309;
+  color: #fbbf24;
 }
 
 .ledgerBalance {
@@ -171,33 +173,33 @@
 }
 
 .insufficientText {
-  color: #dc2626;
+  color: #f87171;
 }
 
 .alertWarning {
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
-  background-color: #fffbeb;
-  border: 1px solid #fef3c7;
+  background-color: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.25);
   border-left: 4px solid #f59e0b;
   border-radius: var(--radius-sm);
   padding: var(--space-3);
   font-size: 0.85rem;
-  color: #92400e;
+  color: #fde68a;
 }
 
 .alertError {
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
-  background-color: #fef2f2;
-  border: 1px solid #fee2e2;
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
   border-left: 4px solid #ef4444;
   border-radius: var(--radius-sm);
   padding: var(--space-3);
   font-size: 0.85rem;
-  color: #991b1b;
+  color: #fca5a5;
 }
 
 .alertIcon {
@@ -352,8 +354,8 @@
 
 .ticketCard {
   width: 100%;
-  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-  border: 1px dashed #cbd5e1;
+  background: var(--color-surface-card);
+  border: 1px dashed var(--color-border-card);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   text-align: left;
@@ -363,7 +365,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px dashed #cbd5e1;
+  border-bottom: 1px dashed var(--color-border);
   padding-bottom: var(--space-2);
   margin-bottom: var(--space-3);
 }
@@ -414,15 +416,16 @@
 .tValue.mono {
   font-family: monospace;
   font-size: 0.775rem;
-  color: var(--color-primary);
-  background-color: rgba(79, 70, 229, 0.08);
+  color: var(--color-primary-light);
+  background-color: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.2);
   padding: 2px 6px;
   border-radius: var(--radius-xs);
 }
 
 .tValueHighlight {
   font-weight: var(--font-weight-bold);
-  color: #10b981;
+  color: #34d399;
 }
 
 .doneBtn {
