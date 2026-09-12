@@ -1,7 +1,7 @@
 /* Stage G: Individual Giveaway Details Page Production CSS */
 
 .page {
-  background-color: var(--color-background, #f7f8fc);
+  background-color: var(--color-background);
   min-height: 100vh;
   width: 100%;
 }
@@ -9,28 +9,28 @@
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: var(--space-6, 24px) var(--space-6, 24px) var(--space-16, 64px);
+  padding: var(--space-6) var(--space-6) var(--space-16);
   width: 100%;
 }
 
 /* TOP NAVIGATION / BACK LINK */
 .backNav {
-  margin-bottom: var(--space-6, 24px);
+  margin-bottom: var(--space-6);
 }
 
 .backLink {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2, 8px);
-  color: var(--color-text-secondary, #5b6475);
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
   font-size: 0.875rem;
-  font-weight: var(--font-weight-medium, 500);
-  transition: color var(--transition-fast, 0.15s ease), transform var(--transition-fast, 0.15s ease);
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-fast), transform var(--transition-fast);
   text-decoration: none;
 }
 
 .backLink:hover {
-  color: var(--color-primary, #4f46e5);
+  color: var(--color-primary);
   transform: translateX(-2px);
 }
 
@@ -44,25 +44,25 @@
 
 /* ERROR STATE */
 .errorCard {
-  background-color: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-xl, 16px);
-  padding: var(--space-12, 48px) var(--space-6, 24px);
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-12) var(--space-6);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-4, 16px);
+  gap: var(--space-4);
   max-width: 520px;
-  margin: var(--space-10, 40px) auto;
-  box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+  margin: var(--space-10) auto;
+  box-shadow: var(--shadow-md);
 }
 
 .errorIconWrap {
   width: 64px;
   height: 64px;
-  border-radius: var(--radius-full, 9999px);
-  background-color: #fee2e2;
+  border-radius: var(--radius-full);
+  background-color: rgba(239, 68, 68, 0.15);
   color: #ef4444;
   display: flex;
   align-items: center;
@@ -71,48 +71,48 @@
 
 .errorTitle {
   font-size: 1.5rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
 .errorText {
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-text-secondary);
   font-size: 0.95rem;
   line-height: 1.5;
 }
 
 .errorActions {
   display: flex;
-  gap: var(--space-3, 12px);
-  margin-top: var(--space-2, 8px);
+  gap: var(--space-3);
+  margin-top: var(--space-2);
 }
 
 /* SKELETON LOADERS */
 .imageCardSkeleton {
-  padding: var(--space-4, 16px);
-  background: var(--color-surface, #ffffff);
-  border-radius: var(--radius-xl, 16px);
-  border: 1px solid var(--color-border, #e2e8f0);
+  padding: var(--space-4);
+  background: var(--color-surface-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
 }
 
 .skeletonHeader {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
 }
 
 .metricsSkeletonGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 /* 1. HERO SHOWCASE (Two-column Desktop Layout) */
 .heroGrid {
   display: grid;
   grid-template-columns: 1fr 1.25fr;
-  gap: var(--space-8, 32px);
-  margin-bottom: var(--space-8, 32px);
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
   align-items: start;
 }
 
@@ -120,15 +120,15 @@
 .visualCol {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4, 16px);
+  gap: var(--space-4);
 }
 
 .imageCard {
-  background-color: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-xl, 16px);
-  padding: var(--space-6, 24px);
-  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.06));
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -139,7 +139,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-4, 16px);
+  margin-bottom: var(--space-4);
 }
 
 .imageBox {
@@ -147,10 +147,11 @@
   align-items: center;
   justify-content: center;
   min-height: 300px;
-  padding: var(--space-4, 16px);
-  background: radial-gradient(circle at center, #f8fafc 0%, #f1f5f9 100%);
-  border-radius: var(--radius-lg, 12px);
-  margin-bottom: var(--space-4, 16px);
+  padding: var(--space-4);
+  background: radial-gradient(circle at center, #1a1d42 0%, #0b0d1c 100%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
 }
 
 .prizeImg {
@@ -158,7 +159,7 @@
   max-height: 270px;
   object-fit: contain;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.08));
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6));
 }
 
 .prizeImg:hover {
@@ -169,33 +170,33 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--color-surface-muted, #f8fafc);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-md, 8px);
-  padding: var(--space-3, 12px) var(--space-4, 16px);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
 }
 
 .retailLabel {
   font-size: 0.85rem;
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--color-text-secondary, #5b6475);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
 }
 
 .retailAmount {
   font-size: 1.05rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
 .trustCard {
-  background-color: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-lg, 12px);
-  padding: var(--space-4, 16px) var(--space-5, 20px);
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3, 12px);
-  box-shadow: var(--shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.04));
+  gap: var(--space-3);
+  box-shadow: var(--shadow-sm);
 }
 
 .trustItem {
@@ -272,21 +273,21 @@
 }
 
 .timerSection {
-  border-radius: var(--radius-lg, 12px);
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
 .metricsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .metricCard {
-  background-color: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-md, 8px);
-  padding: var(--space-3, 12px) var(--space-4, 16px);
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -294,8 +295,8 @@
 
 .metricLabel {
   font-size: 0.725rem;
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--color-text-secondary, #5b6475);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -304,31 +305,31 @@
 }
 
 .metricIcon {
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-primary);
 }
 
 .metricValue {
   font-size: 0.975rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
 .metricValueHighlight {
   font-size: 1.15rem;
   font-weight: 800;
-  color: var(--color-primary, #4f46e5);
+  color: #a5b4fc;
 }
 
 /* BALANCE PREVIEW SUMMARY CARD */
 .balancePreviewCard {
-  background-color: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-lg, 12px);
-  padding: var(--space-4, 16px);
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3, 12px);
-  box-shadow: var(--shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.04));
+  gap: var(--space-3);
+  box-shadow: var(--shadow-sm);
 }
 
 .balanceHeader {
@@ -339,31 +340,31 @@
 
 .balanceHeaderText {
   font-size: 0.775rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .balanceBadge {
   font-size: 0.7rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--color-text-secondary, #5b6475);
-  background: var(--color-surface-muted, #f8fafc);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  background: var(--color-surface-muted);
   padding: 2px 8px;
-  border-radius: var(--radius-xs, 4px);
-  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-border);
 }
 
 .balanceGrid {
   display: grid;
   grid-template-columns: 1fr auto 1fr auto 1fr;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
   align-items: center;
-  background-color: var(--color-surface-muted, #f8fafc);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-md, 8px);
-  padding: var(--space-3, 12px);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
 }
 
 .balanceItem {
@@ -375,81 +376,81 @@
 
 .balanceItemLabel {
   font-size: 0.725rem;
-  color: var(--color-text-secondary, #5b6475);
-  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
 }
 
 .balanceItemValue {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
 .balanceItemFee {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-primary, #4f46e5);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
 }
 
 .balanceItemShortage {
-  color: #dc2626 !important;
+  color: #f87171 !important;
 }
 
 .balanceDivider {
   width: 1px;
   height: 28px;
-  background-color: var(--color-border, #e2e8f0);
+  background-color: var(--color-border);
 }
 
 .shortageNotice {
   display: flex;
   align-items: center;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
   font-size: 0.825rem;
-  color: #92400e;
-  background-color: #fef3c7;
-  border: 1px solid #fde68a;
-  padding: var(--space-2, 8px) var(--space-3, 12px);
-  border-radius: var(--radius-sm, 6px);
+  color: #fde68a;
+  background-color: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
 }
 
 .shortageIcon {
-  color: #d97706;
+  color: #fbbf24;
   flex-shrink: 0;
 }
 
 /* PARTICIPATION CONFIRMATION BANNER */
 .participationBanner {
-  background-color: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: var(--radius-lg, 12px);
-  padding: var(--space-4, 16px);
+  background-color: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .pBannerHeader {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .pBannerIcon {
-  color: #10b981;
+  color: #4ade80;
   flex-shrink: 0;
   margin-top: 2px;
 }
 
 .pBannerTitle {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: #166534;
+  font-weight: var(--font-weight-bold);
+  color: #4ade80;
 }
 
 .pBannerSub {
   font-size: 0.825rem;
-  color: #15803d;
+  color: #bbf7d0;
   line-height: 1.4;
   margin-top: 2px;
 }
@@ -457,43 +458,43 @@
 .txRefRow {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
   font-size: 0.8rem;
-  color: #166534;
-  background-color: #dcfce7;
+  color: #4ade80;
+  background-color: rgba(34, 197, 94, 0.18);
   padding: 4px 10px;
-  border-radius: var(--radius-sm, 6px);
+  border-radius: var(--radius-sm);
   width: fit-content;
 }
 
 .txRefRow code {
   font-family: monospace;
-  font-weight: var(--font-weight-bold, 700);
+  font-weight: var(--font-weight-bold);
 }
 
 /* NON-WINNER PARTICIPANT BANNER */
 .nonWinnerBanner {
-  background-color: var(--color-surface-muted, #f8fafc);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-lg, 12px);
-  padding: var(--space-4, 16px);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
 }
 
 .nonWinnerIcon {
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-text-secondary);
   flex-shrink: 0;
   margin-top: 2px;
 }
 
 .nonWinnerTitle {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
 .nonWinnerSub {
   font-size: 0.825rem;
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-text-secondary);
   line-height: 1.4;
   margin-top: 2px;
 }
@@ -502,36 +503,36 @@
 .actionSection {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
 }
 
 .guestCtaWrap,
 .insufficientCtaWrap {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
 }
 
 .loginHint,
 .insufficientHint {
   font-size: 0.8rem;
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
   text-align: center;
 }
 
 .insufficientHint {
-  color: #b45309;
+  color: #fbbf24;
 }
 
 .claimPulseBtn {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
   color: #ffffff !important;
   box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
-  transition: transform var(--transition-fast, 0.15s ease), box-shadow var(--transition-fast, 0.15s ease) !important;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast) !important;
 }
 
 .claimPulseBtn:hover {
@@ -541,33 +542,33 @@
 
 /* WINNER CELEBRATION BANNER */
 .winnerCelebrationBanner {
-  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 50%, #eff6ff 100%);
-  border: 1px solid #a7f3d0;
-  border-radius: var(--radius-xl, 16px);
-  padding: var(--space-5, 20px);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(17, 19, 41, 0.95) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4, 16px);
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.12);
+  gap: var(--space-4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 20px rgba(34, 197, 94, 0.2);
 }
 
 .winnerCelebrationHeader {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .winnerIconCircle {
   width: 44px;
   height: 44px;
-  border-radius: var(--radius-full, 9999px);
-  background-color: #10b981;
-  color: #ffffff;
+  border-radius: var(--radius-full);
+  background-color: #22c55e;
+  color: #050611;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.4);
 }
 
 .winnerHeaderText {
@@ -579,7 +580,7 @@
 .winnerBadgeRow {
   display: flex;
   align-items: center;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
   margin-bottom: 2px;
 }
 
@@ -587,12 +588,12 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background-color: rgba(16, 185, 129, 0.2);
-  color: #065f46;
+  background-color: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
   font-size: 0.725rem;
-  font-weight: var(--font-weight-bold, 700);
+  font-weight: var(--font-weight-bold);
   padding: 2px 8px;
-  border-radius: var(--radius-full, 9999px);
+  border-radius: var(--radius-full);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -602,41 +603,42 @@
   align-items: center;
   gap: 4px;
   font-size: 0.775rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: #b45309;
-  background-color: #fef3c7;
+  font-weight: var(--font-weight-semibold);
+  color: #fde68a;
+  background-color: rgba(245, 158, 11, 0.2);
   padding: 2px 8px;
-  border-radius: var(--radius-xs, 4px);
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(245, 158, 11, 0.4);
 }
 
 .winnerTitle {
   font-size: 1.15rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: #065f46;
+  font-weight: var(--font-weight-bold);
+  color: #4ade80;
   line-height: 1.3;
 }
 
 .winnerSub {
   font-size: 0.85rem;
-  color: #047857;
+  color: #c4c1d4;
   line-height: 1.4;
 }
 
 /* TRACKER STEPPER */
 .trackerBox {
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid #d1fae5;
-  border-radius: var(--radius-lg, 12px);
-  padding: var(--space-4, 16px);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .trackerTitle {
   font-size: 0.775rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -659,37 +661,37 @@
 .stepDot {
   width: 24px;
   height: 24px;
-  border-radius: var(--radius-full, 9999px);
-  background-color: #e2e8f0;
-  color: #94a3b8;
+  border-radius: var(--radius-full);
+  background-color: #1e2140;
+  color: #77748d;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
-  font-weight: var(--font-weight-bold, 700);
-  transition: all var(--transition-fast, 0.15s ease);
+  font-weight: var(--font-weight-bold);
+  transition: all var(--transition-fast);
 }
 
 .stepCompleted {
-  background-color: #10b981;
-  color: #ffffff;
+  background-color: #22c55e;
+  color: #050611;
 }
 
 .stepCurrent {
-  background-color: var(--color-primary, #4f46e5);
+  background-color: var(--color-primary);
   color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
 }
 
 .stepLabel {
   font-size: 0.725rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--color-text-secondary, #5b6475);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
 }
 
 .stepLabelActive {
-  color: var(--color-text-primary, #111827);
-  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-bold);
 }
 
 .trackerLine {
@@ -698,7 +700,7 @@
   left: 10%;
   right: 10%;
   height: 2px;
-  background-color: #cbd5e1;
+  background-color: var(--color-border);
   z-index: 1;
 }
 
@@ -707,76 +709,76 @@
   flex-direction: column;
   gap: 2px;
   font-size: 0.8rem;
-  color: var(--color-text-secondary, #5b6475);
-  background-color: #f8fafc;
-  padding: var(--space-2, 8px) var(--space-3, 12px);
-  border-radius: var(--radius-xs, 4px);
-  border: 1px solid var(--color-border, #e2e8f0);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-muted);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-border);
 }
 
 .winnerAlertExpired {
-  background-color: #fffbeb;
-  border: 1px solid #fef3c7;
+  background-color: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
   border-left: 4px solid #f59e0b;
-  border-radius: var(--radius-md, 8px);
-  padding: var(--space-3, 12px) var(--space-4, 16px);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
   display: flex;
   align-items: center;
-  gap: var(--space-3, 12px);
-  color: #92400e;
+  gap: var(--space-3);
+  color: #fde68a;
   font-size: 0.85rem;
 }
 
 .winnerAlertRejected {
-  background-color: #fef2f2;
-  border: 1px solid #fee2e2;
+  background-color: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
   border-left: 4px solid #ef4444;
-  border-radius: var(--radius-md, 8px);
-  padding: var(--space-3, 12px) var(--space-4, 16px);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
   display: flex;
   align-items: center;
-  gap: var(--space-3, 12px);
-  color: #991b1b;
+  gap: var(--space-3);
+  color: #fca5a5;
   font-size: 0.85rem;
 }
 
 /* REUSABLE CONTENT SECTION CARDS */
 .sectionCard {
-  background-color: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-xl, 16px);
-  padding: var(--space-8, 32px);
-  margin-bottom: var(--space-8, 32px);
-  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  margin-bottom: var(--space-8);
+  box-shadow: var(--shadow-sm);
 }
 
 .sectionHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-6, 24px);
-  padding-bottom: var(--space-4, 16px);
-  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .sectionTitleRow {
   display: flex;
   align-items: center;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .sectionIcon {
-  color: var(--color-primary, #4f46e5);
+  color: var(--color-primary);
 }
 
 .sectionIconGold {
-  color: #f59e0b;
+  color: #fbbf24;
 }
 
 .sectionTitle {
   font-size: 1.25rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
   letter-spacing: -0.01em;
 }
 
