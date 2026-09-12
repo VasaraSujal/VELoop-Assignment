@@ -58,7 +58,7 @@ const winnerSchema = new Schema(
     },
     statusLabel: {
       type: String,
-      default: 'Delivered & Verified',
+      default: 'Pending Claim',
       trim: true,
     },
     entryFeePaid: {
