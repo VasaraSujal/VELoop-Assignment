@@ -1,13 +1,15 @@
 .section {
   width: 100%;
   padding: var(--space-12) 0;
-  background-color: var(--color-bg);
+  background-color: var(--color-background);
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 var(--container-padding);
   width: 100%;
 }
 
@@ -27,17 +29,22 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-width: 600px;
+  max-width: 580px;
 }
 
 .sectionBadge {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+.badgeIcon {
+  color: var(--color-primary);
 }
 
 .sectionTitle {
@@ -56,6 +63,13 @@
   margin: 0;
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
 /* ==========================================================================
    Filter Tabs / Discovery Controls
    ========================================================================== */
@@ -72,7 +86,7 @@
 .filterBtn {
   background: transparent;
   border: none;
-  padding: 7px 16px;
+  padding: 6px 14px;
   border-radius: var(--radius-full);
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-medium);
@@ -86,7 +100,7 @@
 }
 
 .filterBtn:hover {
-  color: var(--color-text-primary);
+  color: var(--color-primary);
 }
 
 .filterBtn:focus-visible {
@@ -94,10 +108,10 @@
 }
 
 .filterBtnActive {
-  background-color: var(--color-surface);
-  color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: #ffffff;
   font-weight: var(--font-weight-semibold);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
 }
 
 .tabCount {
@@ -107,30 +121,106 @@
 }
 
 .filterBtnActive .tabCount {
-  color: var(--color-primary);
+  color: rgba(255, 255, 255, 0.9);
   font-weight: var(--font-weight-semibold);
 }
 
 /* ==========================================================================
-   Giveaway Cards Grid (3 Desktop, 2 Tablet, 1 Mobile)
+   Carousel Navigation Arrow Buttons
    ========================================================================== */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-6);
+.carouselNavControls {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.carouselNavBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-fast);
+}
+
+.carouselNavBtn:hover:not(:disabled) {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.25);
+}
+
+.carouselNavBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: var(--color-border);
+}
+
+.carouselNavBtn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Horizontal Carousel Track (Scroll Snap & Responsive Sizing)
+   ========================================================================== */
+.carouselWrapper {
+  width: 100%;
+  position: relative;
+}
+
+.carouselTrack {
+  display: flex;
+  gap: var(--space-5);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--space-2) 2px var(--space-5);
+  margin-bottom: -10px;
+}
+
+/* Hide scrollbar for a clean fintech feel */
+.carouselTrack::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carouselTrack::-webkit-scrollbar-track {
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-full);
+}
+
+.carouselTrack::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-full);
+}
+
+.carouselItem {
+  flex: 0 0 calc(33.333% - 14px);
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+  display: flex;
 }
 
 /* ==========================================================================
    Loading State Skeletons
    ========================================================================== */
 .skeletonCard {
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .skeletonBody {
@@ -154,20 +244,21 @@
 /* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-5);
+@media (max-width: 1200px) {
+  .carouselItem {
+    flex: 0 0 calc(33.333% - 14px);
+  }
+}
+
+@media (max-width: 992px) {
+  .carouselItem {
+    flex: 0 0 calc(50% - 10px);
   }
 }
 
 @media (max-width: 768px) {
   .section {
     padding: var(--space-8) 0;
-  }
-
-  .container {
-    padding: 0 var(--space-4);
   }
 
   .headerRow {
@@ -177,25 +268,36 @@
     margin-bottom: var(--space-6);
   }
 
-  .filterTabs {
+  .headerActions {
     width: 100%;
+    justify-content: space-between;
+  }
+
+  .filterTabs {
     overflow-x: auto;
     padding: 3px;
     -webkit-overflow-scrolling: touch;
   }
 
   .filterBtn {
-    flex: 1;
-    justify-content: center;
-    padding: 7px 12px;
+    padding: 6px 12px;
     font-size: var(--font-size-caption);
     white-space: nowrap;
   }
 }
 
 @media (max-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr;
+  .carouselItem {
+    flex: 0 0 84%;
+  }
+
+  .carouselTrack {
     gap: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .carouselItem {
+    flex: 0 0 86%;
   }
 }
