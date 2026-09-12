@@ -6,6 +6,7 @@ import EntryTransaction from '../models/EntryTransaction.js';
 import AuditLog from '../models/AuditLog.js';
 import { WalletService } from './walletService.js';
 import { FraudService } from './fraudService.js';
+import { isTransientTransactionError, getMaxTransactionRetries } from '../utils/transactionUtils.js';
 
 /**
  * Giveaway Engine Service
@@ -198,6 +199,23 @@ export class GiveawayEngine {
     const topologyType = mongoose.connection.client?.topology?.description?.type;
     const isReplicaSet = topologyType === 'ReplicaSetWithPrimary' || topologyType === 'Sharded';
 
+    const alreadyParticipatingError = () => {
+      const err = new Error('You are already participating in this giveaway.');
+      err.code = 'ALREADY_PARTICIPATING';
+      err.statusCode = 409;
+      return err;
+    };
+
+    const assertNotAlreadyParticipating = async () => {
+      const existing = await GiveawayParticipation.findOne({
+        userId: user.userId,
+        giveawayId: giveaway._id,
+      }).lean();
+      if (existing) {
+        throw alreadyParticipatingError();
+      }
+    };
+
     let session = null;
     if (isReplicaSet) {
       try {
@@ -212,107 +230,158 @@ export class GiveawayEngine {
     }
 
     if (isReplicaSet && session) {
-      try {
-        // 1. Deduct balance in transaction
-        const deduction = await WalletService.deductBalance(
-          user.userId,
-          entryCurrency,
-          entryAmount,
-          session
-        );
-
-        // 2. Create entry transaction
-        const [entryTx] = await EntryTransaction.create(
-          [
-            {
-              giveawayId: giveaway._id,
-              userId: user.userId,
-              currency: entryCurrency,
-              amount: entryAmount,
-              ...(idempotencyKey ? { idempotencyKey } : {}),
-              status: 'SUCCESS',
-              transactionRef: txRef,
-              metadata: { deviceHash, ipAddress: req.ip || '' },
-            },
-          ],
-          { session }
-        );
-
-        // 3. Create participation
-        const [participation] = await GiveawayParticipation.create(
-          [
-            {
-              userId: user.userId,
-              giveawayId: giveaway._id,
-              prizeId: giveaway.prizeId?._id || giveaway.prizeId,
+      const MAX_TX_RETRIES = getMaxTransactionRetries();
+      for (let attempt = 0; attempt < MAX_TX_RETRIES; attempt += 1) {
+        try {
+          if (attempt > 0) {
+            // Re-assert duplicate/balance guards on retry. All writes from the
+            // aborted attempt were rolled back, so the retry can never
+            // double-deduct a balance.
+            await assertNotAlreadyParticipating();
+            const retryBalanceCheck = await WalletService.checkBalance(
+              user.userId,
               entryCurrency,
-              entryAmount,
-              deviceHash,
-              status: 'CONFIRMED',
-              transactionId: entryTx._id,
-            },
-          ],
-          { session }
-        );
+              entryAmount
+            );
+            if (!retryBalanceCheck.sufficient) {
+              const err = new Error(
+                `Insufficient ${entryCurrency} balance. Required: ${entryAmount} ${entryCurrency}, Available: ${retryBalanceCheck.currentBalance} ${entryCurrency}.`
+              );
+              err.code = `INSUFFICIENT_${entryCurrency.toUpperCase()}_BALANCE`;
+              err.statusCode = 400;
+              throw err;
+            }
+            // A fresh, clean transaction for retry.
+            session = await mongoose.startSession();
+            session.startTransaction();
+          }
 
-        // Update transaction with participationId
-        entryTx.participationId = participation._id;
-        await entryTx.save({ session });
+          // 1. Deduct balance in transaction
+          const deduction = await WalletService.deductBalance(
+            user.userId,
+            entryCurrency,
+            entryAmount,
+            session
+          );
 
-        // 4. Increment participant count
-        await Giveaway.findByIdAndUpdate(
-          giveaway._id,
-          { $inc: { participantCount: 1 } },
-          { session }
-        );
-
-        // 5. Create audit log
-        await AuditLog.create(
-          [
-            {
-              action: 'GIVEAWAY_ENTRY',
-              entityType: 'GiveawayParticipation',
-              entityId: participation._id.toString(),
-              actorId: user.userId,
-              newState: {
+          // 2. Create entry transaction
+          const [entryTx] = await EntryTransaction.create(
+            [
+              {
                 giveawayId: giveaway._id,
-                entryAmount,
-                entryCurrency,
+                userId: user.userId,
+                currency: entryCurrency,
+                amount: entryAmount,
+                ...(idempotencyKey ? { idempotencyKey } : {}),
+                status: 'SUCCESS',
                 transactionRef: txRef,
+                metadata: { deviceHash, ipAddress: req.ip || '' },
               },
-              ipAddress: req.ip || '',
-            },
-          ],
-          { session }
-        );
+            ],
+            { session }
+          );
 
-        await session.commitTransaction();
-        await session.endSession();
+          // 3. Create participation
+          const [participation] = await GiveawayParticipation.create(
+            [
+              {
+                userId: user.userId,
+                giveawayId: giveaway._id,
+                prizeId: giveaway.prizeId?._id || giveaway.prizeId,
+                entryCurrency,
+                entryAmount,
+                deviceHash,
+                status: 'CONFIRMED',
+                transactionId: entryTx._id,
+              },
+            ],
+            { session }
+          );
 
-        return {
-          participationId: participation._id,
-          giveawayId: giveaway._id,
-          giveawaySlug: giveaway.slug,
-          giveawayTitle: giveaway.title,
-          prizeName: giveaway.prizeId?.name || giveaway.title,
-          entryAmount,
-          entryCurrency,
-          remainingBalance: deduction.remainingBalance,
-          transactionRef: txRef,
-          joinedAt: participation.joinedAt,
-          isIdempotentReplay: false,
-        };
-      } catch (error) {
-        await session.abortTransaction();
-        await session.endSession();
+          // Update transaction with participationId
+          entryTx.participationId = participation._id;
+          await entryTx.save({ session });
 
-        if (error.code === 11000) {
-          const err = new Error('You are already participating in this giveaway.');
-          err.code = 'ALREADY_PARTICIPATING';
-          err.statusCode = 409;
-          throw err;
+          // 4. Increment participant count
+          await Giveaway.findByIdAndUpdate(
+            giveaway._id,
+            { $inc: { participantCount: 1 } },
+            { session }
+          );
+
+          // 5. Create audit log
+          await AuditLog.create(
+            [
+              {
+                action: 'GIVEAWAY_ENTRY',
+                entityType: 'GiveawayParticipation',
+                entityId: participation._id.toString(),
+                actorId: user.userId,
+                newState: {
+                  giveawayId: giveaway._id,
+                  entryAmount,
+                  entryCurrency,
+                  transactionRef: txRef,
+                },
+                ipAddress: req.ip || '',
+              },
+            ],
+            { session }
+          );
+
+          await session.commitTransaction();
+          await session.endSession();
+          session = null;
+
+          return {
+            participationId: participation._id,
+            giveawayId: giveaway._id,
+            giveawaySlug: giveaway.slug,
+            giveawayTitle: giveaway.title,
+            prizeName: giveaway.prizeId?.name || giveaway.title,
+            entryAmount,
+            entryCurrency,
+            remainingBalance: deduction.remainingBalance,
+            transactionRef: txRef,
+            joinedAt: participation.joinedAt,
+            isIdempotentReplay: false,
+          };
+        } catch (error) {
+          if (session) {
+            await session.abortTransaction().catch(() => {});
+            await session.endSession().catch(() => {});
+            session = null;
+          }
+
+          if (error.code === 11000) {
+            throw alreadyParticipatingError();
+          }
+
+          if (isTransientTransactionError(error) && attempt < MAX_TX_RETRIES - 1) {
+            // Retry: the losing request resolves cleanly on the next attempt.
+            continue;
+          }
+
+          // Final race sweep: the winning concurrent request may have committed
+          // between the last failed attempt and now — surface the definitive outcome.
+          const settledRace = await GiveawayParticipation.findOne({
+            userId: user.userId,
+            giveawayId: giveaway._id,
+          }).lean();
+          if (settledRace) {
+            throw alreadyParticipatingError();
+          }
+
+          if (isTransientTransactionError(error)) {
+            const conflictErr = new Error(
+              'Concurrent write conflict while confirming participation. Please try again.'
+            );
+            conflictErr.code = 'CONCURRENT_WRITE_CONFLICT';
+            conflictErr.statusCode = 409;
+            throw conflictErr;
+          }
+          throw error;
         }
-        throw error;
       }
     } else {
       // Safe Standalone MongoDB Atomic Fallback
