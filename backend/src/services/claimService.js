@@ -4,6 +4,7 @@ import Winner from '../models/Winner.js';
 import Claim from '../models/Claim.js';
 import AuditLog from '../models/AuditLog.js';
 import FraudService from './fraudService.js';
+import { isTransientTransactionError, getMaxTransactionRetries } from '../utils/transactionUtils.js';
 
 // Configurable claim window duration (Default: 14 days)
 // Note: Configurable development/demo setting; production policy can be overridden via process.env.CLAIM_WINDOW_DAYS
@@ -328,6 +329,47 @@ export class ClaimService {
       }
     }
 
+    // Shared helper: recover an already-created claim (crash recovery / race
+    // resolution) and return the idempotent replay response.
+    const resolveExistingClaim = async (existingDoc) => {
+      if (winner.claimStatus !== 'CLAIMED' && winner.claimStatus !== 'FULFILLED') {
+        await Winner.findByIdAndUpdate(winner._id, {
+          $set: {
+            claimStatus: 'CLAIMED',
+            statusLabel: 'Claim Submitted (Under Review)',
+            claimId: existingDoc._id,
+          },
+        });
+        winner.claimStatus = 'CLAIMED';
+      }
+      return {
+        isIdempotentReplay: true,
+        claimId: existingDoc._id.toString(),
+        giveawayId: giveaway._id.toString(),
+        giveawayTitle: giveaway.title,
+        prizeName: winner.prizeName || giveaway.title,
+        claimType: existingDoc.claimType,
+        status: existingDoc.status,
+        userFacingStatus: mapToUserFacingStatus(winner.claimStatus, existingDoc.status),
+        submittedAt: existingDoc.submittedAt,
+        message: 'Claim has already been submitted for this prize pool.',
+        claimData: sanitizeClaimDataForUser(existingDoc.claimData),
+      };
+    };
+
+    // Shared helper: look up a race/committed claim for this winner and, if
+    // present, synchronize the Winner and return the idempotent replay response.
+    const resolveRaceClaim = async () => {
+      const raceClaim = await Claim.findOne({
+        giveawayId: giveaway._id,
+        userId: user.userId,
+      }).lean();
+      if (raceClaim) {
+        return resolveExistingClaim(raceClaim);
+      }
+      return null;
+    };
+
     const claimDocToCreate = {
       giveawayId: giveaway._id,
       winnerId: winner._id,
@@ -339,95 +381,98 @@ export class ClaimService {
     };
 
     if (isReplicaSet && session) {
-      try {
-        const createdClaims = await Claim.create([claimDocToCreate], { session });
-        const claimDoc = createdClaims[0];
-
-        await Winner.findByIdAndUpdate(
-          winner._id,
-          {
-            $set: {
-              claimStatus: 'CLAIMED',
-              statusLabel: 'Claim Submitted (Under Review)',
-              claimId: claimDoc._id,
-            },
-          },
-          { session }
-        );
-
-        // Record Audit Log (Omit raw PII: no phone, address, email stored in audit metadata)
-        await AuditLog.create(
-          [
-            {
-              action: 'PRIZE_CLAIM_SUBMITTED',
-              entityType: 'Claim',
-              entityId: claimDoc._id.toString(),
-              actorId: user.userId,
-              previousState: { claimStatus: winner.claimStatus },
-              newState: { claimStatus: 'CLAIMED', status: 'PENDING_REVIEW' },
-              metadata: {
-                giveawayId: giveaway._id.toString(),
-                winnerId: winner._id.toString(),
-                claimType: authoritativeClaimType,
-                rank: winner.rank,
-              },
-              ipAddress: req.ip || '',
-            },
-          ],
-          { session }
-        );
-
-        await session.commitTransaction();
-        await session.endSession();
-
-        return {
-          isIdempotentReplay: false,
-          claimId: claimDoc._id.toString(),
-          giveawayId: giveaway._id.toString(),
-          giveawayTitle: giveaway.title,
-          prizeName: winner.prizeName || giveaway.title,
-          claimType: authoritativeClaimType,
-          status: 'PENDING_REVIEW',
-          userFacingStatus: 'SUBMITTED',
-          submittedAt: claimDoc.submittedAt,
-          message: 'Prize claim successfully submitted and queued for verification.',
-          claimData: sanitizeClaimDataForUser(validatedClaimData),
-        };
-      } catch (error) {
-        if (session) {
-          await session.abortTransaction().catch(() => {});
-          await session.endSession().catch(() => {});
-        }
-        if (error.code === 11000) {
-          // Concurrent submission race condition: return existing claim
-          const raceClaim = await Claim.findOne({ giveawayId: giveaway._id, userId: user.userId }).lean();
-          if (raceClaim) {
-            if (winner.claimStatus !== 'CLAIMED' && winner.claimStatus !== 'FULFILLED') {
-              await Winner.findByIdAndUpdate(winner._id, {
-                $set: {
-                  claimStatus: 'CLAIMED',
-                  statusLabel: 'Claim Submitted (Under Review)',
-                  claimId: raceClaim._id,
-                },
-              });
-              winner.claimStatus = 'CLAIMED';
-            }
-            return {
-              isIdempotentReplay: true,
-              claimId: raceClaim._id.toString(),
-              giveawayId: giveaway._id.toString(),
-              giveawayTitle: giveaway.title,
-              prizeName: winner.prizeName || giveaway.title,
-              claimType: raceClaim.claimType,
-              status: raceClaim.status,
-              userFacingStatus: mapToUserFacingStatus(winner.claimStatus, raceClaim.status),
-              submittedAt: raceClaim.submittedAt,
-              message: 'Claim has already been submitted for this prize pool.',
-              claimData: sanitizeClaimDataForUser(raceClaim.claimData),
-            };
+      const MAX_TX_RETRIES = getMaxTransactionRetries();
+      for (let attempt = 0; attempt < MAX_TX_RETRIES; attempt += 1) {
+        try {
+          if (attempt > 0) {
+            // A fresh, clean transaction for retry. The aborted attempt rolled
+            // back fully, so the retry can never duplicate a claim.
+            session = await mongoose.startSession();
+            session.startTransaction();
           }
+
+          const createdClaims = await Claim.create([claimDocToCreate], { session });
+          const claimDoc = createdClaims[0];
+
+          await Winner.findByIdAndUpdate(
+            winner._id,
+            {
+              $set: {
+                claimStatus: 'CLAIMED',
+                statusLabel: 'Claim Submitted (Under Review)',
+                claimId: claimDoc._id,
+              },
+            },
+            { session }
+          );
+
+          // Record Audit Log (Omit raw PII: no phone, address, email stored in audit metadata)
+          await AuditLog.create(
+            [
+              {
+                action: 'PRIZE_CLAIM_SUBMITTED',
+                entityType: 'Claim',
+                entityId: claimDoc._id.toString(),
+                actorId: user.userId,
+                previousState: { claimStatus: winner.claimStatus },
+                newState: { claimStatus: 'CLAIMED', status: 'PENDING_REVIEW' },
+                metadata: {
+                  giveawayId: giveaway._id.toString(),
+                  winnerId: winner._id.toString(),
+                  claimType: authoritativeClaimType,
+                  rank: winner.rank,
+                },
+                ipAddress: req.ip || '',
+              },
+            ],
+            { session }
+          );
+
+          await session.commitTransaction();
+          await session.endSession();
+          session = null;
+
+          return {
+            isIdempotentReplay: false,
+            claimId: claimDoc._id.toString(),
+            giveawayId: giveaway._id.toString(),
+            giveawayTitle: giveaway.title,
+            prizeName: winner.prizeName || giveaway.title,
+            claimType: authoritativeClaimType,
+            status: 'PENDING_REVIEW',
+            userFacingStatus: 'SUBMITTED',
+            submittedAt: claimDoc.submittedAt,
+            message: 'Prize claim successfully submitted and queued for verification.',
+            claimData: sanitizeClaimDataForUser(validatedClaimData),
+          };
+        } catch (error) {
+          if (session) {
+            await session.abortTransaction().catch(() => {});
+            await session.endSession().catch(() => {});
+            session = null;
+          }
+          if (error.code === 11000) {
+            // Concurrent submission race condition: return existing claim
+            const resolved = await resolveRaceClaim();
+            if (resolved) return resolved;
+          }
+
+          if (isTransientTransactionError(error)) {
+            // The winning concurrent request may have committed; resolve as an
+            // idempotent replay instead of surfacing a raw write conflict.
+            const resolved = await resolveRaceClaim();
+            if (resolved) return resolved;
+            if (attempt < MAX_TX_RETRIES - 1) continue;
+
+            const conflictErr = new Error(
+              'Concurrent write conflict while submitting claim. Please try again.'
+            );
+            conflictErr.code = 'CONCURRENT_WRITE_CONFLICT';
+            conflictErr.statusCode = 409;
+            throw conflictErr;
+          }
+          throw error;
         }
-        throw error;
       }
     } else {
       // Standalone MongoDB Development Fallback
@@ -476,37 +521,11 @@ export class ClaimService {
       } catch (error) {
         if (error.code === 11000) {
           // Concurrent duplicate claim caught by unique index
-          const raceClaim = await Claim.findOne({ giveawayId: giveaway._id, userId: user.userId }).lean();
-          if (raceClaim) {
-            if (winner.claimStatus !== 'CLAIMED' && winner.claimStatus !== 'FULFILLED') {
-              await Winner.findByIdAndUpdate(winner._id, {
-                $set: {
-                  claimStatus: 'CLAIMED',
-                  statusLabel: 'Claim Submitted (Under Review)',
-                  claimId: raceClaim._id,
-                },
-              });
-              winner.claimStatus = 'CLAIMED';
-            }
-            return {
-              isIdempotentReplay: true,
-              claimId: raceClaim._id.toString(),
-              giveawayId: giveaway._id.toString(),
-              giveawayTitle: giveaway.title,
-              prizeName: winner.prizeName || giveaway.title,
-              claimType: raceClaim.claimType,
-              status: raceClaim.status,
-              userFacingStatus: mapToUserFacingStatus(winner.claimStatus, raceClaim.status),
-              submittedAt: raceClaim.submittedAt,
-              message: 'Claim has already been submitted for this prize pool.',
-              claimData: sanitizeClaimDataForUser(raceClaim.claimData),
-            };
-          }
+          const resolved = await resolveRaceClaim();
+          if (resolved) return resolved;
         }
-        // Cleanup partial write on non-duplicate failure in standalone mode
-        if (createdClaim) {
-          await Claim.findByIdAndDelete(createdClaim._id).catch(() => {});
-        }
+        // Since the insert in the standalone fallback failed before the Winner
+        // sync below, no partial Winner write was made by this request.
         throw error;
       }
     }
