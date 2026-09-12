@@ -1,35 +1,35 @@
-/* Stage I: Production Branded Footer CSS */
+/* VELOOP Rewards Branded Footer */
 
 .footer {
-  background: linear-gradient(180deg, #0b1329 0%, #080d1e 100%);
+  background: linear-gradient(180deg, var(--color-navy-surface) 0%, var(--color-navy) 100%);
   color: #f8fafc;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: var(--space-12, 48px) 0 0 0;
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-12) 0 0 0;
   margin-top: auto;
   width: 100%;
 }
 
 .container {
-  max-width: var(--container-max, 1200px);
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 var(--space-6, 24px);
+  padding: 0 var(--container-padding);
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: var(--space-8, 32px);
-  margin-bottom: var(--space-10, 40px);
+  gap: var(--space-8);
+  margin-bottom: var(--space-10);
 }
 
 /* BRAND COLUMN */
 .brandCol {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .brandLink {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
   text-decoration: none;
   width: fit-content;
 }
@@ -37,13 +37,13 @@
 .logoIconBox {
   width: 38px;
   height: 38px;
-  border-radius: var(--radius-md, 8px);
-  background: linear-gradient(135deg, var(--color-primary, #4f46e5) 0%, #4338ca 100%);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
   flex-shrink: 0;
 }
 
@@ -66,27 +66,27 @@
 
 .brandSub {
   font-size: 0.725rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: #818cf8;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .brandBadge {
   font-size: 0.675rem;
-  font-weight: var(--font-weight-bold, 700);
+  font-weight: var(--font-weight-bold);
   color: #a5b4fc;
-  background-color: rgba(99, 102, 241, 0.2);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-primary-border);
   padding: 2px 7px;
-  border-radius: var(--radius-full, 9999px);
+  border-radius: var(--radius-full);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-left: 2px;
 }
 
 .brandText {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   font-size: 0.875rem;
   line-height: 1.6;
   max-width: 320px;
@@ -98,34 +98,34 @@
   align-items: center;
   gap: 6px;
   font-size: 0.75rem;
-  font-weight: var(--font-weight-medium, 500);
-  color: #34d399;
-  background-color: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  font-weight: var(--font-weight-medium);
+  color: var(--status-active-text);
+  background-color: var(--status-active-bg);
+  border: 1px solid var(--status-active-border);
   padding: 3px 10px;
-  border-radius: var(--radius-full, 9999px);
+  border-radius: var(--radius-full);
   width: fit-content;
   margin-top: 4px;
 }
 
 .platformBadgeIcon {
-  color: #34d399;
+  color: var(--status-active-text);
 }
 
 /* NAVIGATION COLUMNS */
 .navCol {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .colTitle {
   font-size: 0.85rem;
-  font-weight: var(--font-weight-bold, 700);
+  font-weight: var(--font-weight-bold);
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  margin: 0 0 var(--space-2, 8px) 0;
+  margin: 0 0 var(--space-2) 0;
 }
 
 .linkList {
@@ -134,14 +134,14 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
 }
 
 .footerLink {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   font-size: 0.875rem;
   text-decoration: none;
-  transition: color var(--transition-fast, 0.15s ease), transform var(--transition-fast, 0.15s ease);
+  transition: color var(--transition-fast), transform var(--transition-fast);
   display: inline-block;
   line-height: 1.4;
 }
@@ -152,114 +152,112 @@
 }
 
 .footerLink:focus-visible {
-  outline: 2px solid #818cf8;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
-  border-radius: var(--radius-xs, 4px);
+  border-radius: var(--radius-xs);
 }
 
 /* CURRENCY ITEMS */
 .currencyItem {
   display: flex;
   align-items: center;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
   font-size: 0.825rem;
   line-height: 1.4;
 }
 
 .currencyBadgeVes {
   font-size: 0.7rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: #818cf8;
-  background-color: rgba(99, 102, 241, 0.18);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  font-weight: var(--font-weight-bold);
+  color: var(--currency-ves);
+  background-color: var(--currency-ves-bg);
+  border: 1px solid var(--currency-ves-border);
   padding: 1px 6px;
-  border-radius: var(--radius-xs, 4px);
+  border-radius: var(--radius-xs);
   min-width: 48px;
   text-align: center;
 }
 
 .currencyBadgeSves {
   font-size: 0.7rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: #fbbf24;
-  background-color: rgba(251, 191, 36, 0.15);
-  border: 1px solid rgba(251, 191, 36, 0.3);
+  font-weight: var(--font-weight-bold);
+  color: var(--currency-sves);
+  background-color: var(--currency-sves-bg);
+  border: 1px solid var(--currency-sves-border);
   padding: 1px 6px;
-  border-radius: var(--radius-xs, 4px);
+  border-radius: var(--radius-xs);
   min-width: 48px;
   text-align: center;
 }
 
 .currencyBadgeTokens {
   font-size: 0.7rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: #34d399;
-  background-color: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-weight: var(--font-weight-bold);
+  color: var(--currency-tokens);
+  background-color: var(--currency-tokens-bg);
+  border: 1px solid var(--currency-tokens-border);
   padding: 1px 6px;
-  border-radius: var(--radius-xs, 4px);
+  border-radius: var(--radius-xs);
   min-width: 48px;
   text-align: center;
 }
 
 .currencyLabel {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   font-size: 0.825rem;
 }
 
 /* BOTTOM BAR */
 .bottomRow {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding: var(--space-5, 20px) 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-top: 1px solid var(--color-border-subtle);
+  padding: var(--space-5) 0;
   width: 100%;
 }
 
 .bottomContainer {
-  max-width: var(--container-max, 1200px);
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 var(--space-6, 24px);
+  padding: 0 var(--container-padding);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .copyright {
-  color: #64748b;
+  color: var(--color-text-muted);
   font-size: 0.8rem;
 }
 
 .bottomTagline {
-  color: #64748b;
+  color: var(--color-text-muted);
   font-size: 0.8rem;
-  font-weight: var(--font-weight-medium, 500);
+  font-weight: var(--font-weight-medium);
 }
 
 /* RESPONSIVE BREAKPOINTS */
 @media (max-width: 1024px) {
   .container {
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-8, 32px);
+    gap: var(--space-8);
   }
 }
 
 @media (max-width: 640px) {
   .footer {
-    padding-top: var(--space-8, 32px);
+    padding-top: var(--space-8);
   }
 
   .container {
     grid-template-columns: 1fr;
-    gap: var(--space-6, 24px);
-    padding: 0 var(--space-4, 16px);
+    gap: var(--space-6);
   }
 
   .bottomContainer {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-2, 8px);
-    padding: 0 var(--space-4, 16px);
+    gap: var(--space-2);
   }
 }
