@@ -4,6 +4,20 @@
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
   padding: var(--space-12) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.06) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .container {
@@ -11,6 +25,28 @@
   margin: 0 auto;
   padding: 0 var(--container-padding);
   width: 100%;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 /* ==========================================================================
@@ -23,6 +59,7 @@
   margin-bottom: var(--space-8);
   flex-wrap: wrap;
   gap: var(--space-6);
+  animation: fadeInUp 0.5s ease-out both;
 }
 
 .titleArea {
@@ -46,11 +83,17 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   width: fit-content;
+  transition: all var(--transition-normal);
+}
+
+.sectionBadge:hover {
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.2);
 }
 
 .badgeIcon {
   color: var(--status-winner-text);
   flex-shrink: 0;
+  animation: sparkle 3s ease-in-out infinite;
 }
 
 .sectionTitle {
@@ -80,6 +123,11 @@
   border: 1px solid var(--color-border);
   padding: 4px 8px;
   border-radius: var(--radius-full);
+  transition: border-color var(--transition-normal);
+}
+
+.controls:hover {
+  border-color: var(--color-primary-border);
 }
 
 .slideCounter {
@@ -92,8 +140,8 @@
 }
 
 .arrowBtn {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: var(--radius-full);
   border: 1px solid var(--color-border-strong);
   background-color: var(--color-surface-card);
@@ -102,15 +150,20 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
   outline: none;
 }
 
 .arrowBtn:hover {
-  background-color: var(--color-primary);
+  background: var(--color-accent-brand-btn);
   border-color: var(--color-primary);
   color: #ffffff;
-  box-shadow: 0 0 12px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35);
+  transform: scale(1.08);
+}
+
+.arrowBtn:active {
+  transform: scale(0.95);
 }
 
 .arrowBtn:focus-visible {
@@ -130,12 +183,42 @@
   gap: var(--space-8);
   align-items: center;
   box-shadow: var(--shadow-md);
-  transition: box-shadow 250ms ease, border-color 250ms ease;
+  transition: box-shadow 300ms ease, border-color 300ms ease, transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fadeInUp 0.6s ease-out 0.1s both;
+  position: relative;
+  overflow: hidden;
+}
+
+.sliderCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(251, 191, 36, 0.03) 50%,
+    transparent 100%
+  );
+  transition: left 0.8s ease;
+  z-index: 0;
+}
+
+.sliderCard:hover::before {
+  left: 100%;
+}
+
+.sliderCard > * {
+  position: relative;
+  z-index: 1;
 }
 
 .sliderCard:hover {
   border-color: var(--color-primary-border);
-  box-shadow: var(--shadow-lg), 0 0 24px rgba(99, 102, 241, 0.12);
+  box-shadow: var(--shadow-lg), 0 0 28px rgba(124, 58, 237, 0.12);
+  transform: translateY(-3px);
 }
 
 .imageWrapper {
@@ -149,6 +232,12 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-6);
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.sliderCard:hover .imageWrapper {
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.1);
 }
 
 .prizeImg {
@@ -156,12 +245,12 @@
   max-height: 85%;
   object-fit: contain;
   display: block;
-  transition: transform var(--transition-smooth);
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 15px rgba(124, 58, 237, 0.25));
 }
 
 .sliderCard:hover .prizeImg {
-  transform: scale(1.04);
+  transform: scale(1.06) translateY(-4px);
 }
 
 .winnerInfo {
@@ -190,6 +279,11 @@
   border-radius: var(--radius-full);
   font-size: var(--font-size-caption);
   font-weight: var(--font-weight-semibold);
+  transition: all var(--transition-normal);
+}
+
+.trophyBadge:hover {
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.2);
 }
 
 .drawDate {
@@ -236,6 +330,12 @@
   border-radius: var(--radius-md);
   padding: var(--space-4) var(--space-5);
   gap: var(--space-4);
+  transition: border-color var(--transition-normal), background-color var(--transition-normal);
+}
+
+.sliderCard:hover .detailsGrid {
+  border-color: var(--color-primary-border);
+  background-color: rgba(124, 58, 237, 0.04);
 }
 
 .detailCol {
@@ -267,6 +367,11 @@
 .labelIcon {
   color: var(--color-primary);
   flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.sliderCard:hover .labelIcon {
+  transform: scale(1.12);
 }
 
 .maskedUser {
@@ -306,12 +411,13 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: all var(--transition-fast);
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
   outline: none;
 }
 
 .dot:hover {
   background-color: var(--color-text-secondary);
+  transform: scale(1.2);
 }
 
 .dot:focus-visible {
@@ -319,8 +425,9 @@
 }
 
 .dotActive {
-  width: 24px;
-  background-color: var(--color-primary);
+  width: 28px;
+  background: var(--color-accent-brand-btn);
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
 }
 
 /* ==========================================================================
@@ -388,5 +495,17 @@
 
   .prizeTitle {
     font-size: var(--font-size-h4);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .sliderCard,
+  .headerRow {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+  .badgeIcon {
+    animation: none !important;
   }
 }
