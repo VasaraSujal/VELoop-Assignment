@@ -1,9 +1,11 @@
-import { useMemo } from 'react';
-import { Trophy, Medal, Award, Sparkles, Calendar, Crown } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Trophy, Medal, Award, Sparkles, Calendar, Crown, ChevronDown, ChevronUp } from 'lucide-react';
 import { Badge } from '../common/ui/Badge.jsx';
 import { EmptyState } from '../common/ui/EmptyState.jsx';
 import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './GiveawayLeaderboard.module.css';
+
+const INITIAL_DISPLAY_COUNT = 5;
 
 /**
  * Maps claim and fulfillment status strings to Badge component variants
@@ -59,6 +61,8 @@ const getDisplayName = (winner) => {
  * Giveaway Leaderboard — Displays verified winner draws with dark podium showcase and ranking table.
  */
 export const GiveawayLeaderboard = ({ winners = [] }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const leaderboardData = useMemo(() => {
     if (!Array.isArray(winners)) return [];
     return winners.map((winner, index) => ({
@@ -73,6 +77,10 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
       rawWinner: winner,
     }));
   }, [winners]);
+
+  const displayedList = useMemo(() => {
+    return isExpanded ? leaderboardData : leaderboardData.slice(0, INITIAL_DISPLAY_COUNT);
+  }, [leaderboardData, isExpanded]);
 
   const top1 = leaderboardData.find((w) => w.rank === 1) || leaderboardData[0];
   const top2 = leaderboardData.find((w) => w.rank === 2) || leaderboardData[1];
@@ -135,14 +143,14 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
           </div>
         ) : (
           <>
-            {/* Top 3 Podium Showcase (Desktop & Tablet) */}
+            {/* Top 3 Podium Showcase (Desktop & Mobile) */}
             {leaderboardData.length >= 2 && (
               <div className={styles.podiumContainer} aria-label="Top 3 Winners Podium">
-                {/* 2nd Place (Left) */}
+                {/* 2nd Place (Left on Desktop, Left on Mobile grid) */}
                 {top2 && (
                   <div className={`${styles.podiumCard} ${styles.podiumSilver}`}>
                     <div className={styles.podiumBadge}>
-                      <Medal size={14} aria-hidden="true" />
+                      <Medal size={13} aria-hidden="true" />
                       <span>2ND PLACE</span>
                     </div>
                     <div className={styles.podiumAvatarBox}>
@@ -152,22 +160,24 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
                       <span className={styles.podiumRankCircle}>2</span>
                     </div>
                     <div className={styles.podiumUser}>{top2.maskedId}</div>
-                    <div className={styles.podiumPrizeThumb}>
-                      <img src={resolvePrizeImage(top2.rawWinner)} alt={top2.prize} loading="lazy" />
-                    </div>
-                    <div className={styles.podiumPrize}>{top2.prize}</div>
-                    <Badge variant={top2.statusVariant} size="sm">{top2.status}</Badge>
+                    {top2.prize && (
+                      <div className={styles.podiumPrizeThumb}>
+                        <img src={resolvePrizeImage(top2.rawWinner)} alt={top2.prize} loading="lazy" />
+                      </div>
+                    )}
+                    {top2.prize && <div className={styles.podiumPrize}>{top2.prize}</div>}
+                    {top2.status && <Badge variant={top2.statusVariant} size="sm">{top2.status}</Badge>}
                   </div>
                 )}
 
-                {/* 1st Place Champion (Center - Elevated) */}
+                {/* 1st Place Champion (Center - Elevated on Desktop, Top on Mobile) */}
                 {top1 && (
                   <div className={`${styles.podiumCard} ${styles.podiumGold}`}>
                     <div className={styles.crownWrapper}>
-                      <Crown size={24} className={styles.crownIcon} aria-hidden="true" />
+                      <Crown size={22} className={styles.crownIcon} aria-hidden="true" />
                     </div>
                     <div className={styles.podiumBadgeGold}>
-                      <Trophy size={14} aria-hidden="true" />
+                      <Trophy size={13} aria-hidden="true" />
                       <span>CHAMPION</span>
                     </div>
                     <div className={styles.podiumAvatarBox}>
@@ -177,19 +187,21 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
                       <span className={styles.podiumRankCircleGold}>1</span>
                     </div>
                     <div className={styles.podiumUserGold}>{top1.maskedId}</div>
-                    <div className={styles.podiumPrizeThumbGold}>
-                      <img src={resolvePrizeImage(top1.rawWinner)} alt={top1.prize} loading="lazy" />
-                    </div>
-                    <div className={styles.podiumPrizeGold}>{top1.prize}</div>
-                    <Badge variant={top1.statusVariant} size="sm">{top1.status}</Badge>
+                    {top1.prize && (
+                      <div className={styles.podiumPrizeThumbGold}>
+                        <img src={resolvePrizeImage(top1.rawWinner)} alt={top1.prize} loading="lazy" />
+                      </div>
+                    )}
+                    {top1.prize && <div className={styles.podiumPrizeGold}>{top1.prize}</div>}
+                    {top1.status && <Badge variant={top1.statusVariant} size="sm">{top1.status}</Badge>}
                   </div>
                 )}
 
-                {/* 3rd Place (Right) */}
+                {/* 3rd Place (Right on Desktop, Right on Mobile grid) */}
                 {top3 && (
                   <div className={`${styles.podiumCard} ${styles.podiumBronze}`}>
                     <div className={styles.podiumBadgeBronze}>
-                      <Award size={14} aria-hidden="true" />
+                      <Award size={13} aria-hidden="true" />
                       <span>3RD PLACE</span>
                     </div>
                     <div className={styles.podiumAvatarBox}>
@@ -199,11 +211,13 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
                       <span className={styles.podiumRankCircleBronze}>3</span>
                     </div>
                     <div className={styles.podiumUser}>{top3.maskedId}</div>
-                    <div className={styles.podiumPrizeThumb}>
-                      <img src={resolvePrizeImage(top3.rawWinner)} alt={top3.prize} loading="lazy" />
-                    </div>
-                    <div className={styles.podiumPrize}>{top3.prize}</div>
-                    <Badge variant={top3.statusVariant} size="sm">{top3.status}</Badge>
+                    {top3.prize && (
+                      <div className={styles.podiumPrizeThumb}>
+                        <img src={resolvePrizeImage(top3.rawWinner)} alt={top3.prize} loading="lazy" />
+                      </div>
+                    )}
+                    {top3.prize && <div className={styles.podiumPrize}>{top3.prize}</div>}
+                    {top3.status && <Badge variant={top3.statusVariant} size="sm">{top3.status}</Badge>}
                   </div>
                 )}
               </div>
@@ -220,13 +234,13 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
               </div>
 
               <div className={styles.rowsContainer}>
-                {leaderboardData.map((item) => {
+                {displayedList.map((item, index) => {
                   const prizeImgSrc = resolvePrizeImage(item.rawWinner);
                   const isTop3 = item.rank <= 3;
 
                   return (
                     <div
-                      key={`${item.rank}-${item.maskedId}`}
+                      key={`desktop-row-${item.rank}-${item.maskedId}-${index}`}
                       className={`${styles.row} ${isTop3 ? styles.topRow : ''}`}
                       role="row"
                     >
@@ -286,13 +300,13 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
 
             {/* Mobile Stacked Ranking Cards (Visible on mobile screens) */}
             <div className={styles.mobileLeaderboard}>
-              {leaderboardData.map((item) => {
+              {displayedList.map((item, index) => {
                 const prizeImgSrc = resolvePrizeImage(item.rawWinner);
                 const isTop3 = item.rank <= 3;
 
                 return (
                   <article
-                    key={`${item.rank}-${item.maskedId}`}
+                    key={`mobile-card-${item.rank}-${item.maskedId}-${index}`}
                     className={`${styles.mobileCard} ${isTop3 ? styles.mobileTopCard : ''}`}
                     aria-label={`Rank ${item.rank}: ${item.maskedId}`}
                   >
@@ -342,6 +356,29 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
                 );
               })}
             </div>
+
+            {/* Show More / Show Less Toggle Button */}
+            {leaderboardData.length > INITIAL_DISPLAY_COUNT && (
+              <div className={styles.showMoreContainer}>
+                <button
+                  type="button"
+                  className={styles.showMoreBtn}
+                  onClick={() => setIsExpanded((prev) => !prev)}
+                  aria-expanded={isExpanded}
+                >
+                  <span>
+                    {isExpanded
+                      ? 'Show Less'
+                      : `Show More (${leaderboardData.length - INITIAL_DISPLAY_COUNT} more)`}
+                  </span>
+                  {isExpanded ? (
+                    <ChevronUp size={16} aria-hidden="true" />
+                  ) : (
+                    <ChevronDown size={16} aria-hidden="true" />
+                  )}
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
