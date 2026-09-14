@@ -2,6 +2,8 @@
   width: 100%;
   padding: var(--space-12) 0;
   background-color: var(--color-background);
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
@@ -11,9 +13,32 @@
   width: 100%;
 }
 
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInScale {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .header {
   text-align: center;
   margin-bottom: var(--space-8);
+  animation: fadeInUp 0.5s ease-out both;
 }
 
 .badge {
@@ -49,7 +74,7 @@
 }
 
 /* ==========================================================================
-   Accordion List & Items
+   Accordion List & Items — Premium Interactive
    ========================================================================== */
 .accordionList {
   display: flex;
@@ -63,16 +88,28 @@
   border-radius: var(--radius-xl);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition: border-color 280ms ease, box-shadow 280ms ease, transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: slideInScale 0.4s ease-out both;
 }
+
+.accordionItem:nth-child(1) { animation-delay: 0.02s; }
+.accordionItem:nth-child(2) { animation-delay: 0.06s; }
+.accordionItem:nth-child(3) { animation-delay: 0.1s; }
+.accordionItem:nth-child(4) { animation-delay: 0.14s; }
+.accordionItem:nth-child(5) { animation-delay: 0.18s; }
+.accordionItem:nth-child(6) { animation-delay: 0.22s; }
+.accordionItem:nth-child(7) { animation-delay: 0.26s; }
 
 .accordionItem:hover {
   border-color: var(--color-border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .accordionItemActive {
   border-color: var(--color-primary);
-  box-shadow: var(--shadow-md), 0 0 16px rgba(99, 102, 241, 0.12);
+  box-shadow: var(--shadow-md), 0 0 20px rgba(124, 58, 237, 0.12);
+  transform: translateY(-2px);
 }
 
 .accordionButton {
@@ -88,7 +125,7 @@
   text-align: left;
   gap: var(--space-4);
   outline: none;
-  transition: background-color var(--transition-fast);
+  transition: background-color 250ms ease;
 }
 
 .accordionButton:hover {
@@ -104,6 +141,7 @@
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   line-height: var(--line-height-normal);
+  transition: color var(--transition-fast);
 }
 
 .accordionItemActive .questionText {
@@ -112,8 +150,8 @@
 }
 
 .iconWrapper {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--radius-full);
   background-color: var(--color-surface-muted);
   border: 1px solid var(--color-border);
@@ -121,17 +159,22 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  transition: background-color 280ms ease, border-color 280ms ease, transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms ease;
+}
+
+.accordionButton:hover .iconWrapper {
+  transform: scale(1.08);
 }
 
 .iconWrapperActive {
-  background-color: var(--color-primary);
+  background: var(--color-accent-brand-btn);
   border-color: var(--color-primary);
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.3);
 }
 
 .icon {
   color: var(--color-text-secondary);
-  transition: transform var(--transition-normal);
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .iconWrapperActive .icon {
@@ -152,7 +195,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-4px);
+    transform: translateY(-6px);
   }
   to {
     opacity: 1;
@@ -187,5 +230,14 @@
   .answerBox {
     padding: 0 var(--space-5) var(--space-4) var(--space-5);
     padding-top: var(--space-3);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .accordionItem,
+  .header {
+    animation: none !important;
+    opacity: 1 !important;
   }
 }
