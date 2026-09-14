@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Calendar, Trophy, User, Coins, ShieldCheck } from 'lucide-react';
+import { Calendar, Trophy, User, Coins, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
 import { Badge } from '../common/ui/Badge.jsx';
 import { EmptyState } from '../common/ui/EmptyState.jsx';
 import { Skeleton } from '../common/ui/Skeleton.jsx';
 import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './WinnerTabs.module.css';
+
+const INITIAL_DISPLAY_COUNT = 5;
 
 /**
  * Maps claim and fulfillment status strings to Badge component variants
@@ -45,8 +47,15 @@ const formatClaimStatusLabel = (status, label) => {
  */
 export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading = false }) => {
   const [activeTab, setActiveTab] = useState('recent');
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setIsExpanded(false);
+  };
 
   const displayList = activeTab === 'recent' ? recentWinners : previousWinners;
+  const displayedList = isExpanded ? displayList : displayList.slice(0, INITIAL_DISPLAY_COUNT);
 
   return (
     <section className={styles.section} aria-label="Winner Roster and History">
@@ -68,7 +77,7 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
               role="tab"
               aria-selected={activeTab === 'recent'}
               className={`${styles.tabBtn} ${activeTab === 'recent' ? styles.tabBtnActive : ''}`}
-              onClick={() => setActiveTab('recent')}
+              onClick={() => handleTabChange('recent')}
             >
               Recent Draws <span className={styles.tabCount}>({recentWinners.length})</span>
             </button>
@@ -77,7 +86,7 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
               role="tab"
               aria-selected={activeTab === 'previous'}
               className={`${styles.tabBtn} ${activeTab === 'previous' ? styles.tabBtnActive : ''}`}
-              onClick={() => setActiveTab('previous')}
+              onClick={() => handleTabChange('previous')}
             >
               Archived Winners <span className={styles.tabCount}>({previousWinners.length})</span>
             </button>
@@ -115,7 +124,7 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
                   </tr>
                 </thead>
                 <tbody>
-                  {displayList.map((winner) => {
+                  {displayedList.map((winner) => {
                     const drawDateFormatted = winner.drawDate
                       ? new Date(winner.drawDate).toLocaleDateString('en-IN', {
                           day: 'numeric',
@@ -183,7 +192,7 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
 
             {/* 2. Mobile Responsive Record Cards (Visible only on Tablet/Mobile) */}
             <div className={styles.mobileCardsList}>
-              {displayList.map((winner) => {
+              {displayedList.map((winner) => {
                 const drawDateFormatted = winner.drawDate
                   ? new Date(winner.drawDate).toLocaleDateString('en-IN', {
                       day: 'numeric',
@@ -254,6 +263,29 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
                 );
               })}
             </div>
+
+            {/* Show More / Show Less Toggle Button */}
+            {displayList.length > INITIAL_DISPLAY_COUNT && (
+              <div className={styles.showMoreContainer}>
+                <button
+                  type="button"
+                  className={styles.showMoreBtn}
+                  onClick={() => setIsExpanded((prev) => !prev)}
+                  aria-expanded={isExpanded}
+                >
+                  <span>
+                    {isExpanded
+                      ? 'Show Less'
+                      : `Show More (${displayList.length - INITIAL_DISPLAY_COUNT} more)`}
+                  </span>
+                  {isExpanded ? (
+                    <ChevronUp size={16} aria-hidden="true" />
+                  ) : (
+                    <ChevronDown size={16} aria-hidden="true" />
+                  )}
+                </button>
+              </div>
+            )}
           </>
         ) : (
           /* Empty State */
