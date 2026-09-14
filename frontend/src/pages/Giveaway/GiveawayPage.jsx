@@ -10,6 +10,7 @@ import HowToParticipate from '../../components/giveaway/HowToParticipate.jsx';
 import TrustSection from '../../components/giveaway/TrustSection.jsx';
 import RulesSection from '../../components/giveaway/RulesSection.jsx';
 import FAQSection from '../../components/giveaway/FAQSection.jsx';
+import FinalCTA from '../../components/giveaway/FinalCTA.jsx';
 import { ErrorState } from '../../components/common/ui/ErrorState.jsx';
 import styles from './GiveawayPage.module.css';
 
@@ -124,8 +125,12 @@ export const GiveawayPage = () => {
 
       {/* 9. Interactive FAQ Accordion */}
       <FAQSection />
+
+      {/* 10. Pre-Footer High-Impact CTA */}
+      <FinalCTA />
     </main>
   );
 };
 
 export default GiveawayPage;
+
