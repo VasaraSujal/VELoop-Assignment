@@ -94,9 +94,15 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
 
   return (
     <section className={styles.heroSection} aria-label="Featured Giveaway Showcase">
+      {/* Background Ambient Glows & Decorative Grid */}
+      <div className={styles.ambientGlowPrimary} aria-hidden="true" />
+      <div className={styles.ambientGlowSecondary} aria-hidden="true" />
+      <div className={styles.gridOverlay} aria-hidden="true" />
+
       <div className={styles.container}>
         {/* Left Column: Headline, Value Proposition & Actions */}
         <div className={styles.contentCol}>
+          {/* Eyebrow & Badges */}
           <div className={styles.badgeRow}>
             {isActive && (
               <span className={styles.liveBadge} role="status">
@@ -110,37 +116,51 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
             {isConcluded && (
               <Badge variant="neutral" size="md">Concluded Pool</Badge>
             )}
-            <Badge variant="navy" size="md" icon={<Sparkles size={13} />}>
-              Featured Reward
-            </Badge>
+            <span className={styles.featuredBadge}>
+              <Sparkles size={12} className={styles.sparkleIcon} aria-hidden="true" />
+              <span>Featured Reward</span>
+            </span>
           </div>
 
-          <h1 className={styles.title}>
-            Win the <span className={styles.titleHighlight}>{giveaway.title}</span>
-          </h1>
+          <div className={styles.titleGroup}>
+            <span className={styles.eyebrowText}>GRAND PRIZE REWARD</span>
+            <h1 className={styles.title}>
+              Win the <span className={styles.titleHighlight}>{giveaway.title}</span>
+            </h1>
+          </div>
 
-          <p className={styles.description}>{giveaway.description}</p>
+          <p className={styles.description}>
+            {giveaway.prizeType === 'GIFT_CARD'
+              ? 'Instant digital voucher reward. Enter with your VELOOP balance.'
+              : 'Premium official hardware reward. Enter the draw with your VELOOP balance.'}
+          </p>
 
-          {/* Quick Metrics Grid */}
-          <div className={styles.metaGrid}>
-            <div className={styles.metaItem}>
-              <span className={styles.metaLabel}>Entry Fee</span>
-              <span className={styles.metaValueHighlight}>{entryText}</span>
+          {/* Compact Sleek Metadata Strip */}
+          <div className={styles.metaStrip} role="region" aria-label="Giveaway Details">
+            <div className={styles.metaPill}>
+              <span className={styles.metaPillLabel}>Entry Fee</span>
+              <span className={styles.metaPillValueHighlight}>{entryText}</span>
             </div>
-            <div className={styles.metaItem}>
-              <span className={styles.metaLabel}>Retail Value</span>
-              <span className={styles.metaValue}>{formatInr(giveaway.retailValueInr)}</span>
-            </div>
-            <div className={styles.metaItem}>
-              <span className={styles.metaLabel}>Winners Drawn</span>
-              <span className={styles.metaValue}>
-                <Award size={14} className={styles.metaIcon} aria-hidden="true" />
+            {giveaway.retailValueInr > 0 && (
+              <>
+                <div className={styles.metaDivider} aria-hidden="true" />
+                <div className={styles.metaPill}>
+                  <span className={styles.metaPillLabel}>Retail Value</span>
+                  <span className={styles.metaPillValue}>{formatInr(giveaway.retailValueInr)}</span>
+                </div>
+              </>
+            )}
+            <div className={styles.metaDivider} aria-hidden="true" />
+            <div className={styles.metaPill}>
+              <span className={styles.metaPillLabel}>Winner Draw</span>
+              <span className={styles.metaPillValue}>
+                <Award size={13} className={styles.metaPillIcon} aria-hidden="true" />
                 <span>{giveaway.winnerCount} {giveaway.winnerCount === 1 ? 'Winner' : 'Winners'}</span>
               </span>
             </div>
           </div>
 
-          {/* Integrated Countdown Timer Box */}
+          {/* Integrated Live Countdown Timer Card */}
           <div className={styles.timerCard}>
             <CountdownTimer
               startsAt={giveaway.startsAt}
@@ -153,14 +173,14 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
           {/* Action CTAs */}
           <div className={styles.ctaRow}>
             <Link
-              to={`/giveaway/${giveaway.slug}`}
+              to={`/giveaway/${giveaway.slug || giveaway.id || giveaway._id}`}
               className={styles.ctaLink}
               aria-label={`Enter ${giveaway.title} giveaway`}
             >
               <Button
                 variant="primary"
                 size="lg"
-                iconRight={<ArrowRight size={18} />}
+                iconRight={<ArrowRight size={18} className={styles.ctaArrow} />}
               >
                 {ctaLabel}
               </Button>
@@ -172,46 +192,59 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
                 size="lg"
                 iconRight={<ChevronDown size={16} />}
               >
-                Browse All Pools
+                Browse Pools
               </Button>
             </a>
           </div>
         </div>
 
-        {/* Right Column: Official Prize Visual Showcase */}
+        {/* Right Column: Floating Prize Presentation on Illuminated Pedestal */}
         <div className={styles.visualCol}>
-          <div className={styles.cardShowcase}>
-            {/* Top Badges */}
-            <div className={styles.cardHeader}>
-              <span className={styles.prizeTypeBadge}>{giveaway.prizeType} PRIZE</span>
+          <div className={styles.stageContainer}>
+            {/* Ambient Radial Spotlight & Orbit Rings */}
+            <div className={styles.spotlight} aria-hidden="true" />
+            <div className={styles.orbitRingOuter} aria-hidden="true" />
+            <div className={styles.orbitRingInner} aria-hidden="true" />
+
+            {/* Top Floating Badge Pill */}
+            <div className={styles.stageTopBadge}>
+              <span className={styles.stageTypeTag}>{giveaway.prizeType} PRIZE</span>
               {giveaway.participantCount !== undefined && (
-                <span className={styles.participantBadge}>
+                <span className={styles.stageParticipantTag}>
                   <Users size={12} aria-hidden="true" />
                   <span>{giveaway.participantCount?.toLocaleString()} Entered</span>
                 </span>
               )}
             </div>
 
-            {/* Official Prize Image */}
-            <div className={styles.imagePedestal}>
+            {/* Floating Product Image */}
+            <div className={styles.floatingProductWrap}>
               <img
                 src={prizeImageSrc}
                 alt={giveaway.prize || giveaway.title}
                 className={styles.prizeImg}
                 loading="eager"
               />
+              {/* Product Ground Shadow */}
+              <div className={styles.productShadow} aria-hidden="true" />
             </div>
 
-            {/* Card Footer Summary */}
-            <div className={styles.cardFooter}>
-              <div className={styles.footerDetails}>
-                <div className={styles.footerPrizeName}>{giveaway.prize}</div>
-                <div className={styles.footerTier}>
+            {/* 3D-styled Illuminated Pedestal Base */}
+            <div className={styles.pedestalBase}>
+              <div className={styles.pedestalTop} />
+              <div className={styles.pedestalFront} />
+            </div>
+
+            {/* Bottom Floating Info Summary Pill */}
+            <div className={styles.stageFooter}>
+              <div className={styles.stagePrizeInfo}>
+                <span className={styles.stagePrizeTitle}>{giveaway.prize}</span>
+                <span className={styles.stagePrizeSubtitle}>
                   {giveaway.eligibility?.description || 'Open to all VELOOP Members'}
-                </div>
+                </span>
               </div>
-              <div className={styles.verifiedTag}>
-                <ShieldCheck size={15} />
+              <div className={styles.verifiedPill}>
+                <ShieldCheck size={14} aria-hidden="true" />
                 <span>Fair & Transparent</span>
               </div>
             </div>
