@@ -4,6 +4,18 @@
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
   padding: var(--space-12) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(124, 58, 237, 0.25) 50%, transparent 100%);
 }
 
 .container {
@@ -13,9 +25,32 @@
   width: 100%;
 }
 
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInScale {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .header {
   text-align: center;
   margin-bottom: var(--space-10);
+  animation: fadeInUp 0.5s ease-out both;
 }
 
 .badge {
@@ -47,7 +82,7 @@
 }
 
 /* ==========================================================================
-   4-Step Progression Grid
+   4-Step Progression Grid — Enhanced
    ========================================================================== */
 .stepsGrid {
   display: grid;
@@ -65,13 +100,46 @@
   flex-direction: column;
   position: relative;
   box-shadow: var(--shadow-sm);
-  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease, border-color 300ms ease;
+  overflow: hidden;
+  animation: slideInScale 0.4s ease-out both;
+}
+
+.stepCard:nth-child(1) { animation-delay: 0.05s; }
+.stepCard:nth-child(2) { animation-delay: 0.12s; }
+.stepCard:nth-child(3) { animation-delay: 0.19s; }
+.stepCard:nth-child(4) { animation-delay: 0.26s; }
+
+.stepCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(124, 58, 237, 0.04) 50%,
+    transparent 100%
+  );
+  transition: left 0.6s ease;
+  z-index: 0;
+}
+
+.stepCard:hover::before {
+  left: 100%;
+}
+
+.stepCard > * {
+  position: relative;
+  z-index: 1;
 }
 
 .stepCard:hover {
-  transform: translateY(-3px);
+  transform: translateY(-6px);
   border-color: var(--color-primary-border);
-  box-shadow: var(--shadow-lg), 0 0 20px rgba(99, 102, 241, 0.12);
+  box-shadow: var(--shadow-lg), 0 0 24px rgba(124, 58, 237, 0.12);
 }
 
 .cardHeader {
@@ -88,19 +156,32 @@
   opacity: 0.9;
   font-variant-numeric: tabular-nums;
   line-height: 1;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.stepCard:hover .stepNumber {
+  transform: scale(1.1);
+  color: var(--color-primary-hover);
 }
 
 .iconWrapper {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-md);
   background-color: var(--color-primary-light);
   border: 1px solid var(--color-primary-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-primary);
+  color: var(--color-primary-hover);
   flex-shrink: 0;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), background-color 300ms ease, box-shadow 300ms ease;
+}
+
+.stepCard:hover .iconWrapper {
+  transform: scale(1.12) rotate(5deg);
+  background-color: rgba(124, 58, 237, 0.28);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.35);
 }
 
 .stepTitle {
@@ -150,5 +231,14 @@
 
   .stepCard {
     padding: var(--space-5);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .stepCard,
+  .header {
+    animation: none !important;
+    opacity: 1 !important;
   }
 }
