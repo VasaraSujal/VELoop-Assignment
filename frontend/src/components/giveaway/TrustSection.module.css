@@ -2,6 +2,8 @@
   width: 100%;
   padding: var(--space-12) 0;
   background-color: var(--color-navy);
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
@@ -9,6 +11,37 @@
   margin: 0 auto;
   padding: 0 var(--space-6);
   width: 100%;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInScale {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ambientDrift {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.08);
+  }
 }
 
 /* Strategic Dark Navy Anchor Panel */
@@ -20,6 +53,7 @@
   box-shadow: var(--shadow-lg);
   position: relative;
   overflow: hidden;
+  animation: fadeInUp 0.6s ease-out both;
 }
 
 /* Subtle background accent glow */
@@ -33,6 +67,7 @@
   height: 200px;
   background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, rgba(79, 70, 229, 0) 70%);
   pointer-events: none;
+  animation: ambientDrift 12s ease-in-out infinite;
 }
 
 .header {
@@ -55,6 +90,11 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: var(--space-3);
+  transition: all var(--transition-normal);
+}
+
+.badge:hover {
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.2);
 }
 
 .title {
@@ -91,13 +131,48 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+  overflow: hidden;
+  position: relative;
+  animation: slideInScale 0.4s ease-out both;
+}
+
+.featureCard:nth-child(1) { animation-delay: 0.05s; }
+.featureCard:nth-child(2) { animation-delay: 0.12s; }
+.featureCard:nth-child(3) { animation-delay: 0.19s; }
+.featureCard:nth-child(4) { animation-delay: 0.26s; }
+
+.featureCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99, 102, 241, 0.05) 50%,
+    transparent 100%
+  );
+  transition: left 0.6s ease;
+  z-index: 0;
+}
+
+.featureCard:hover::before {
+  left: 100%;
+}
+
+.featureCard > * {
+  position: relative;
+  z-index: 1;
 }
 
 .featureCard:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(99, 102, 241, 0.1);
 }
 
 .iconWrapper {
@@ -111,6 +186,12 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease;
+}
+
+.featureCard:hover .iconWrapper {
+  transform: scale(1.12) rotate(5deg);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.25);
 }
 
 .featureTitle {
@@ -169,5 +250,14 @@
 
   .featureCard {
     padding: var(--space-5);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .featureCard,
+  .panel {
+    animation: none !important;
+    opacity: 1 !important;
   }
 }
