@@ -208,6 +208,13 @@
   -webkit-overflow-scrolling: touch;
 }
 
+@media (min-width: 993px) {
+  .mobileDrawer,
+  .drawerBackdrop {
+    display: none !important;
+  }
+}
+
 .drawerOpen {
   transform: translateX(0);
 }
