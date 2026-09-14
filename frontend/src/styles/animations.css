@@ -1,0 +1,288 @@
+/* ==========================================================================
+   VELOOP Rewards — Global Premium Animation Keyframes & Utilities
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Scroll Reveal / Entrance Animations
+   -------------------------------------------------------------------------- */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInScale {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Shimmer / Metallic Sheen Effect
+   -------------------------------------------------------------------------- */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes shimmerGold {
+  0% {
+    background-position: -300% 0;
+  }
+  100% {
+    background-position: 300% 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Glow Pulse / Breathing Effects
+   -------------------------------------------------------------------------- */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(124, 58, 237, 0.15), 0 0 24px rgba(124, 58, 237, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(124, 58, 237, 0.3), 0 0 40px rgba(124, 58, 237, 0.15);
+  }
+}
+
+@keyframes glowPulseGold {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.15), 0 0 20px rgba(251, 191, 36, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(251, 191, 36, 0.3), 0 0 36px rgba(251, 191, 36, 0.15);
+  }
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    border-color: rgba(124, 58, 237, 0.25);
+  }
+  50% {
+    border-color: rgba(124, 58, 237, 0.5);
+  }
+}
+
+@keyframes borderGlowGold {
+  0%, 100% {
+    border-color: rgba(251, 191, 36, 0.3);
+  }
+  50% {
+    border-color: rgba(251, 191, 36, 0.6);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Floating / Levitation Animations
+   -------------------------------------------------------------------------- */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes floatRotate {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-3px) rotate(-1deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Particle / Star Sparkle Effects
+   -------------------------------------------------------------------------- */
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.15;
+  }
+  75% {
+    opacity: 0.6;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Icon Micro-Interactions
+   -------------------------------------------------------------------------- */
+@keyframes iconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes iconPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spinSlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Count Up / Number Reveal
+   -------------------------------------------------------------------------- */
+@keyframes countReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Background Ambient Effects
+   -------------------------------------------------------------------------- */
+@keyframes ambientDrift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(15px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-10px, 10px) scale(0.95);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Stagger Delay Utility Classes
+   -------------------------------------------------------------------------- */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.4s; }
