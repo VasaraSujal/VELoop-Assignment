@@ -6,14 +6,37 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease, border-color 300ms ease;
   height: 100%;
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(124, 58, 237, 0.04) 50%,
+    transparent 100%
+  );
+  transition: left 0.6s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.card:hover::before {
+  left: 100%;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.01);
   border-color: var(--color-primary-border);
-  box-shadow: var(--shadow-xl), 0 0 24px rgba(124, 58, 237, 0.22);
+  box-shadow: var(--shadow-xl), 0 0 28px rgba(124, 58, 237, 0.2);
 }
 
 /* ==========================================================================
@@ -30,6 +53,20 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-4);
+}
+
+.imageFrame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(124, 58, 237, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover .imageFrame::after {
+  opacity: 1;
 }
 
 .topBadges {
@@ -54,6 +91,12 @@
   border-radius: var(--radius-full);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition: all var(--transition-normal);
+}
+
+.card:hover .retailTag {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .imageLink {
@@ -70,12 +113,13 @@
   max-height: 82%;
   object-fit: contain;
   display: block;
-  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1), filter 350ms ease;
   filter: drop-shadow(0 6px 12px rgba(15, 23, 42, 0.12));
 }
 
 .card:hover .prizeImg {
-  transform: scale(1.04);
+  transform: scale(1.08) translateY(-4px);
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 16px rgba(124, 58, 237, 0.15));
 }
 
 /* ==========================================================================
@@ -87,6 +131,8 @@
   flex-direction: column;
   flex: 1;
   gap: var(--space-3);
+  position: relative;
+  z-index: 1;
 }
 
 .categoryRow {
@@ -148,6 +194,12 @@
   padding: var(--space-3) var(--space-4);
   margin-top: auto;
   gap: var(--space-3);
+  transition: border-color var(--transition-normal), background-color var(--transition-normal);
+}
+
+.card:hover .infoBox {
+  border-color: var(--color-primary-border);
+  background-color: rgba(124, 58, 237, 0.06);
 }
 
 .infoCol {
@@ -179,6 +231,11 @@
 .labelIcon {
   color: var(--color-primary);
   flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.card:hover .labelIcon {
+  transform: scale(1.15);
 }
 
 .entryFeeValue {
@@ -217,11 +274,22 @@
   align-items: center;
   gap: 5px;
   font-weight: var(--font-weight-medium);
+  transition: color var(--transition-fast);
+}
+
+.card:hover .metaItem {
+  color: var(--color-text-primary);
 }
 
 .metaIcon {
   color: var(--color-text-muted);
   flex-shrink: 0;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.card:hover .metaIcon {
+  color: var(--color-primary);
+  transform: scale(1.1);
 }
 
 /* ==========================================================================
@@ -235,4 +303,9 @@
   display: block;
   text-decoration: none;
   width: 100%;
+  transition: transform var(--transition-fast);
+}
+
+.actionLink:hover {
+  transform: translateY(-1px);
 }
