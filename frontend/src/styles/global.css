@@ -136,7 +136,7 @@ textarea:focus-visible,
 }
 
 /* ==========================================================================
-   Accessibility Utilities & Reduced Motion
+   Accessibility Utilities
    ========================================================================== */
 .sr-only {
   position: absolute;
@@ -148,17 +148,6 @@ textarea:focus-visible,
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
 }
 
 /* ==========================================================================
