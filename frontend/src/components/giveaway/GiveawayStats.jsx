@@ -1,19 +1,26 @@
 import { Gift, Users, Trophy, Sparkles } from 'lucide-react';
 import { formatInr, formatNumber } from '../../utils/currencyFormatter.js';
 import { Skeleton } from '../common/ui/Skeleton.jsx';
+import { useScrollReveal } from '../../utils/useScrollReveal.js';
 import styles from './GiveawayStats.module.css';
 
 /**
- * Platform Stats Bar displaying live backend statistics with honest data presentation.
+ * Platform Stats Bar displaying live backend statistics with honest data presentation and scroll entrance.
  */
 export const GiveawayStats = ({ stats, isLoading = false }) => {
+  const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.1 });
+
   const activeCount = stats?.activeGiveawaysCount ?? 0;
   const participantsCount = stats?.totalParticipants ?? 0;
   const winnersCount = stats?.totalWinners ?? 0;
   const totalValue = stats?.totalRetailValue ?? 0;
 
   return (
-    <section className={styles.statsSection} aria-label="Platform Activity Statistics">
+    <section
+      ref={sectionRef}
+      className={`${styles.statsSection} ${isVisible ? styles.sectionVisible : ''}`}
+      aria-label="Platform Activity Statistics"
+    >
       <div className={styles.container}>
         {/* Metric 1: Active Giveaways */}
         <div className={styles.statCard}>
@@ -88,3 +95,4 @@ export const GiveawayStats = ({ stats, isLoading = false }) => {
 };
 
 export default GiveawayStats;
+
