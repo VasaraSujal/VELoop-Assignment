@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
+import { useScrollReveal } from '../../utils/useScrollReveal.js';
 import styles from './FAQSection.module.css';
 
 const FAQS = [
@@ -69,6 +70,7 @@ const FAQS = [
  * Production-ready FAQ Accordion component with accessible button controls, smooth expand/collapse, and truthful answers.
  */
 export const FAQSection = () => {
+  const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.08 });
   const [openId, setOpenId] = useState('faq-1');
 
   const toggle = (id) => {
@@ -76,7 +78,12 @@ export const FAQSection = () => {
   };
 
   return (
-    <section id="faq" className={styles.section} aria-label="Frequently Asked Questions">
+    <section
+      id="faq"
+      ref={sectionRef}
+      className={`${styles.section} ${isVisible ? styles.sectionVisible : ''}`}
+      aria-label="Frequently Asked Questions"
+    >
       <div className={styles.container}>
         {/* Section Header */}
         <div className={styles.header}>
