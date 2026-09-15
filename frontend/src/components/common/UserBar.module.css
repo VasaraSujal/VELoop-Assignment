@@ -125,7 +125,11 @@
   font-size: var(--font-size-caption);
   border: 1px solid transparent;
   line-height: 1.2;
-  transition: transform var(--transition-fast), border-color var(--transition-fast);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.balanceChip:hover {
+  transform: translateY(-2px);
 }
 
 .currKey {
@@ -146,16 +150,31 @@
   border-color: var(--currency-ves-border);
 }
 
+.vesChip:hover {
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.25);
+}
+
 .svesChip {
   background-color: var(--currency-sves-bg);
   color: var(--currency-sves-text);
   border-color: var(--currency-sves-border);
 }
 
+.svesChip:hover {
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+}
+
 .tokensChip {
   background-color: var(--currency-tokens-bg);
   color: var(--currency-tokens-text);
   border-color: var(--currency-tokens-border);
+}
+
+.tokensChip:hover {
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
 }
 
 .refreshBtn {
@@ -265,22 +284,23 @@
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--shadow-xl), 0 0 24px rgba(124, 58, 237, 0.12);
   padding: var(--space-3);
   z-index: var(--z-dropdown);
   display: flex;
   flex-direction: column;
-  animation: dropdownFadeIn var(--transition-fast);
+  animation: dropdownFadeIn var(--transition-fast) ease-out;
+  transform-origin: top right;
 }
 
 @keyframes dropdownFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-6px);
+    transform: translateY(-8px) scale(0.97);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -344,12 +364,13 @@
   border: 1px solid transparent;
   background: transparent;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .profileItem:hover {
   background-color: var(--color-surface-hover);
   border-color: var(--color-border);
+  transform: translateX(2px);
 }
 
 .profileItem:focus-visible {
@@ -375,6 +396,12 @@
   font-size: 13px;
   flex-shrink: 0;
   box-shadow: 0 2px 6px rgba(99, 102, 241, 0.25);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.profileItem:hover .profileAvatar {
+  transform: scale(1.06);
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
 }
 
 .profileDetails {
