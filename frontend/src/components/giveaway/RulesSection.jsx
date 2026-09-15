@@ -1,4 +1,5 @@
 import { UserCheck, Ticket, Clock, Trophy, ShieldAlert } from 'lucide-react';
+import { useScrollReveal } from '../../utils/useScrollReveal.js';
 import styles from './RulesSection.module.css';
 
 const RULE_GROUPS = [
@@ -50,8 +51,15 @@ const RULE_GROUPS = [
  * Production-ready Rules & Eligibility component with 2-column desktop layout and scannable rule categories.
  */
 export const RulesSection = () => {
+  const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.08 });
+
   return (
-    <section id="rules" className={styles.section} aria-label="Giveaway Rules and Eligibility Guidelines">
+    <section
+      id="rules"
+      ref={sectionRef}
+      className={`${styles.section} ${isVisible ? styles.sectionVisible : ''}`}
+      aria-label="Giveaway Rules and Eligibility Guidelines"
+    >
       <div className={styles.container}>
         <div className={styles.layout}>
           {/* Left Column: Heading & Context */}
