@@ -1,8 +1,8 @@
 .section {
   width: 100%;
   background-color: var(--color-background);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
+  border-top: 1px solid rgba(139, 92, 246, 0.15);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
   padding: var(--space-12) 0;
   position: relative;
   overflow: hidden;
@@ -15,7 +15,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(124, 58, 237, 0.25) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.4) 50%, transparent 100%);
 }
 
 .container {
@@ -23,28 +23,8 @@
   margin: 0 auto;
   padding: 0 var(--container-padding);
   width: 100%;
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInScale {
-  0% {
-    opacity: 0;
-    transform: translateY(14px) scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  position: relative;
+  z-index: 1;
 }
 
 .header {
@@ -56,12 +36,18 @@
 .badge {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
+  color: #c084fc;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: var(--space-2);
+  letter-spacing: 0.1em;
+  background: rgba(124, 58, 237, 0.18);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-3);
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.2);
 }
 
 .title {
@@ -82,7 +68,7 @@
 }
 
 /* ==========================================================================
-   4-Step Progression Grid — Enhanced
+   4-Step Progression Grid — Next-Gen Cyber Glass
    ========================================================================== */
 .stepsGrid {
   display: grid;
@@ -92,17 +78,18 @@
 }
 
 .stepCard {
-  background-color: var(--color-surface-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  background: rgba(15, 18, 42, 0.8);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-2xl);
   padding: var(--space-6);
   display: flex;
   flex-direction: column;
   position: relative;
-  box-shadow: var(--shadow-sm);
-  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease, border-color 300ms ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
-  animation: slideInScale 0.4s ease-out both;
 }
 
 .stepCard:nth-child(1) { animation-delay: 0.05s; }
@@ -120,15 +107,16 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(124, 58, 237, 0.04) 50%,
+    rgba(255, 255, 255, 0.08) 50%,
     transparent 100%
   );
-  transition: left 0.6s ease;
+  transition: transform 0.6s ease;
   z-index: 0;
+  pointer-events: none;
 }
 
 .stepCard:hover::before {
-  left: 100%;
+  transform: translateX(200%);
 }
 
 .stepCard > * {
@@ -137,9 +125,9 @@
 }
 
 .stepCard:hover {
-  transform: translateY(-6px);
-  border-color: var(--color-primary-border);
-  box-shadow: var(--shadow-lg), 0 0 24px rgba(124, 58, 237, 0.12);
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(139, 92, 246, 0.55);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 28px rgba(124, 58, 237, 0.25);
 }
 
 .cardHeader {
@@ -150,44 +138,51 @@
 }
 
 .stepNumber {
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-extrabold);
-  color: var(--color-primary);
-  opacity: 0.9;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #c084fc;
+  background: rgba(124, 58, 237, 0.2);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  padding: 3px 12px;
+  border-radius: var(--radius-full);
   font-variant-numeric: tabular-nums;
-  line-height: 1;
-  transition: transform var(--transition-fast), color var(--transition-fast);
+  line-height: 1.2;
+  transition: all var(--transition-fast);
 }
 
 .stepCard:hover .stepNumber {
   transform: scale(1.1);
-  color: var(--color-primary-hover);
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: #ffffff;
+  border-color: #a855f7;
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
 }
 
 .iconWrapper {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  background-color: var(--color-primary-light);
-  border: 1px solid var(--color-primary-border);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.25) 0%, rgba(99, 102, 241, 0.15) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-primary-hover);
+  color: #c084fc;
   flex-shrink: 0;
-  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), background-color 300ms ease, box-shadow 300ms ease;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease;
 }
 
 .stepCard:hover .iconWrapper {
-  transform: scale(1.12) rotate(5deg);
-  background-color: rgba(124, 58, 237, 0.28);
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.35);
+  transform: scale(1.15) rotate(6deg);
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+  color: #ffffff;
+  box-shadow: 0 0 24px rgba(124, 58, 237, 0.5);
 }
 
 .stepTitle {
   font-size: var(--font-size-h4);
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
+  color: #ffffff;
   margin: 0 0 var(--space-2) 0;
   line-height: var(--line-height-tight);
 }
@@ -197,10 +192,6 @@
   font-size: var(--font-size-body-sm);
   line-height: var(--line-height-relaxed);
   margin: 0;
-}
-
-.stepConnector {
-  display: none;
 }
 
 /* ==========================================================================
@@ -231,14 +222,5 @@
 
   .stepCard {
     padding: var(--space-5);
-  }
-}
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-  .stepCard,
-  .header {
-    animation: none !important;
-    opacity: 1 !important;
   }
 }

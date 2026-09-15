@@ -1,4 +1,5 @@
 import { Search, Wallet, Ticket, Trophy } from 'lucide-react';
+import { useScrollReveal } from '../../utils/useScrollReveal.js';
 import styles from './HowToParticipate.module.css';
 
 const STEPS = [
@@ -36,8 +37,15 @@ const STEPS = [
  * Production-ready How It Works / Participation Journey component with 4-step horizontal desktop progression.
  */
 export const HowToParticipate = () => {
+  const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.08 });
+
   return (
-    <section id="how-it-works" className={styles.section} aria-label="How To Participate Guide">
+    <section
+      id="how-it-works"
+      ref={sectionRef}
+      className={`${styles.section} ${isVisible ? styles.sectionVisible : ''}`}
+      aria-label="How To Participate Guide"
+    >
       <div className={styles.container}>
         {/* Section Header */}
         <div className={styles.header}>
