@@ -1,4 +1,5 @@
 import { Scale, ShieldCheck, PackageCheck, FileCheck } from 'lucide-react';
+import { useScrollReveal } from '../../utils/useScrollReveal.js';
 import styles from './TrustSection.module.css';
 
 const TRUST_PRINCIPLES = [
@@ -32,8 +33,15 @@ const TRUST_PRINCIPLES = [
  * Production-ready Trust & Security section featuring a strategic dark navy anchor panel and 4 factual trust principles.
  */
 export const TrustSection = () => {
+  const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.08 });
+
   return (
-    <section id="trust" className={styles.section} aria-label="Trust & Security Principles">
+    <section
+      id="trust"
+      ref={sectionRef}
+      className={`${styles.section} ${isVisible ? styles.sectionVisible : ''}`}
+      aria-label="Trust & Security Principles"
+    >
       <div className={styles.container}>
         <div className={styles.panel}>
           {/* Header */}
