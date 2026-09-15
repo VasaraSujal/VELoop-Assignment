@@ -9,6 +9,7 @@
   border: 1px dashed var(--color-border-strong);
   border-radius: var(--radius-lg);
   width: 100%;
+  animation: scaleIn 0.35s ease-out both;
 }
 
 .iconWrapper {
@@ -21,6 +22,14 @@
   background-color: var(--color-surface-muted);
   color: var(--color-text-muted);
   margin-bottom: var(--space-4);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.08);
+  transition: transform var(--transition-normal), color var(--transition-fast);
+}
+
+.emptyState:hover .iconWrapper {
+  transform: scale(1.08);
+  color: var(--color-primary);
 }
 
 .title {

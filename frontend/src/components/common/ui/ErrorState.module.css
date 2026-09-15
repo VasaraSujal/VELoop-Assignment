@@ -9,6 +9,8 @@
   border: 1px solid var(--status-danger-border);
   border-radius: var(--radius-lg);
   width: 100%;
+  animation: scaleIn 0.35s ease-out both;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .iconWrapper {
@@ -21,6 +23,13 @@
   background-color: var(--status-danger-bg);
   color: var(--status-danger);
   margin-bottom: var(--space-4);
+  border: 1px solid var(--status-danger-border);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.2);
+  transition: transform var(--transition-normal);
+}
+
+.errorState:hover .iconWrapper {
+  transform: scale(1.08);
 }
 
 .title {
