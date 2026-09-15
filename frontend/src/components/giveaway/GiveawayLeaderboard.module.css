@@ -1030,20 +1030,3 @@
     padding: var(--space-4) var(--space-3);
   }
 }
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-  .podiumCard,
-  .row,
-  .mobileCard {
-    animation: none !important;
-    opacity: 1 !important;
-  }
-  .crownIcon,
-  .badgeIcon {
-    animation: none !important;
-  }
-  .podiumGold::after {
-    animation: none !important;
-  }
-}
