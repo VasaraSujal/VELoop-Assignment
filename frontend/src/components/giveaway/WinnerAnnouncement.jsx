@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Trophy, Calendar, User, Coins, ShieldCheck }
 import { Badge } from '../common/ui/Badge.jsx';
 import { EmptyState } from '../common/ui/EmptyState.jsx';
 import { Skeleton } from '../common/ui/Skeleton.jsx';
+import { useScrollReveal } from '../../utils/useScrollReveal.js';
 import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './WinnerAnnouncement.module.css';
 
@@ -44,6 +45,7 @@ const formatClaimStatusLabel = (status, label) => {
  * Production-ready Recent Winner Showcase with carousel navigation, official prize assets, and privacy-safe winner details.
  */
 export const WinnerAnnouncement = ({ winners = [], isLoading = false }) => {
+  const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.08 });
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const total = winners.length;
@@ -74,7 +76,8 @@ export const WinnerAnnouncement = ({ winners = [], isLoading = false }) => {
 
   return (
     <section
-      className={styles.section}
+      ref={sectionRef}
+      className={`${styles.section} ${isVisible ? styles.sectionVisible : ''}`}
       aria-label="Recent Winner Showcase"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
