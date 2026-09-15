@@ -4,6 +4,7 @@ import { PRIZE_TYPES } from '../../data/constants.js';
 import { EmptyState } from '../common/ui/EmptyState.jsx';
 import { Skeleton } from '../common/ui/Skeleton.jsx';
 import { Button } from '../common/ui/Button.jsx';
+import { useScrollReveal } from '../../utils/useScrollReveal.js';
 import { Gift, RotateCcw, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import styles from './GiveawayGrid.module.css';
 
@@ -11,6 +12,7 @@ import styles from './GiveawayGrid.module.css';
  * Choose Your Giveaway — Premium Horizontal Carousel with touch swipe, smooth scrolling, and category filters.
  */
 export const GiveawayGrid = ({ giveaways = [], isLoading = false }) => {
+  const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.08 });
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -58,7 +60,12 @@ export const GiveawayGrid = ({ giveaways = [], isLoading = false }) => {
   };
 
   return (
-    <section id="active-giveaways" className={styles.section} aria-label="Choose Your Giveaway">
+    <section
+      id="active-giveaways"
+      ref={sectionRef}
+      className={`${styles.section} ${isVisible ? styles.sectionVisible : ''}`}
+      aria-label="Choose Your Giveaway"
+    >
       <div className={styles.container}>
         {/* Section Intro Header */}
         <div className={styles.headerRow}>
