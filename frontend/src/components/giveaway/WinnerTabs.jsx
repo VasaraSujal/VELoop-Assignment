@@ -3,6 +3,7 @@ import { Calendar, Trophy, User, Coins, ShieldCheck, ChevronDown, ChevronUp } fr
 import { Badge } from '../common/ui/Badge.jsx';
 import { EmptyState } from '../common/ui/EmptyState.jsx';
 import { Skeleton } from '../common/ui/Skeleton.jsx';
+import { useScrollReveal } from '../../utils/useScrollReveal.js';
 import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './WinnerTabs.module.css';
 
@@ -46,6 +47,7 @@ const formatClaimStatusLabel = (status, label) => {
  * Production-ready Historical Winner Roster with category tabs, desktop table, and mobile card transformation.
  */
 export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading = false }) => {
+  const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.08 });
   const [activeTab, setActiveTab] = useState('recent');
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -58,7 +60,11 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
   const displayedList = isExpanded ? displayList : displayList.slice(0, INITIAL_DISPLAY_COUNT);
 
   return (
-    <section className={styles.section} aria-label="Winner Roster and History">
+    <section
+      ref={sectionRef}
+      className={`${styles.section} ${isVisible ? styles.sectionVisible : ''}`}
+      aria-label="Winner Roster and History"
+    >
       <div className={styles.container}>
         {/* Section Intro Header */}
         <div className={styles.headerRow}>
