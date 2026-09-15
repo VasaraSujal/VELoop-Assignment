@@ -63,12 +63,21 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: transform var(--transition-fast);
 }
 
 .iconLeft svg,
 .iconRight svg {
   width: 18px;
   height: 18px;
+}
+
+.button:hover:not(:disabled) .iconRight {
+  transform: translateX(3px);
+}
+
+.button:hover:not(:disabled) .iconLeft {
+  transform: translateX(-2px);
 }
 
 /* Spinner */
@@ -95,23 +104,41 @@
 
 /* Variants */
 
-/* 1. Primary (VELOOP Indigo) */
+/* 1. Primary (VELOOP Indigo & Cyber Gradient) */
 .primary {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #6366f1 100%);
   color: #ffffff;
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 100%
+  );
+  animation: shimmerSweep 3.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .primary:hover:not(:disabled) {
-  background-color: var(--color-primary-hover);
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #6366f1 100%);
   color: #ffffff;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.55), 0 0 16px rgba(124, 58, 237, 0.35);
 }
 
 .primary:active:not(:disabled) {
-  background-color: var(--color-primary-active);
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 /* 2. Secondary (Light Surface) */
@@ -125,11 +152,14 @@
 .secondary:hover:not(:disabled) {
   background-color: var(--color-surface-hover);
   border-color: var(--color-border-strong);
-  color: var(--color-text-primary);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .secondary:active:not(:disabled) {
   background-color: var(--color-surface-muted);
+  transform: scale(0.98);
 }
 
 /* 3. Outline */
@@ -142,6 +172,11 @@
 .outline:hover:not(:disabled) {
   background-color: var(--color-primary-light);
   border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.outline:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 /* 4. Ghost */
@@ -155,6 +190,10 @@
   color: var(--color-text-primary);
 }
 
+.ghost:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
 /* 5. Danger */
 .danger {
   background-color: var(--status-danger);
@@ -164,6 +203,12 @@
 .danger:hover:not(:disabled) {
   background-color: #b91c1c;
   color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+.danger:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 .danger .spinner {
@@ -172,13 +217,20 @@
 
 /* 6. Navy (For Dark Anchor Hero/Footer Sections) */
 .navy {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.08);
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
 }
 
 .navy:hover:not(:disabled) {
-  background-color: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.32);
   color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.navy:active:not(:disabled) {
+  transform: scale(0.98);
 }
