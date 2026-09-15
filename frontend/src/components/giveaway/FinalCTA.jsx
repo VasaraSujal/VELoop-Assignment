@@ -1,13 +1,20 @@
 import { ArrowRight, Sparkles, Gift } from 'lucide-react';
 import { Button } from '../common/ui/Button.jsx';
+import { useScrollReveal } from '../../utils/useScrollReveal.js';
 import styles from './FinalCTA.module.css';
 
 /**
- * Pre-Footer High-Impact CTA Banner
+ * Pre-Footer High-Impact CTA Banner with scroll reveal
  */
 export const FinalCTA = () => {
+  const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.1 });
+
   return (
-    <section className={styles.ctaSection} aria-label="Ready to Enter">
+    <section
+      ref={sectionRef}
+      className={`${styles.ctaSection} ${isVisible ? styles.sectionVisible : ''}`}
+      aria-label="Ready to Enter"
+    >
       <div className={styles.container}>
         <div className={styles.ctaCard}>
           <div className={styles.backgroundGlow} aria-hidden="true" />
