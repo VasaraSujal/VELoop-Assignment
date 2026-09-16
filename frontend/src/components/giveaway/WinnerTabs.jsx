@@ -44,7 +44,7 @@ const formatClaimStatusLabel = (status, label) => {
 };
 
 /**
- * Production-ready Historical Winner Roster with category tabs, desktop table, and mobile card transformation.
+ * Production-ready Previous Winner Roster with category tabs, desktop table, and mobile card transformation.
  */
 export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading = false }) => {
   const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.08 });
@@ -63,21 +63,21 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
     <section
       ref={sectionRef}
       className={`${styles.section} ${isVisible ? styles.sectionVisible : ''}`}
-      aria-label="Winner Roster and History"
+      aria-label="Previous Winners and Claim Statuses"
     >
       <div className={styles.container}>
         {/* Section Intro Header */}
         <div className={styles.headerRow}>
           <div className={styles.titleArea}>
             <span className={styles.sectionBadge}>Winner Roster</span>
-            <h2 className={styles.sectionTitle}>Historical Winners</h2>
+            <h2 className={styles.sectionTitle}>Previous Winners</h2>
             <p className={styles.sectionSubtitle}>
               Browse previous giveaway winners and their current claim statuses.
             </p>
           </div>
 
           {/* Tab Selection */}
-          <div className={styles.tabsNav} role="tablist" aria-label="Winner History Tabs">
+          <div className={styles.tabsNav} role="tablist" aria-label="Previous Winner Tabs">
             <button
               type="button"
               role="tab"
@@ -299,7 +299,7 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
             <EmptyState
               icon={<Trophy size={32} />}
               title="No winner records available"
-              description="No historical draw records were found for this archive category."
+              description="No previous draw records were found for this category."
             />
           </div>
         )}
