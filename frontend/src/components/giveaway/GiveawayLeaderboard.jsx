@@ -152,81 +152,110 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
           <>
             {/* Top 3 Podium Showcase (Desktop & Mobile) */}
             {leaderboardData.length >= 2 && (
-              <div className={styles.podiumContainer} aria-label="Top 3 Winners Podium">
-                {/* 2nd Place (Left on Desktop, Left on Mobile grid) */}
-                {top2 && (
-                  <div className={`${styles.podiumCard} ${styles.podiumSilver}`}>
-                    <div className={styles.podiumBadge}>
-                      <Medal size={13} aria-hidden="true" />
-                      <span>2ND PLACE</span>
-                    </div>
-                    <div className={styles.podiumAvatarBox}>
-                      <div className={styles.podiumAvatar}>
-                        {top2.displayName.charAt(0)}
-                      </div>
-                      <span className={styles.podiumRankCircle}>2</span>
-                    </div>
-                    <div className={styles.podiumUser}>{top2.maskedId}</div>
-                    {top2.prize && (
-                      <div className={styles.podiumPrizeThumb}>
-                        <img src={resolvePrizeImage(top2.rawWinner)} alt={top2.prize} loading="lazy" />
-                      </div>
-                    )}
-                    {top2.prize && <div className={styles.podiumPrize}>{top2.prize}</div>}
-                    {top2.status && <Badge variant={top2.statusVariant} size="sm">{top2.status}</Badge>}
+              <div className={styles.podiumStageWrapper}>
+                {/* Background Animated Stage Glow & Trend Chart */}
+                <div className={styles.stageBackdrop} aria-hidden="true">
+                  <div className={styles.stageRadarGlow} />
+                  <div className={styles.stageGrowthChart}>
+                    <div className={`${styles.chartBar} ${styles.cb1}`} />
+                    <div className={`${styles.chartBar} ${styles.cb2}`} />
+                    <div className={`${styles.chartBar} ${styles.cb3}`} />
+                    <div className={`${styles.chartBar} ${styles.cb4}`} />
+                    <div className={`${styles.chartBar} ${styles.cb5}`} />
+                    <div className={styles.chartTrendArrow}>↗</div>
                   </div>
-                )}
+                </div>
 
-                {/* 1st Place Champion (Center - Elevated on Desktop, Top on Mobile) */}
-                {top1 && (
-                  <div className={`${styles.podiumCard} ${styles.podiumGold}`}>
-                    <div className={styles.crownWrapper}>
-                      <Crown size={22} className={styles.crownIcon} aria-hidden="true" />
-                    </div>
-                    <div className={styles.podiumBadgeGold}>
-                      <Trophy size={13} aria-hidden="true" />
-                      <span>CHAMPION</span>
-                    </div>
-                    <div className={styles.podiumAvatarBox}>
-                      <div className={styles.podiumAvatarGold}>
-                        {top1.displayName.charAt(0)}
-                      </div>
-                      <span className={styles.podiumRankCircleGold}>1</span>
-                    </div>
-                    <div className={styles.podiumUserGold}>{top1.maskedId}</div>
-                    {top1.prize && (
-                      <div className={styles.podiumPrizeThumbGold}>
-                        <img src={resolvePrizeImage(top1.rawWinner)} alt={top1.prize} loading="lazy" />
-                      </div>
-                    )}
-                    {top1.prize && <div className={styles.podiumPrizeGold}>{top1.prize}</div>}
-                    {top1.status && <Badge variant={top1.statusVariant} size="sm">{top1.status}</Badge>}
-                  </div>
-                )}
+                {/* Floating Interactive Micro-Badges */}
+                <div className={styles.floatingBadgeLeft} aria-hidden="true">
+                  <span className={styles.floatingBadgeCoin}>V</span>
+                  <span>+VEs</span>
+                </div>
+                <div className={styles.floatingBadgeRight} aria-hidden="true">
+                  <Sparkles size={13} className={styles.floatingBadgeStar} />
+                  <span>+XP</span>
+                </div>
 
-                {/* 3rd Place (Right on Desktop, Right on Mobile grid) */}
-                {top3 && (
-                  <div className={`${styles.podiumCard} ${styles.podiumBronze}`}>
-                    <div className={styles.podiumBadgeBronze}>
-                      <Award size={13} aria-hidden="true" />
-                      <span>3RD PLACE</span>
-                    </div>
-                    <div className={styles.podiumAvatarBox}>
-                      <div className={styles.podiumAvatarBronze}>
-                        {top3.displayName.charAt(0)}
+                <div className={styles.podiumContainer} aria-label="Top 3 Winners Podium">
+                  {/* 2nd Place (Left on Desktop, Left on Mobile grid) */}
+                  {top2 && (
+                    <div className={`${styles.podiumCard} ${styles.podiumSilver}`}>
+                      <div className={styles.podiumBadge}>
+                        <Medal size={13} aria-hidden="true" />
+                        <span>02 • 2ND PLACE</span>
                       </div>
-                      <span className={styles.podiumRankCircleBronze}>3</span>
-                    </div>
-                    <div className={styles.podiumUser}>{top3.maskedId}</div>
-                    {top3.prize && (
-                      <div className={styles.podiumPrizeThumb}>
-                        <img src={resolvePrizeImage(top3.rawWinner)} alt={top3.prize} loading="lazy" />
+                      <div className={styles.podiumAvatarBox}>
+                        <div className={styles.podiumAvatar}>
+                          {top2.displayName.charAt(0)}
+                        </div>
+                        <span className={styles.podiumRankCircle}>2</span>
                       </div>
-                    )}
-                    {top3.prize && <div className={styles.podiumPrize}>{top3.prize}</div>}
-                    {top3.status && <Badge variant={top3.statusVariant} size="sm">{top3.status}</Badge>}
-                  </div>
-                )}
+                      <div className={styles.podiumUser}>{top2.maskedId}</div>
+                      {top2.prize && (
+                        <div className={styles.podiumPrizeThumb}>
+                          <img src={resolvePrizeImage(top2.rawWinner)} alt={top2.prize} loading="lazy" />
+                        </div>
+                      )}
+                      {top2.prize && <div className={styles.podiumPrize}>{top2.prize}</div>}
+                      {top2.status && <Badge variant={top2.statusVariant} size="sm">{top2.status}</Badge>}
+                    </div>
+                  )}
+
+                  {/* 1st Place Champion (Center - Elevated on Desktop, Top on Mobile) */}
+                  {top1 && (
+                    <div className={`${styles.podiumCard} ${styles.podiumGold}`}>
+                      {/* Orbital Rings around Champion */}
+                      <div className={styles.orbitRingOuter} aria-hidden="true" />
+                      <div className={styles.orbitRingInner} aria-hidden="true" />
+
+                      <div className={styles.crownWrapper}>
+                        <Crown size={24} className={styles.crownIcon} aria-hidden="true" />
+                      </div>
+                      <div className={styles.podiumBadgeGold}>
+                        <Trophy size={13} aria-hidden="true" />
+                        <span>01 • CHAMPION</span>
+                      </div>
+                      <div className={styles.podiumAvatarBox}>
+                        <div className={styles.podiumAvatarGold}>
+                          {top1.displayName.charAt(0)}
+                        </div>
+                        <span className={styles.podiumRankCircleGold}>1</span>
+                      </div>
+                      <div className={styles.podiumUserGold}>{top1.maskedId}</div>
+                      {top1.prize && (
+                        <div className={styles.podiumPrizeThumbGold}>
+                          <img src={resolvePrizeImage(top1.rawWinner)} alt={top1.prize} loading="lazy" />
+                        </div>
+                      )}
+                      {top1.prize && <div className={styles.podiumPrizeGold}>{top1.prize}</div>}
+                      {top1.status && <Badge variant={top1.statusVariant} size="sm">{top1.status}</Badge>}
+                    </div>
+                  )}
+
+                  {/* 3rd Place (Right on Desktop, Right on Mobile grid) */}
+                  {top3 && (
+                    <div className={`${styles.podiumCard} ${styles.podiumBronze}`}>
+                      <div className={styles.podiumBadgeBronze}>
+                        <Award size={13} aria-hidden="true" />
+                        <span>03 • 3RD PLACE</span>
+                      </div>
+                      <div className={styles.podiumAvatarBox}>
+                        <div className={styles.podiumAvatarBronze}>
+                          {top3.displayName.charAt(0)}
+                        </div>
+                        <span className={styles.podiumRankCircleBronze}>3</span>
+                      </div>
+                      <div className={styles.podiumUser}>{top3.maskedId}</div>
+                      {top3.prize && (
+                        <div className={styles.podiumPrizeThumb}>
+                          <img src={resolvePrizeImage(top3.rawWinner)} alt={top3.prize} loading="lazy" />
+                        </div>
+                      )}
+                      {top3.prize && <div className={styles.podiumPrize}>{top3.prize}</div>}
+                      {top3.status && <Badge variant={top3.statusVariant} size="sm">{top3.status}</Badge>}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
