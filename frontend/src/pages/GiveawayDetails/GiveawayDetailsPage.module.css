@@ -904,13 +904,13 @@
 
 .stepHeading {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
 .stepDesc {
   font-size: 0.85rem;
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
@@ -918,23 +918,23 @@
 .rulesGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-4, 16px);
+  gap: var(--space-4);
 }
 
 .ruleCard {
-  background-color: var(--color-surface-muted, #f8fafc);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-lg, 12px);
-  padding: var(--space-5, 20px);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
 }
 
 .ruleCardHeader {
   display: flex;
   align-items: center;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
 }
 
 .ruleCheckIcon {
@@ -944,13 +944,13 @@
 
 .ruleCardTitle {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
 .ruleCardText {
   font-size: 0.85rem;
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
@@ -968,14 +968,14 @@
 }
 
 .accordionToggle {
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .infoContentBody {
-  margin-top: var(--space-6, 24px);
+  margin-top: var(--space-6);
   animation: fadeIn 0.2s ease-out;
 }
 
@@ -993,16 +993,16 @@
 .infoTable {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-lg, 12px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
 .infoRow {
   display: grid;
   grid-template-columns: 240px 1fr;
-  padding: var(--space-3, 12px) var(--space-5, 20px);
-  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
   font-size: 0.875rem;
   align-items: center;
 }
@@ -1012,28 +1012,29 @@
 }
 
 .infoRow:nth-child(even) {
-  background-color: var(--color-surface-muted, #f8fafc);
+  background-color: var(--color-surface-muted);
 }
 
 .infoKey {
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--color-text-secondary, #5b6475);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
 }
 
 .infoVal {
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
   line-height: 1.5;
 }
 
 /* 7. OFFICIAL WINNERS ROSTER */
 .winnersBadge {
   font-size: 0.75rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: #065f46;
-  background-color: #d1fae5;
+  font-weight: var(--font-weight-bold);
+  color: #4ade80;
+  background-color: rgba(34, 197, 94, 0.14);
+  border: 1px solid rgba(34, 197, 94, 0.3);
   padding: 3px 10px;
-  border-radius: var(--radius-full, 9999px);
+  border-radius: var(--radius-full);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -1041,88 +1042,89 @@
 .winnerRosterList {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
 }
 
 .winnerItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-3, 12px) var(--space-4, 16px);
-  background-color: var(--color-surface-muted, #f8fafc);
-  border: 1px solid var(--color-border, #e2e8f0);
-  border-radius: var(--radius-md, 8px);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 .winnerMain {
   display: flex;
   align-items: center;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .winnerRankBadge {
-  background: linear-gradient(135deg, var(--color-primary, #4f46e5), #4338ca);
+  background: linear-gradient(135deg, var(--color-primary), #4338ca);
   color: #ffffff;
   font-size: 0.75rem;
-  font-weight: var(--font-weight-bold, 700);
+  font-weight: var(--font-weight-bold);
   padding: 3px 8px;
-  border-radius: var(--radius-xs, 4px);
+  border-radius: var(--radius-xs);
 }
 
 .winnerHandle {
   font-size: 0.9rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--color-text-primary, #111827);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .winnerMaskedId {
   font-size: 0.775rem;
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-text-secondary);
 }
 
 .winnerMeta {
   display: flex;
   align-items: center;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
 }
 
 .winnerDrawDate {
   font-size: 0.775rem;
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-text-secondary);
 }
 
 .winnerStatusPill {
   font-size: 0.725rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: #065f46;
-  background-color: #d1fae5;
+  font-weight: var(--font-weight-semibold);
+  color: #4ade80;
+  background-color: rgba(34, 197, 94, 0.14);
+  border: 1px solid rgba(34, 197, 94, 0.3);
   padding: 2px 8px;
-  border-radius: var(--radius-full, 9999px);
+  border-radius: var(--radius-full);
 }
 
 /* 8. RELATED GIVEAWAYS SECTION */
 .relatedSection {
-  margin-top: var(--space-12, 48px);
-  margin-bottom: var(--space-8, 32px);
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-8);
 }
 
 .relatedHeader {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: var(--space-6, 24px);
+  margin-bottom: var(--space-6);
 }
 
 .relatedTitle {
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--color-text-primary, #111827);
+  color: var(--color-text-primary);
   letter-spacing: -0.01em;
 }
 
 .relatedSub {
   font-size: 0.9rem;
-  color: var(--color-text-secondary, #5b6475);
+  color: var(--color-text-secondary);
   margin-top: 4px;
 }
 
@@ -1131,20 +1133,20 @@
   align-items: center;
   gap: 6px;
   font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--color-primary, #4f46e5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
   text-decoration: none;
-  transition: color var(--transition-fast, 0.15s ease);
+  transition: color var(--transition-fast);
 }
 
 .viewAllLink:hover {
-  color: var(--color-primary-hover, #4338ca);
+  color: var(--color-primary-hover);
 }
 
 .relatedGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-6, 24px);
+  gap: var(--space-6);
 }
 
 /* RESPONSIVE BREAKPOINTS */
