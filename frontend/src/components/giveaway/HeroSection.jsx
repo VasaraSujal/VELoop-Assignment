@@ -206,6 +206,16 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
             <div className={styles.orbitRingOuter} aria-hidden="true" />
             <div className={styles.orbitRingInner} aria-hidden="true" />
 
+            {/* Micro-floating badges */}
+            <div className={styles.heroFloatingBadgeLeft} aria-hidden="true">
+              <span className={styles.heroBadgeCoin}>V</span>
+              <span>+VEs Pool</span>
+            </div>
+            <div className={styles.heroFloatingBadgeRight} aria-hidden="true">
+              <Sparkles size={12} className={styles.heroBadgeStar} />
+              <span>100% Verified</span>
+            </div>
+
             {/* Top Floating Badge Pill */}
             <div className={styles.stageTopBadge}>
               <span className={styles.stageTypeTag}>{giveaway.prizeType} PRIZE</span>
