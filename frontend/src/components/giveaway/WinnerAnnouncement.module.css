@@ -499,3 +499,25 @@
     font-size: var(--font-size-h4);
   }
 }
+
+@media (max-width: 480px) {
+  .sliderCard {
+    padding: var(--space-4);
+    gap: var(--space-4);
+    border-radius: var(--radius-xl);
+  }
+
+  .imageWrapper {
+    max-width: 260px;
+    padding: var(--space-3);
+  }
+
+  .detailsGrid {
+    padding: var(--space-3);
+    gap: var(--space-2);
+  }
+
+  .winnerInfo {
+    gap: var(--space-3);
+  }
+}
