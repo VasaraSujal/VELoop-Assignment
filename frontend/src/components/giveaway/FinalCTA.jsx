@@ -18,6 +18,16 @@ export const FinalCTA = () => {
       <div className={styles.container}>
         <div className={styles.ctaCard}>
           <div className={styles.backgroundGlow} aria-hidden="true" />
+
+          {/* Floating animated reward icons */}
+          <div className={styles.floatingVesPill} aria-hidden="true">
+            <span className={styles.vesCoin}>V</span>
+            <span>+VEs</span>
+          </div>
+          <div className={styles.floatingXpPill} aria-hidden="true">
+            <Sparkles size={12} className={styles.xpStar} />
+            <span>+XP Rewards</span>
+          </div>
           
           <div className={styles.content}>
             <div className={styles.badge}>
