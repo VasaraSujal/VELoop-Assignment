@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Gift, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import styles from './Footer.module.css';
 
 /**
@@ -22,10 +22,14 @@ export const Footer = () => {
         <div className={styles.brandCol}>
           <Link to="/" className={styles.brandLink} aria-label="VELOOP Rewards - Return to Homepage">
             <div className={styles.logoIconBox}>
-              <Gift size={20} className={styles.logoGiftIcon} aria-hidden="true" />
+              <img
+                src="/assets/prizes/Animation-VELoop-xJgvrjNN.gif"
+                alt="VELOOP Logo"
+                className={styles.logoImg}
+              />
             </div>
             <div className={styles.brandTextWrap}>
-              <span className={styles.brandMain}>VELOP</span>
+              <span className={styles.brandMain}>VELoop</span>
               <span className={styles.brandSub}>Rewards</span>
             </div>
             <span className={styles.brandBadge}>Giveaways</span>
