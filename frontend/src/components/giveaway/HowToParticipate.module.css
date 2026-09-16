@@ -77,6 +77,19 @@
   position: relative;
 }
 
+.connectorTrack {
+  position: absolute;
+  top: 50px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.2) 0%, rgba(245, 158, 11, 0.7) 50%, rgba(124, 58, 237, 0.2) 100%);
+  background-size: 200% 100%;
+  animation: energyPulseLine 4s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .stepCard {
   background: rgba(15, 18, 42, 0.8);
   backdrop-filter: blur(14px);

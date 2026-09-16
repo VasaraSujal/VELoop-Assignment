@@ -58,9 +58,12 @@ export const HowToParticipate = () => {
 
         {/* 4-Step Horizontal Progression Grid */}
         <div className={styles.stepsGrid}>
-          {STEPS.map((item, idx) => {
+          {/* Animated Flowing Energy Connector Line (Desktop) */}
+          <div className={styles.connectorTrack} aria-hidden="true" />
+
+          {STEPS.map((item, index) => {
             const IconComponent = item.icon;
-            const isLast = idx === STEPS.length - 1;
+            const isLast = index === STEPS.length - 1;
 
             return (
               <div key={item.step} className={styles.stepCard}>
