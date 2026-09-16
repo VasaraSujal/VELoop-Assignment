@@ -38,7 +38,7 @@ const FAQS = [
     id: 'faq-6',
     question: 'How are winners announced?',
     answer:
-      'Winners are announced publicly on the Recent Giveaway Winners showcase and the historical winner roster with privacy-safe masked identifiers.',
+      'Winners are announced publicly on the Recent Giveaway Winners showcase and the previous winner roster with privacy-safe masked identifiers.',
   },
   {
     id: 'faq-7',
