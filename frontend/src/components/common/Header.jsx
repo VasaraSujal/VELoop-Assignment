@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Gift, Menu, X, ArrowRight, Trophy, HelpCircle, Layers, Sparkles, UserCircle, LogOut } from 'lucide-react';
+import { Menu, X, ArrowRight, Trophy, HelpCircle, Layers, Sparkles, UserCircle, LogOut } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { formatNumber } from '../../utils/currencyFormatter.js';
 import { Button } from './ui/Button.jsx';
@@ -66,10 +66,14 @@ export const Header = () => {
           onClick={closeMobileMenu}
         >
           <div className={styles.logoIconBox}>
-            <Gift size={18} className={styles.logoGiftIcon} />
+            <img
+              src="/assets/prizes/Animation-VELoop-xJgvrjNN.gif"
+              alt="VELOOP Logo"
+              className={styles.logoImg}
+            />
           </div>
           <div className={styles.brandText}>
-            <span className={styles.brandMain}>VELOP</span>
+            <span className={styles.brandMain}>VELoop</span>
             <span className={styles.brandSub}>Rewards</span>
           </div>
           <span className={styles.brandBadge}>Giveaways</span>
@@ -139,9 +143,13 @@ export const Header = () => {
         <div className={styles.drawerHeader}>
           <div className={styles.drawerBrand}>
             <div className={styles.logoIconBox}>
-              <Gift size={16} />
+              <img
+                src="/assets/prizes/Animation-VELoop-xJgvrjNN.gif"
+                alt="VELOOP Logo"
+                className={styles.logoImg}
+              />
             </div>
-            <span className={styles.drawerBrandText}>VELOP Rewards</span>
+            <span className={styles.drawerBrandText}>VELoop Rewards</span>
           </div>
           <button
             type="button"
