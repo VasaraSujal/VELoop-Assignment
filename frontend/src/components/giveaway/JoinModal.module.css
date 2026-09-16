@@ -486,3 +486,27 @@
     transform: rotate(360deg);
   }
 }
+
+/* ==========================================================================
+   Responsive Refinements
+   ========================================================================== */
+@media (max-width: 576px) {
+  .confirmContent {
+    padding: var(--space-5) var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancelBtn,
+  .confirmBtn {
+    width: 100%;
+    flex: none;
+  }
+
+  .successContent {
+    padding: var(--space-6) var(--space-4);
+  }
+}
