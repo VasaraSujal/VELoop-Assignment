@@ -540,6 +540,11 @@
 @media (max-width: 576px) {
   .container {
     padding: 0 var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .userName {
+    max-width: 100px;
   }
 
   .accountStatus {
@@ -549,5 +554,20 @@
   .dropdownMenu {
     right: 0;
     width: min(340px, calc(100vw - 24px));
+  }
+}
+
+@media (max-width: 400px) {
+  .userName {
+    max-width: 80px;
+  }
+
+  .switcherBtn {
+    padding: 0 8px;
+    gap: 4px;
+  }
+
+  .demoTag {
+    padding: 2px 6px;
   }
 }
