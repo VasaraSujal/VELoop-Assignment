@@ -1,6 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ArrowRight, Trophy, HelpCircle, Layers, Sparkles, UserCircle, LogOut } from 'lucide-react';
+import {
+  Menu,
+  X,
+  ArrowRight,
+  Trophy,
+  HelpCircle,
+  Layers,
+  Sparkles,
+  UserCircle,
+  LogOut,
+  ShieldCheck,
+  FileText,
+  Award,
+} from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { formatNumber } from '../../utils/currencyFormatter.js';
 import { Button } from './ui/Button.jsx';
@@ -8,7 +22,7 @@ import { Badge } from './ui/Badge.jsx';
 import styles from './Header.module.css';
 
 /**
- * Main Primary Navigation Header with integrated responsive drawer and account summary.
+ * Main Primary Navigation Header with integrated full-viewport portal drawer and account summary.
  */
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -55,90 +69,25 @@ export const Header = () => {
     return location.pathname === '/' ? hash : `/${hash}`;
   };
 
-  return (
-    <header className={styles.header} role="banner">
-      <div className={styles.navContainer}>
-        {/* Left: Brand Logo */}
-        <Link
-          to="/"
-          className={styles.brand}
-          aria-label="VELOOP Rewards - Return to Homepage"
-          onClick={closeMobileMenu}
-        >
-          <div className={styles.logoIconBox}>
-            <img
-              src="/assets/prizes/Animation-VELoop-xJgvrjNN.gif"
-              alt="VELOOP Logo"
-              className={styles.logoImg}
-            />
-          </div>
-          <div className={styles.brandText}>
-            <span className={styles.brandMain}>VELoop</span>
-            <span className={styles.brandSub}>Rewards</span>
-          </div>
-          <span className={styles.brandBadge}>Giveaways</span>
-        </Link>
+  // Portal-based Mobile Navigation Drawer for 100% viewport coverage
+  const mobileDrawerContent = (
+    <>
+      {/* Backdrop */}
+      <div
+        className={`${styles.drawerBackdrop} ${mobileMenuOpen ? styles.backdropOpen : ''}`}
+        onClick={closeMobileMenu}
+        aria-hidden="true"
+      />
 
-        {/* Center: Desktop Navigation Links */}
-        <nav className={styles.desktopNav} aria-label="Main Navigation">
-          <a href={getNavHref('#active-giveaways')} className={styles.navLink}>
-            <span>Giveaways</span>
-          </a>
-          <a href={getNavHref('#leaderboard')} className={styles.navLink}>
-            <span>Leaderboard</span>
-          </a>
-          <a href={getNavHref('#how-it-works')} className={styles.navLink}>
-            <span>How It Works</span>
-          </a>
-          <a href={getNavHref('#winners')} className={styles.navLink}>
-            <span>Winners</span>
-          </a>
-          <a href={getNavHref('#faq')} className={styles.navLink}>
-            <span>FAQ</span>
-          </a>
-        </nav>
-
-        {/* Right: Actions & CTA */}
-        <div className={styles.rightActions}>
-          <a href={getNavHref('#active-giveaways')} className={styles.desktopCtaWrapper}>
-            <Button
-              variant="primary"
-              size="md"
-              iconRight={<ArrowRight size={16} />}
-            >
-              Explore Giveaways
-            </Button>
-          </a>
-
-          {/* Mobile Hamburger Button */}
-          <button
-            type="button"
-            className={styles.mobileMenuBtn}
-            onClick={toggleMobileMenu}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-navigation-drawer"
-            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Overlay Backdrop */}
-      {mobileMenuOpen && (
-        <div
-          className={styles.drawerBackdrop}
-          onClick={closeMobileMenu}
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Slide-over Mobile Navigation Drawer */}
+      {/* Slide-over Drawer */}
       <div
         id="mobile-navigation-drawer"
         ref={drawerRef}
         className={`${styles.mobileDrawer} ${mobileMenuOpen ? styles.drawerOpen : ''}`}
         aria-hidden={!mobileMenuOpen}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation Menu"
       >
         <div className={styles.drawerHeader}>
           <div className={styles.drawerBrand}>
@@ -149,7 +98,10 @@ export const Header = () => {
                 className={styles.logoImg}
               />
             </div>
-            <span className={styles.drawerBrandText}>VELoop Rewards</span>
+            <div className={styles.drawerBrandTextWrap}>
+              <span className={styles.drawerBrandText}>VELoop Rewards</span>
+              <span className={styles.drawerBrandBadge}>Giveaways</span>
+            </div>
           </div>
           <button
             type="button"
@@ -157,7 +109,7 @@ export const Header = () => {
             onClick={closeMobileMenu}
             aria-label="Close menu"
           >
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
 
@@ -209,7 +161,7 @@ export const Header = () => {
             <select
               id="mobile-profile-select"
               className={styles.personaSelectInput}
-              value={user?.userId || ''}
+              value={user?.userId || 'guest'}
               onChange={(e) => {
                 if (e.target.value === 'guest') {
                   logout();
@@ -228,51 +180,109 @@ export const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation Links */}
+        {/* Mobile Navigation Links - Displays ALL Sections */}
+        <div className={styles.navSectionLabel}>EXPLORE SECTIONS</div>
         <nav className={styles.mobileNavLinks} aria-label="Mobile Menu Links">
           <a
             href={getNavHref('#active-giveaways')}
             className={styles.mobileLink}
             onClick={closeMobileMenu}
           >
-            <Layers size={18} className={styles.linkIcon} />
-            <span>Active Giveaways</span>
+            <div className={styles.linkIconWrap}>
+              <Layers size={18} className={styles.linkIcon} />
+            </div>
+            <div className={styles.linkTextGroup}>
+              <span className={styles.linkTitle}>Active Giveaways</span>
+              <span className={styles.linkDesc}>Browse open reward pools</span>
+            </div>
           </a>
+
           <a
             href={getNavHref('#leaderboard')}
             className={styles.mobileLink}
             onClick={closeMobileMenu}
           >
-            <Trophy size={18} className={styles.linkIcon} />
-            <span>Leaderboard</span>
+            <div className={styles.linkIconWrap}>
+              <Trophy size={18} className={styles.linkIcon} />
+            </div>
+            <div className={styles.linkTextGroup}>
+              <span className={styles.linkTitle}>Leaderboard</span>
+              <span className={styles.linkDesc}>Top participants &amp; draws</span>
+            </div>
           </a>
-          <a
-            href={getNavHref('#how-it-works')}
-            className={styles.mobileLink}
-            onClick={closeMobileMenu}
-          >
-            <Sparkles size={18} className={styles.linkIcon} />
-            <span>How It Works</span>
-          </a>
+
           <a
             href={getNavHref('#winners')}
             className={styles.mobileLink}
             onClick={closeMobileMenu}
           >
-            <Trophy size={18} className={styles.linkIcon} />
-            <span>Winner Roster</span>
+            <div className={styles.linkIconWrap}>
+              <Award size={18} className={styles.linkIcon} />
+            </div>
+            <div className={styles.linkTextGroup}>
+              <span className={styles.linkTitle}>Winner Roster</span>
+              <span className={styles.linkDesc}>Verified winners &amp; draw history</span>
+            </div>
           </a>
+
+          <a
+            href={getNavHref('#how-it-works')}
+            className={styles.mobileLink}
+            onClick={closeMobileMenu}
+          >
+            <div className={styles.linkIconWrap}>
+              <Sparkles size={18} className={styles.linkIcon} />
+            </div>
+            <div className={styles.linkTextGroup}>
+              <span className={styles.linkTitle}>How It Works</span>
+              <span className={styles.linkDesc}>4-step participation guide</span>
+            </div>
+          </a>
+
+          <a
+            href={getNavHref('#trust')}
+            className={styles.mobileLink}
+            onClick={closeMobileMenu}
+          >
+            <div className={styles.linkIconWrap}>
+              <ShieldCheck size={18} className={styles.linkIcon} />
+            </div>
+            <div className={styles.linkTextGroup}>
+              <span className={styles.linkTitle}>Trust &amp; Platform Integrity</span>
+              <span className={styles.linkDesc}>Fairness, audit trails &amp; zero cost</span>
+            </div>
+          </a>
+
+          <a
+            href={getNavHref('#rules')}
+            className={styles.mobileLink}
+            onClick={closeMobileMenu}
+          >
+            <div className={styles.linkIconWrap}>
+              <FileText size={18} className={styles.linkIcon} />
+            </div>
+            <div className={styles.linkTextGroup}>
+              <span className={styles.linkTitle}>Rules &amp; Eligibility</span>
+              <span className={styles.linkDesc}>Terms, tier requirements &amp; draw rules</span>
+            </div>
+          </a>
+
           <a
             href={getNavHref('#faq')}
             className={styles.mobileLink}
             onClick={closeMobileMenu}
           >
-            <HelpCircle size={18} className={styles.linkIcon} />
-            <span>FAQ & Rules</span>
+            <div className={styles.linkIconWrap}>
+              <HelpCircle size={18} className={styles.linkIcon} />
+            </div>
+            <div className={styles.linkTextGroup}>
+              <span className={styles.linkTitle}>Frequently Asked Questions</span>
+              <span className={styles.linkDesc}>Answers &amp; claim process help</span>
+            </div>
           </a>
         </nav>
 
-        {/* Mobile Primary CTA */}
+        {/* Mobile Primary CTA & Auth Actions */}
         <div className={styles.mobileDrawerFooter}>
           <a
             href={getNavHref('#active-giveaways')}
@@ -298,7 +308,7 @@ export const Header = () => {
                 logout();
               }}
             >
-              <LogOut size={14} />
+              <LogOut size={15} />
               <span>Switch to Unauthenticated Guest</span>
             </button>
           ) : (
@@ -310,14 +320,92 @@ export const Header = () => {
                 login('user_alex');
               }}
             >
-              <UserCircle size={14} />
-              <span>Log in as Alex Rivera (VIP Tier 2)</span>
+              <UserCircle size={15} />
+              <span>Quick Login as Alex Rivera (VIP Tier 2)</span>
             </button>
           )}
         </div>
       </div>
+    </>
+  );
+
+  return (
+    <header className={styles.header} role="banner">
+      <div className={styles.navContainer}>
+        {/* Left: Brand Logo */}
+        <Link
+          to="/"
+          className={styles.brand}
+          aria-label="VELOOP Rewards - Return to Homepage"
+          onClick={closeMobileMenu}
+        >
+          <div className={styles.logoIconBox}>
+            <img
+              src="/assets/prizes/Animation-VELoop-xJgvrjNN.gif"
+              alt="VELOOP Logo"
+              className={styles.logoImg}
+            />
+          </div>
+          <div className={styles.brandText}>
+            <span className={styles.brandMain}>VELoop</span>
+            <span className={styles.brandSub}>Rewards</span>
+          </div>
+          <span className={styles.brandBadge}>Giveaways</span>
+        </Link>
+
+        {/* Center: Desktop Navigation Links */}
+        <nav className={styles.desktopNav} aria-label="Main Navigation">
+          <a href={getNavHref('#active-giveaways')} className={styles.navLink}>
+            <span>Giveaways</span>
+          </a>
+          <a href={getNavHref('#leaderboard')} className={styles.navLink}>
+            <span>Leaderboard</span>
+          </a>
+          <a href={getNavHref('#how-it-works')} className={styles.navLink}>
+            <span>How It Works</span>
+          </a>
+          <a href={getNavHref('#winners')} className={styles.navLink}>
+            <span>Winners</span>
+          </a>
+          <a href={getNavHref('#rules')} className={styles.navLink}>
+            <span>Rules</span>
+          </a>
+          <a href={getNavHref('#faq')} className={styles.navLink}>
+            <span>FAQ</span>
+          </a>
+        </nav>
+
+        {/* Right: Actions & CTA */}
+        <div className={styles.rightActions}>
+          <a href={getNavHref('#active-giveaways')} className={styles.desktopCtaWrapper}>
+            <Button
+              variant="primary"
+              size="md"
+              iconRight={<ArrowRight size={16} />}
+            >
+              Explore Giveaways
+            </Button>
+          </a>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            type="button"
+            className={styles.mobileMenuBtn}
+            onClick={toggleMobileMenu}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation-drawer"
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          >
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Render Mobile Navigation Drawer directly to body via portal */}
+      {typeof document !== 'undefined' && createPortal(mobileDrawerContent, document.body)}
     </header>
   );
 };
 
 export default Header;
+
