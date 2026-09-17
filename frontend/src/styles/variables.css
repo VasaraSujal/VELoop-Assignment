@@ -238,3 +238,15 @@
   --z-modal: 600;
   --z-toast: 1000;
 }
+
+@media (max-width: 768px) {
+  :root {
+    --container-padding: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container-padding: var(--space-3);
+  }
+}
