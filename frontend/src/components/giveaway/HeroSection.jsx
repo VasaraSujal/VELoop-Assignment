@@ -198,64 +198,61 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
           </div>
         </div>
 
-        {/* Right Column: Floating Prize Presentation on Illuminated Pedestal */}
+        {/* Right Column: Premium Cyber Prize Showcase Card */}
         <div className={styles.visualCol}>
-          <div className={styles.stageContainer}>
-            {/* Ambient Radial Spotlight & Orbit Rings */}
-            <div className={styles.spotlight} aria-hidden="true" />
-            <div className={styles.orbitRingOuter} aria-hidden="true" />
-            <div className={styles.orbitRingInner} aria-hidden="true" />
+          <div className={styles.showcaseCard}>
+            {/* Ambient Inner Aura & Cyber Corner Accents */}
+            <div className={styles.cardAura} aria-hidden="true" />
+            <span className={`${styles.cornerMarker} ${styles.cornerTL}`} aria-hidden="true" />
+            <span className={`${styles.cornerMarker} ${styles.cornerTR}`} aria-hidden="true" />
+            <span className={`${styles.cornerMarker} ${styles.cornerBL}`} aria-hidden="true" />
+            <span className={`${styles.cornerMarker} ${styles.cornerBR}`} aria-hidden="true" />
 
-            {/* Micro-floating badges */}
-            <div className={styles.heroFloatingBadgeLeft} aria-hidden="true">
-              <span className={styles.heroBadgeCoin}>V</span>
-              <span>+VEs Pool</span>
-            </div>
-            <div className={styles.heroFloatingBadgeRight} aria-hidden="true">
-              <Sparkles size={12} className={styles.heroBadgeStar} />
-              <span>100% Verified</span>
-            </div>
-
-            {/* Top Floating Badge Pill */}
-            <div className={styles.stageTopBadge}>
-              <span className={styles.stageTypeTag}>{giveaway.prizeType} PRIZE</span>
+            {/* Card Top Header */}
+            <div className={styles.cardTopHeader}>
+              <span className={styles.cardTypeBadge}>
+                <Sparkles size={12} className={styles.cardTypeIcon} aria-hidden="true" />
+                <span>{giveaway.prizeType === 'GIFT_CARD' ? 'DIGITAL VOUCHER' : 'PHYSICAL HARDWARE'}</span>
+              </span>
               {giveaway.participantCount !== undefined && (
-                <span className={styles.stageParticipantTag}>
+                <span className={styles.cardParticipantsBadge}>
                   <Users size={12} aria-hidden="true" />
                   <span>{giveaway.participantCount?.toLocaleString()} Entered</span>
                 </span>
               )}
             </div>
 
-            {/* Floating Product Image */}
-            <div className={styles.floatingProductWrap}>
-              <img
-                src={prizeImageSrc}
-                alt={giveaway.prize || giveaway.title}
-                className={styles.prizeImg}
-                loading="eager"
-              />
-              {/* Product Ground Shadow */}
-              <div className={styles.productShadow} aria-hidden="true" />
+            {/* Card Center: Illuminated Product Showcase */}
+            <div className={styles.productStage}>
+              <div className={styles.spotlightGlow} aria-hidden="true" />
+              <div className={styles.stageOrbitRing} aria-hidden="true" />
+              
+              <div className={styles.productWrap}>
+                <img
+                  src={prizeImageSrc}
+                  alt={giveaway.prize || giveaway.title}
+                  className={styles.prizeImg}
+                  loading="eager"
+                />
+                <div className={styles.productShadow} aria-hidden="true" />
+              </div>
+
+              <div className={styles.stagePedestal} aria-hidden="true">
+                <div className={styles.pedestalGlow} />
+              </div>
             </div>
 
-            {/* 3D-styled Illuminated Pedestal Base */}
-            <div className={styles.pedestalBase}>
-              <div className={styles.pedestalTop} />
-              <div className={styles.pedestalFront} />
-            </div>
-
-            {/* Bottom Floating Info Summary Pill */}
-            <div className={styles.stageFooter}>
-              <div className={styles.stagePrizeInfo}>
-                <span className={styles.stagePrizeTitle}>{giveaway.prize}</span>
-                <span className={styles.stagePrizeSubtitle}>
-                  {giveaway.eligibility?.description || 'Open to all VELOOP Members'}
+            {/* Card Bottom: Identity & Verified Draw */}
+            <div className={styles.cardBottomFooter}>
+              <div className={styles.cardPrizeMeta}>
+                <h3 className={styles.cardPrizeName}>{giveaway.prize}</h3>
+                <span className={styles.cardPrizeSub}>
+                  {giveaway.eligibility?.description || 'Official Hardware • 1-Year Warranty'}
                 </span>
               </div>
-              <div className={styles.verifiedPill}>
-                <ShieldCheck size={14} aria-hidden="true" />
-                <span>Fair & Transparent</span>
+              <div className={styles.cardTrustBadge}>
+                <ShieldCheck size={14} className={styles.trustIcon} aria-hidden="true" />
+                <span>Verified Draw</span>
               </div>
             </div>
           </div>
