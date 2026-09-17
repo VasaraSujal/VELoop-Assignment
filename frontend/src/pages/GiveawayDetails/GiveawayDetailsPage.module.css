@@ -4,6 +4,9 @@
   background-color: var(--color-background);
   min-height: 100vh;
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
 }
 
 .container {
@@ -11,6 +14,8 @@
   margin: 0 auto;
   padding: var(--space-6) var(--space-6) var(--space-16);
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* TOP NAVIGATION / BACK LINK */
@@ -1255,12 +1260,12 @@
   }
 
   .imageBox {
-    min-height: 220px;
+    min-height: 200px;
     padding: var(--space-2, 8px);
   }
 
   .prizeImg {
-    max-height: 200px;
+    max-height: 180px;
   }
 
   .giveawayTitle {
@@ -1269,5 +1274,23 @@
 
   .sectionTitle {
     font-size: 1.1rem;
+  }
+
+  .trackerSteps {
+    gap: 2px;
+  }
+
+  .stepDot {
+    width: 20px;
+    height: 20px;
+    font-size: 0.65rem;
+  }
+
+  .stepLabel {
+    font-size: 0.625rem;
+  }
+
+  .sectionCard {
+    padding: var(--space-4, 16px);
   }
 }
