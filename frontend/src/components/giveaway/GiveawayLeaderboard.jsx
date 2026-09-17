@@ -35,8 +35,17 @@ const getClaimStatusVariant = (status, label) => {
 const formatClaimStatusLabel = (status, label) => {
   const l = (label || '').trim();
   const s = (status || '').toUpperCase();
-  if (l === 'Delivered & Verified' || l.toLowerCase().includes('delivered') || s === 'DELIVERED') {
+  if (l === 'Delivered & Verified' || l.toLowerCase().includes('delivered') || s === 'DELIVERED' || s === 'FULFILLED') {
     return 'Delivered';
+  }
+  if (l.toLowerCase().includes('review') || l.toLowerCase().includes('submitted') || s === 'SUBMITTED' || s === 'PROCESSING') {
+    return 'Under Review';
+  }
+  if (s === 'UNCLAIMED' || s === 'PENDING' || l.toLowerCase().includes('pending')) {
+    return 'Pending Claim';
+  }
+  if (s === 'EXPIRED' || s === 'REJECTED' || s === 'CANCELLED') {
+    return 'Expired';
   }
   return l || status || 'Pending Claim';
 };
