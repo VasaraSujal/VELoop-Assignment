@@ -35,8 +35,17 @@ const getClaimStatusVariant = (status, label) => {
 const formatClaimStatusLabel = (status, label) => {
   const l = (label || '').trim();
   const s = (status || '').toUpperCase();
-  if (l === 'Delivered & Verified' || l.toLowerCase().includes('delivered') || s === 'DELIVERED') {
+  if (l === 'Delivered & Verified' || l.toLowerCase().includes('delivered') || s === 'DELIVERED' || s === 'FULFILLED') {
     return 'Delivered';
+  }
+  if (l.toLowerCase().includes('review') || l.toLowerCase().includes('submitted') || s === 'SUBMITTED' || s === 'PROCESSING') {
+    return 'Under Review';
+  }
+  if (s === 'UNCLAIMED' || s === 'PENDING' || l.toLowerCase().includes('pending')) {
+    return 'Pending Claim';
+  }
+  if (s === 'EXPIRED' || s === 'REJECTED' || s === 'CANCELLED') {
+    return 'Expired';
   }
   return l || status || 'Pending Claim';
 };
@@ -233,17 +242,21 @@ export const WinnerAnnouncement = ({ winners = [], isLoading = false }) => {
         {/* Pagination Indicators */}
         {total > 1 && (
           <div className={styles.dotsWrapper} role="tablist" aria-label="Winner slide pagination">
-            {winners.map((item, idx) => (
-              <button
-                key={item.id || idx}
-                type="button"
-                role="tab"
-                aria-selected={currentIndex === idx}
-                aria-label={`Go to winner slide ${idx + 1}`}
-                className={`${styles.dot} ${currentIndex === idx ? styles.dotActive : ''}`}
-                onClick={() => setCurrentIndex(idx)}
-              />
-            ))}
+            {winners.slice(0, Math.min(total, 8)).map((item, idx) => {
+              // Map index to active if within range
+              const isActive = total <= 8 ? currentIndex === idx : (idx === Math.min(currentIndex, 7));
+              return (
+                <button
+                  key={item.id || idx}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-label={`Go to winner slide ${idx + 1}`}
+                  className={`${styles.dot} ${isActive ? styles.dotActive : ''}`}
+                  onClick={() => setCurrentIndex(idx)}
+                />
+              );
+            })}
           </div>
         )}
       </div>

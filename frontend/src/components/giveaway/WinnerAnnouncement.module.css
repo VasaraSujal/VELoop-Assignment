@@ -330,8 +330,11 @@
   background-color: var(--color-surface-muted);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: var(--space-4) var(--space-5);
-  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  gap: var(--space-3);
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
   transition: border-color var(--transition-normal), background-color var(--transition-normal);
 }
 
@@ -341,7 +344,7 @@
 }
 
 .detailCol {
-  flex: 1;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -401,8 +404,12 @@
 .dotsWrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 100%;
   gap: var(--space-2);
   margin-top: var(--space-6);
+  padding: 0 var(--space-2);
 }
 
 .dot {
@@ -454,9 +461,17 @@
    ========================================================================== */
 @media (max-width: 1024px) {
   .sliderCard {
-    grid-template-columns: 280px 1fr;
-    gap: var(--space-6);
-    padding: var(--space-6);
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-5);
+    padding: var(--space-5);
+  }
+}
+
+@media (max-width: 860px) {
+  .sliderCard {
+    grid-template-columns: 220px 1fr;
+    gap: var(--space-4);
+    padding: var(--space-4);
   }
 }
 
@@ -501,6 +516,10 @@
 }
 
 @media (max-width: 480px) {
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+
   .sliderCard {
     padding: var(--space-4);
     gap: var(--space-4);
@@ -508,7 +527,7 @@
   }
 
   .imageWrapper {
-    max-width: 260px;
+    max-width: 240px;
     padding: var(--space-3);
   }
 
@@ -519,5 +538,13 @@
 
   .winnerInfo {
     gap: var(--space-3);
+  }
+
+  .winnerMetaTop {
+    gap: var(--space-2);
+  }
+
+  .prizeTitle {
+    font-size: 1.1rem;
   }
 }
