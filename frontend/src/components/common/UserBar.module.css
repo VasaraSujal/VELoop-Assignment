@@ -541,33 +541,81 @@
   .container {
     padding: 0 var(--space-4);
     gap: var(--space-2);
+    min-height: 40px;
+  }
+
+  .leftSection {
+    gap: var(--space-2);
+    min-width: 0;
   }
 
   .userName {
-    max-width: 100px;
+    max-width: 90px;
+    font-size: 0.775rem;
+  }
+
+  .guestText {
+    font-size: 0.775rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 110px;
+  }
+
+  .userTier {
+    font-size: 0.65rem;
+    padding: 1px 5px;
   }
 
   .accountStatus {
     display: none;
   }
 
+  .demoTag {
+    padding: 2px 7px;
+    font-size: 0.65rem;
+  }
+
+  .switcherBtn {
+    height: 32px;
+    padding: 0 10px;
+    font-size: 0.75rem;
+    gap: 5px;
+  }
+
   .dropdownMenu {
     right: 0;
-    width: min(340px, calc(100vw - 24px));
+    width: min(340px, calc(100vw - 20px));
+    max-width: calc(100vw - 20px);
   }
 }
 
 @media (max-width: 400px) {
+  .container {
+    padding: 0 var(--space-3);
+  }
+
   .userName {
-    max-width: 80px;
+    max-width: 70px;
+  }
+
+  .guestText {
+    max-width: 90px;
   }
 
   .switcherBtn {
-    padding: 0 8px;
-    gap: 4px;
+    padding: 0 6px;
+    font-size: 0.7rem;
+    gap: 3px;
   }
 
   .demoTag {
-    padding: 2px 6px;
+    padding: 2px 5px;
+  }
+}
+
+@media (max-width: 340px) {
+  .guestText {
+    display: none;
   }
 }
