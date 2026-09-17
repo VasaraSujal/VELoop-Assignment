@@ -9,7 +9,7 @@
 .container {
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 var(--container-padding);
   width: 100%;
 }
 
@@ -248,6 +248,10 @@
   .header {
     margin-bottom: var(--space-6);
   }
+
+  .title {
+    font-size: 1.6rem;
+  }
 }
 
 @media (max-width: 640px) {
@@ -257,6 +261,20 @@
   }
 
   .featureCard {
-    padding: var(--space-5);
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .panel {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    font-size: var(--font-size-body-sm);
   }
 }
