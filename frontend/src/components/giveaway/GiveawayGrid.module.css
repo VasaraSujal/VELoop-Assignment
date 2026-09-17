@@ -244,13 +244,18 @@
    ========================================================================== */
 .carouselWrapper {
   width: 100%;
+  max-width: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 .carouselTrack {
   display: flex;
   gap: var(--space-5);
   overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
@@ -343,13 +348,13 @@
    ========================================================================== */
 @media (max-width: 1200px) {
   .carouselItem {
-    flex: 0 0 calc(33.333% - 14px);
+    flex: 0 0 340px;
   }
 }
 
 @media (max-width: 992px) {
   .carouselItem {
-    flex: 0 0 calc(50% - 10px);
+    flex: 0 0 310px;
   }
 }
 
@@ -368,12 +373,19 @@
   .headerActions {
     width: 100%;
     justify-content: space-between;
+    gap: var(--space-2);
   }
 
   .filterTabs {
     overflow-x: auto;
     padding: 3px;
+    max-width: calc(100% - 90px);
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .filterTabs::-webkit-scrollbar {
+    display: none;
   }
 
   .filterBtn {
@@ -381,20 +393,27 @@
     font-size: var(--font-size-caption);
     white-space: nowrap;
   }
-}
 
-@media (max-width: 640px) {
   .carouselItem {
-    flex: 0 0 84%;
-  }
-
-  .carouselTrack {
-    gap: var(--space-4);
+    flex: 0 0 min(300px, 85vw);
   }
 }
 
 @media (max-width: 480px) {
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+
   .carouselItem {
-    flex: 0 0 86%;
+    flex: 0 0 min(280px, 86vw);
+  }
+
+  .carouselTrack {
+    gap: var(--space-3);
+  }
+
+  .carouselNavBtn {
+    width: 36px;
+    height: 36px;
   }
 }
