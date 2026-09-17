@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calendar, Trophy, User, Coins, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
+import { Calendar, Trophy, User, Coins, ChevronDown, ChevronUp } from 'lucide-react';
 import { Badge } from '../common/ui/Badge.jsx';
 import { EmptyState } from '../common/ui/EmptyState.jsx';
 import { Skeleton } from '../common/ui/Skeleton.jsx';
@@ -213,8 +213,8 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
 
                 return (
                   <article key={winner.id} className={styles.mobileCard} aria-label={`${winner.prize} winner record`}>
-                    {/* Prize Header */}
-                    <div className={styles.mobileCardHeader}>
+                    <div className={styles.cardMainRow}>
+                      {/* Left Thumbnail */}
                       <div className={styles.thumbWrapper}>
                         <img
                           src={resolvedImage}
@@ -223,46 +223,36 @@ export const WinnerTabs = ({ recentWinners = [], previousWinners = [], isLoading
                           loading="lazy"
                         />
                       </div>
-                      <div className={styles.prizeTextGroup}>
-                        <h4 className={styles.prizeNameText}>{winner.prize}</h4>
-                        <span className={styles.poolNameText}>{winner.giveawayTitle}</span>
-                      </div>
-                    </div>
 
-                    {/* 2x2 Metadata Grid */}
-                    <div className={styles.mobileMetaGrid}>
-                      <div className={styles.mobileMetaItem}>
-                        <span className={styles.mobileMetaLabel}>
-                          <User size={11} className={styles.cellIcon} aria-hidden="true" />
-                          Winner
-                        </span>
-                        <span className={styles.maskedUserText}>{winner.maskedUserId}</span>
-                      </div>
+                      {/* Main Details */}
+                      <div className={styles.cardContent}>
+                        <div className={styles.cardTopRow}>
+                          <div className={styles.prizeTextGroup}>
+                            <h4 className={styles.prizeNameText}>{winner.prize}</h4>
+                            <span className={styles.poolNameText}>{winner.giveawayTitle}</span>
+                          </div>
+                          <div className={styles.badgeWrap}>
+                            <Badge variant={statusVariant} size="sm">
+                              {statusLabel}
+                            </Badge>
+                          </div>
+                        </div>
 
-                      <div className={styles.mobileMetaItem}>
-                        <span className={styles.mobileMetaLabel}>
-                          <Calendar size={11} className={styles.cellIcon} aria-hidden="true" />
-                          Drawn
-                        </span>
-                        <span className={styles.mobileMetaValue}>{drawDateFormatted}</span>
-                      </div>
-
-                      <div className={styles.mobileMetaItem}>
-                        <span className={styles.mobileMetaLabel}>
-                          <Coins size={11} className={styles.cellIcon} aria-hidden="true" />
-                          Entry Cost
-                        </span>
-                        <span className={styles.mobileMetaValue}>{winner.entryFeePaid || 'Free'}</span>
-                      </div>
-
-                      <div className={styles.mobileMetaItem}>
-                        <span className={styles.mobileMetaLabel}>
-                          <ShieldCheck size={11} className={styles.cellIcon} aria-hidden="true" />
-                          Status
-                        </span>
-                        <Badge variant={statusVariant} size="sm">
-                          {statusLabel}
-                        </Badge>
+                        {/* Metadata Row */}
+                        <div className={styles.cardMetaPills}>
+                          <div className={styles.metaChip} title="Winner ID">
+                            <User size={12} className={styles.metaIcon} aria-hidden="true" />
+                            <span className={styles.maskedUserText}>{winner.maskedUserId}</span>
+                          </div>
+                          <div className={styles.metaChip} title="Draw Date">
+                            <Calendar size={12} className={styles.metaIcon} aria-hidden="true" />
+                            <span>{drawDateFormatted}</span>
+                          </div>
+                          <div className={styles.metaChip} title="Entry Fee">
+                            <Coins size={12} className={styles.metaIcon} aria-hidden="true" />
+                            <span>{winner.entryFeePaid || 'Free'}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </article>

@@ -304,82 +304,154 @@
 }
 
 /* ==========================================================================
-   2. Mobile Responsive Record Cards
+   2. Responsive Record Cards (Tablet & Mobile)
    ========================================================================== */
 .mobileCardsList {
   display: none;
   flex-direction: column;
   gap: var(--space-3);
+  width: 100%;
 }
 
 .mobileCard {
-  background-color: var(--color-surface-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  transition: border-color 250ms ease, transform 250ms ease, box-shadow 250ms ease;
+  background: rgba(15, 18, 42, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  padding: var(--space-3) var(--space-4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
   animation: slideInScale 0.4s ease-out both;
+  min-width: 0;
+  width: 100%;
 }
 
-.mobileCard:nth-child(1) { animation-delay: 0.05s; }
-.mobileCard:nth-child(2) { animation-delay: 0.1s; }
-.mobileCard:nth-child(3) { animation-delay: 0.15s; }
-.mobileCard:nth-child(4) { animation-delay: 0.2s; }
-.mobileCard:nth-child(5) { animation-delay: 0.25s; }
+.mobileCard:nth-child(1) { animation-delay: 0.04s; }
+.mobileCard:nth-child(2) { animation-delay: 0.08s; }
+.mobileCard:nth-child(3) { animation-delay: 0.12s; }
+.mobileCard:nth-child(4) { animation-delay: 0.16s; }
+.mobileCard:nth-child(5) { animation-delay: 0.2s; }
+.mobileCard:nth-child(6) { animation-delay: 0.24s; }
 
 .mobileCard:hover {
-  border-color: var(--color-primary-border);
+  border-color: rgba(139, 92, 246, 0.5);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md), 0 0 12px rgba(124, 58, 237, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 16px rgba(124, 58, 237, 0.15);
 }
 
-.mobileCardHeader {
+.cardMainRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  width: 100%;
+  min-width: 0;
+}
+
+.cardMainRow .thumbWrapper {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  background: radial-gradient(circle at center, #1f234d 0%, #0a0c1b 100%);
+  border: 1px solid rgba(139, 92, 246, 0.25);
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--color-border-subtle);
+  justify-content: center;
+  padding: 3px;
 }
 
-.mobileMetaGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-}
-
-.mobileMetaItem {
+.cardContent {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: var(--space-2);
 }
 
-.mobileMetaLabel {
+.cardTopRow {
   display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: var(--font-size-label);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  width: 100%;
+  min-width: 0;
 }
 
-.mobileMetaValue {
-  font-size: var(--font-size-body-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+.cardTopRow .prizeTextGroup {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardTopRow .prizeNameText {
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-bold);
+  color: #ffffff;
+  line-height: 1.25;
+  margin: 0;
+  word-break: break-word;
+}
+
+.cardTopRow .poolNameText {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  line-height: 1.3;
+  margin: 0;
+  word-break: break-word;
+}
+
+.badgeWrap {
+  flex-shrink: 0;
+}
+
+.cardMetaPills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: 2px;
+  width: 100%;
+}
+
+.metaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.775rem;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.metaChip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+}
+
+.metaIcon {
+  color: var(--color-primary-light, #a78bfa);
+  flex-shrink: 0;
+}
+
+.metaChip .maskedUserText {
+  font-family: var(--font-family-mono, monospace);
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: #f1f5f9;
 }
 
 /* ==========================================================================
    Skeleton & Empty States
    ========================================================================== */
 .skeletonWrapper {
-  background-color: var(--color-surface-card);
-  border: 1px solid var(--color-border);
+  background: rgba(15, 18, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-xl);
   padding: var(--space-4);
   display: flex;
@@ -417,23 +489,23 @@
   align-items: center;
   gap: var(--space-2);
   padding: 10px 24px;
-  background: var(--color-surface-card);
-  border: 1px solid var(--color-border-strong);
+  background: rgba(15, 18, 42, 0.85);
+  border: 1px solid rgba(139, 92, 246, 0.35);
   border-radius: var(--radius-full);
   color: var(--color-text-primary);
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
   outline: none;
 }
 
 .showMoreBtn:hover {
-  background: var(--color-surface-hover);
-  border-color: var(--color-primary-border);
+  background: rgba(124, 58, 237, 0.2);
+  border-color: rgba(168, 85, 247, 0.6);
   color: #ffffff;
-  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
   transform: translateY(-2px);
 }
 
@@ -448,6 +520,16 @@
 /* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
+@media (max-width: 1024px) {
+  .desktopTableWrapper {
+    display: none;
+  }
+
+  .mobileCardsList {
+    display: flex;
+  }
+}
+
 @media (max-width: 768px) {
   .section {
     padding: var(--space-8) 0;
@@ -473,26 +555,36 @@
     font-size: var(--font-size-caption);
     white-space: nowrap;
   }
-
-  .desktopTableWrapper {
-    display: none;
-  }
-
-  .mobileCardsList {
-    display: flex;
-  }
 }
 
-@media (max-width: 480px) {
-  .section {
-    padding: var(--space-6) 0;
-  }
-
+@media (max-width: 600px) {
   .mobileCard {
     padding: var(--space-3);
   }
 
   .sectionTitle {
     font-size: 1.5rem;
+  }
+
+  .cardTopRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 400px) {
+  .section {
+    padding: var(--space-6) 0;
+  }
+
+  .cardMainRow .thumbWrapper {
+    width: 38px;
+    height: 38px;
+  }
+
+  .metaChip {
+    font-size: 0.72rem;
+    padding: 2px 6px;
   }
 }
