@@ -14,6 +14,7 @@ export const Button = forwardRef(
       disabled = false,
       fullWidth = false,
       icon = null,
+      iconLeft = null,
       iconRight = null,
       type = 'button',
       className = '',
@@ -45,7 +46,11 @@ export const Button = forwardRef(
             <span className={styles.spinner} />
           </span>
         )}
-        {!isLoading && icon && <span className={styles.iconLeft} aria-hidden="true">{icon}</span>}
+        {!isLoading && (iconLeft || icon) && (
+          <span className={styles.iconLeft} aria-hidden="true">
+            {iconLeft || icon}
+          </span>
+        )}
         <span className={styles.label}>{children}</span>
         {!isLoading && iconRight && <span className={styles.iconRight} aria-hidden="true">{iconRight}</span>}
       </Component>
