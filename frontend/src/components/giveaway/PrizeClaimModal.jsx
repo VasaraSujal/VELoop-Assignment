@@ -34,8 +34,7 @@ export const PrizeClaimModal = ({
     addressLine2: '',
     city: '',
     state: '',
-    pincode: '',
-    notes: '',
+    postalCode: '',
     email: '',
   });
 
