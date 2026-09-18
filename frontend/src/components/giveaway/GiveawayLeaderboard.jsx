@@ -175,16 +175,6 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
                   </div>
                 </div>
 
-                {/* Floating Interactive Micro-Badges */}
-                <div className={styles.floatingBadgeLeft} aria-hidden="true">
-                  <span className={styles.floatingBadgeCoin}>V</span>
-                  <span>+VEs</span>
-                </div>
-                <div className={styles.floatingBadgeRight} aria-hidden="true">
-                  <Sparkles size={13} className={styles.floatingBadgeStar} />
-                  <span>+XP</span>
-                </div>
-
                 <div className={styles.podiumContainer} aria-label="Top 3 Winners Podium">
                   {/* 2nd Place (Left on Desktop, Left on Mobile grid) */}
                   {top2 && (
