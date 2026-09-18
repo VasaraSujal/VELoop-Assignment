@@ -412,7 +412,9 @@ export const GiveawayDetailsPage = () => {
               <div className={styles.balancePreviewCard}>
                 <div className={styles.balanceHeader}>
                   <span className={styles.balanceHeaderText}>Reward Balance Summary</span>
-                  <span className={styles.balanceBadge}>Preview</span>
+                  <span className={styles.balanceBadge} title="Estimated display calculation based on current balance and entry fee">
+                    Estimated Preview
+                  </span>
                 </div>
 
                 <div className={styles.balanceGrid}>
