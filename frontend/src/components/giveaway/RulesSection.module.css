@@ -65,7 +65,8 @@
   position: sticky;
   top: 96px;
   align-self: flex-start;
-  z-index: 2;
+  height: fit-content;
+  z-index: 10;
   transition: top var(--transition-normal);
 }
 
