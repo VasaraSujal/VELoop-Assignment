@@ -77,6 +77,7 @@
   flex-direction: column;
   gap: var(--space-8);
   box-sizing: border-box;
+  width: 100%;
   animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -91,15 +92,19 @@
 }
 
 /* ==========================================================================
-   2-Column Hero Grid
+   Responsive Hero Grid
    ========================================================================== */
 .heroGrid {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   gap: var(--space-8);
   align-items: center;
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 /* ==========================================================================
@@ -110,6 +115,9 @@
   flex-direction: column;
   gap: var(--space-4);
   min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .badgeRow {
@@ -166,16 +174,19 @@
 .titleGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
 }
 
 .title {
-  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  font-size: clamp(1.85rem, 3.8vw, 2.75rem);
   font-weight: 800;
   line-height: 1.15;
   color: #ffffff;
   letter-spacing: -0.025em;
   margin: 0;
+  word-break: break-word;
 }
 
 .titleHighlight {
@@ -185,30 +196,47 @@
   filter: drop-shadow(0 2px 16px rgba(168, 85, 247, 0.4));
 }
 
-.featuredPoolTitle {
-  font-size: 0.95rem;
-  color: #cbd5e1;
-  margin: 0;
+.featuredPoolBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  width: 100%;
 }
 
-.featuredPoolTitle strong {
+.featuredPoolLabel {
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-bold);
+  color: #c084fc;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.featuredPoolName {
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  font-weight: var(--font-weight-bold);
   color: #fbbf24;
+  line-height: 1.35;
+  margin: 0;
+  word-break: break-word;
 }
 
 .description {
   font-size: 0.925rem;
   color: #94a3b8;
-  line-height: 1.6;
+  line-height: 1.55;
   margin: 0;
   max-width: 540px;
+  word-break: break-word;
 }
 
-/* 3 Feature Capsules (Matching Reference UI) */
+/* 3 Feature Highlights / Capsules */
 .capsuleRow {
   display: flex;
   align-items: center;
   gap: var(--space-3);
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .featureCapsule {
@@ -220,6 +248,8 @@
   border-radius: var(--radius-lg);
   padding: 8px 14px;
   transition: all 250ms ease;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .featureCapsule:hover {
@@ -246,6 +276,8 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .capsuleLabel {
@@ -254,12 +286,18 @@
   color: #94a3b8;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .capsuleSub {
   font-size: 0.8125rem;
   font-weight: var(--font-weight-bold);
   color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Integrated Countdown Card */
@@ -273,6 +311,7 @@
   width: fit-content;
   max-width: 100%;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
 }
 
 /* Action CTA Row */
@@ -282,11 +321,17 @@
   gap: var(--space-4);
   flex-wrap: wrap;
   padding-top: var(--space-2);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .ctaLink,
 .secondaryLink {
   text-decoration: none;
+  min-width: 0;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 .primaryJoinBtn {
@@ -294,11 +339,23 @@
   box-shadow: 0 8px 24px rgba(236, 72, 153, 0.35), 0 0 20px rgba(124, 58, 237, 0.4) !important;
   border: none !important;
   transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-sizing: border-box !important;
+  max-width: 100% !important;
 }
 
 .primaryJoinBtn:hover {
-  transform: translateY(-2px) scale(1.03) !important;
+  transform: translateY(-2px) !important;
   box-shadow: 0 12px 32px rgba(236, 72, 153, 0.5), 0 0 28px rgba(124, 58, 237, 0.6) !important;
+}
+
+.secondaryBrowseBtn {
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+}
+
+.secondaryBrowseBtn:hover {
+  transform: translateY(-2px) !important;
 }
 
 .ctaArrow {
@@ -309,7 +366,7 @@
   transform: translateX(4px);
 }
 
-/* Callout Strip (Matching Reference) */
+/* Callout Strip */
 .calloutStrip {
   display: flex;
   align-items: center;
@@ -318,8 +375,9 @@
   border: 1px dashed rgba(168, 85, 247, 0.35);
   border-radius: var(--radius-lg);
   padding: 10px 16px;
-  width: fit-content;
+  width: 100%;
   max-width: 100%;
+  box-sizing: border-box;
 }
 
 .calloutIconCircle {
@@ -338,6 +396,11 @@
   font-size: 0.8125rem;
   color: #c4c1d4;
   line-height: 1.4;
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .calloutText strong {
@@ -352,12 +415,17 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .stageCard {
   position: relative;
   width: 100%;
   max-width: 440px;
+  min-width: 0;
   background: radial-gradient(circle at 50% 30%, rgba(26, 32, 78, 0.7) 0%, rgba(10, 12, 32, 0.95) 100%);
   border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: var(--radius-2xl);
@@ -366,7 +434,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  overflow: visible;
+  box-sizing: border-box;
 }
 
 .stageSpotlightGlow {
@@ -387,7 +455,7 @@
 .floatingBadgeLeft {
   position: absolute;
   top: 15px;
-  left: -16px;
+  left: -8px;
   background: rgba(15, 18, 48, 0.9);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(236, 72, 153, 0.45);
@@ -408,7 +476,7 @@
 .floatingBadgeRight {
   position: absolute;
   top: 45px;
-  right: -16px;
+  right: -8px;
   background: rgba(15, 18, 48, 0.9);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(6, 182, 212, 0.45);
@@ -439,7 +507,7 @@
 
 .coinLeft {
   bottom: 90px;
-  left: -12px;
+  left: -6px;
   width: 38px;
   height: 38px;
   animation: floatBadge3 5s ease-in-out infinite;
@@ -447,7 +515,7 @@
 
 .coinRight {
   bottom: 120px;
-  right: -10px;
+  right: -6px;
   width: 42px;
   height: 42px;
   animation: floatBadge1 4.2s ease-in-out infinite 0.5s;
@@ -589,6 +657,10 @@
   border-radius: var(--radius-lg);
   padding: 8px 12px;
   z-index: 2;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .stagePrizeInfo {
@@ -596,7 +668,8 @@
   flex-direction: column;
   gap: 1px;
   min-width: 0;
-  flex: 1;
+  flex: 1 1 0%;
+  overflow: hidden;
 }
 
 .stagePrizeName {
@@ -606,6 +679,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .stagePrizeSub {
@@ -628,7 +702,7 @@
 }
 
 /* ==========================================================================
-   Bottom Benefits Strip — 4 Circular-Icon Cards (Matching Reference)
+   Bottom Benefits Strip — 4 Circular-Icon Cards
    ========================================================================== */
 .bottomBenefitsRow {
   display: grid;
@@ -638,6 +712,8 @@
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
   z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .benefitCard {
@@ -649,6 +725,8 @@
   border-radius: var(--radius-xl);
   padding: var(--space-3) var(--space-4);
   transition: all 250ms ease;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .benefitCard:hover {
@@ -717,58 +795,332 @@
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 1024px) {
-  .heroGrid {
-    grid-template-columns: 1fr;
+  .masterCard {
+    padding: var(--space-6) var(--space-6) var(--space-5);
+    border-radius: 24px;
     gap: var(--space-6);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
-  .bottomBenefitsRow {
-    grid-template-columns: repeat(2, 1fr);
+  .heroGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .contentCol {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .visualCol {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   .stageCard {
     max-width: 100%;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: var(--space-5) var(--space-4) var(--space-4);
+  }
+
+  .floatingBadgeLeft {
+    left: 10px;
+    top: 10px;
+  }
+
+  .floatingBadgeRight {
+    right: 10px;
+    top: 10px;
+  }
+
+  .coinLeft {
+    left: 12px;
+    bottom: 70px;
+  }
+
+  .coinRight {
+    right: 12px;
+    bottom: 80px;
+  }
+
+  .capsuleRow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .bottomBenefitsRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 }
 
 @media (max-width: 640px) {
   .masterCard {
-    padding: var(--space-5) var(--space-4) var(--space-4);
-    border-radius: var(--radius-xl);
+    padding: 20px 16px 16px;
+    border-radius: 20px;
+    gap: var(--space-5);
   }
 
   .title {
-    font-size: 1.6rem;
+    font-size: clamp(1.45rem, 6vw, 1.95rem);
+    line-height: 1.2;
   }
 
+  .featuredPoolName {
+    font-size: clamp(0.95rem, 3.6vw, 1.15rem);
+  }
+
+  .description {
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  /* Compact 2-Column Information Grid */
   .capsuleRow {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .featureCapsule {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     box-sizing: border-box;
   }
 
-  .bottomBenefitsRow {
-    grid-template-columns: 1fr;
-    gap: var(--space-3);
+  .featureCapsule {
+    padding: 8px 10px;
+    gap: 8px;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
+  .featureCapsuleFull {
+    grid-column: span 2;
+    min-width: 0;
+  }
+
+  .capsuleIconBox {
+    width: 26px;
+    height: 26px;
+  }
+
+  .capsuleLabel {
+    font-size: 0.625rem;
+  }
+
+  .capsuleSub {
+    font-size: 0.775rem;
+  }
+
+  .timerCard {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border-radius: var(--radius-lg);
+  }
+
+  /* Mobile Full-Width CTA Buttons */
   .ctaRow {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding-top: var(--space-1);
   }
 
   .ctaLink,
   .secondaryLink {
     width: 100%;
+    max-width: 100%;
+    display: block;
+    box-sizing: border-box;
+    min-width: 0;
   }
 
-  .ctaLink :global(button),
-  .secondaryLink :global(button) {
-    width: 100%;
+  .primaryJoinBtn,
+  .secondaryBrowseBtn {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    min-height: 48px;
     justify-content: center;
+    margin: 0 !important;
+  }
+
+  .calloutStrip {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    font-size: 0.78rem;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* Mobile Stage Layout */
+  .stageCard {
+    padding: 16px 12px 12px;
+    border-radius: var(--radius-xl);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .sciFiStageWrapper {
+    height: 180px;
+  }
+
+  .productHoverWrap {
+    height: 140px;
+  }
+
+  .prizeImage {
+    max-height: 125px;
+  }
+
+  .pedestalPlatform {
+    width: 180px;
+    margin-top: -10px;
+  }
+
+  .pedestalRingOuter {
+    width: 170px;
+    height: 14px;
+  }
+
+  .pedestalRingInner {
+    width: 130px;
+    height: 10px;
+  }
+
+  .pedestalBase {
+    width: 150px;
+  }
+
+  .floatingBadgeLeft {
+    left: 8px;
+    top: 8px;
+    padding: 4px 8px;
+    font-size: 0.6rem;
+  }
+
+  .floatingBadgeRight {
+    right: 8px;
+    top: 8px;
+    padding: 4px 8px;
+    font-size: 0.6rem;
+  }
+
+  .coinLeft {
+    left: 8px;
+    bottom: 50px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .coinRight {
+    right: 8px;
+    bottom: 60px;
+    width: 34px;
+    height: 34px;
+  }
+
+  .bottomBenefitsRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding-top: var(--space-3);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .benefitCard {
+    padding: 8px 10px;
+    gap: 8px;
+    border-radius: var(--radius-lg);
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .benefitIconBox {
+    width: 32px;
+    height: 32px;
+  }
+
+  .benefitTitle {
+    font-size: 0.775rem;
+  }
+
+  .benefitText {
+    font-size: 0.65rem;
   }
 }
+
+@media (max-width: 380px) {
+  .masterCard {
+    padding: 16px 12px 12px;
+    border-radius: 16px;
+  }
+
+  .title {
+    font-size: 1.35rem;
+  }
+
+  .bottomBenefitsRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .capsuleRow {
+    gap: 6px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .featureCapsule {
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 330px) {
+  .capsuleRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .featureCapsuleFull {
+    grid-column: span 1;
+  }
+}
+

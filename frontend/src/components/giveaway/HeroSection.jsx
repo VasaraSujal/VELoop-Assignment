@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, ChevronDown, ShieldCheck, Award, Users, Coins, Gift } from 'lucide-react';
+import { ArrowRight, Sparkles, ChevronDown, ShieldCheck, Award, Users, Coins } from 'lucide-react';
 import CountdownTimer from './CountdownTimer.jsx';
 import { formatCurrency, formatInr } from '../../utils/currencyFormatter.js';
 import { Button } from '../common/ui/Button.jsx';
@@ -16,59 +16,49 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
     return (
       <section className={styles.heroSection} aria-label="Featured Giveaway Loading">
         <div className={styles.container}>
-          <div className={styles.contentCol}>
-            <div className={styles.badgeRow}>
-              <Skeleton theme="dark" width={140} height={26} borderRadius="var(--radius-full)" />
-              <Skeleton theme="dark" width={130} height={26} borderRadius="var(--radius-full)" />
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Skeleton theme="dark" width="85%" height={44} borderRadius="var(--radius-sm)" />
-              <Skeleton theme="dark" width="60%" height={44} borderRadius="var(--radius-sm)" />
-            </div>
-
-            <Skeleton theme="dark" width="95%" height={18} count={2} />
-
-            <div className={styles.metaGrid}>
-              <div className={styles.metaItem}>
-                <Skeleton theme="dark" width={60} height={12} />
-                <Skeleton theme="dark" width={90} height={20} />
-              </div>
-              <div className={styles.metaItem}>
-                <Skeleton theme="dark" width={70} height={12} />
-                <Skeleton theme="dark" width={100} height={20} />
-              </div>
-              <div className={styles.metaItem}>
-                <Skeleton theme="dark" width={80} height={12} />
-                <Skeleton theme="dark" width={70} height={20} />
-              </div>
-            </div>
-
-            <div className={styles.timerCard}>
-              <Skeleton theme="dark" width={240} height={44} borderRadius="var(--radius-sm)" />
-            </div>
-
-            <div className={styles.ctaRow}>
-              <Skeleton theme="dark" width={160} height={48} borderRadius="var(--radius-md)" />
-              <Skeleton theme="dark" width={160} height={48} borderRadius="var(--radius-md)" />
-            </div>
-          </div>
-
-          <div className={styles.visualCol}>
-            <div className={styles.cardShowcase}>
-              <div className={styles.cardHeader}>
-                <Skeleton theme="dark" width={100} height={22} borderRadius="var(--radius-full)" />
-                <Skeleton theme="dark" width={90} height={22} borderRadius="var(--radius-full)" />
-              </div>
-              <div className={styles.imagePedestal}>
-                <Skeleton theme="dark" width="80%" height="80%" borderRadius="var(--radius-md)" />
-              </div>
-              <div className={styles.cardFooter}>
-                <div className={styles.footerDetails}>
-                  <Skeleton theme="dark" width={140} height={20} />
-                  <Skeleton theme="dark" width={100} height={14} />
+          <div className={styles.masterCard}>
+            <div className={styles.heroGrid}>
+              <div className={styles.contentCol}>
+                <div className={styles.badgeRow}>
+                  <Skeleton theme="dark" width={140} height={26} borderRadius="var(--radius-full)" />
+                  <Skeleton theme="dark" width={110} height={26} borderRadius="var(--radius-full)" />
                 </div>
-                <Skeleton theme="dark" width={110} height={20} borderRadius="var(--radius-full)" />
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <Skeleton theme="dark" width="85%" height={38} borderRadius="var(--radius-sm)" />
+                  <Skeleton theme="dark" width="60%" height={38} borderRadius="var(--radius-sm)" />
+                </div>
+
+                <Skeleton theme="dark" width="95%" height={16} count={2} />
+
+                <div className={styles.capsuleRow}>
+                  <div className={styles.featureCapsule}>
+                    <Skeleton theme="dark" width={80} height={32} />
+                  </div>
+                  <div className={styles.featureCapsule}>
+                    <Skeleton theme="dark" width={80} height={32} />
+                  </div>
+                  <div className={`${styles.featureCapsule} ${styles.featureCapsuleFull}`}>
+                    <Skeleton theme="dark" width={120} height={32} />
+                  </div>
+                </div>
+
+                <div className={styles.timerCard}>
+                  <Skeleton theme="dark" width="100%" height={44} borderRadius="var(--radius-sm)" />
+                </div>
+
+                <div className={styles.ctaRow}>
+                  <Skeleton theme="dark" width="100%" height={48} borderRadius="var(--radius-md)" />
+                  <Skeleton theme="dark" width="100%" height={48} borderRadius="var(--radius-md)" />
+                </div>
+              </div>
+
+              <div className={styles.visualCol}>
+                <div className={styles.stageCard}>
+                  <div className={styles.sciFiStageWrapper}>
+                    <Skeleton theme="dark" width="80%" height="80%" borderRadius="var(--radius-md)" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -105,7 +95,7 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
           {/* Subtle perimeter neon border glow */}
           <div className={styles.cardGlowEdge} aria-hidden="true" />
 
-          {/* Upper Section: 2-Column Hero Grid */}
+          {/* Upper Section: Responsive Hero Grid */}
           <div className={styles.heroGrid}>
             {/* Left Column: Headlines, Value Props & Actions */}
             <div className={styles.contentCol}>
@@ -130,28 +120,29 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
                 )}
               </div>
 
-              {/* Bold Two-Tone Headline */}
+              {/* Bold Two-Tone Headline & Structured Featured Pool */}
               <div className={styles.titleGroup}>
                 <h1 className={styles.title}>
                   Win Grand Prizes,{' '}
                   <span className={styles.titleHighlight}>Earn Rewards!</span>
                 </h1>
-                <p className={styles.featuredPoolTitle}>
-                  Featured Pool: <strong>{giveaway.title}</strong>
-                </p>
+                <div className={styles.featuredPoolBlock}>
+                  <span className={styles.featuredPoolLabel}>Featured Pool</span>
+                  <p className={styles.featuredPoolName}>{giveaway.title}</p>
+                </div>
               </div>
 
               <p className={styles.description}>
                 {giveaway.prizeType === 'GIFT_CARD'
-                  ? 'Instant digital voucher rewards. Enter the draw with your VELOOP balance with zero real-cash fees.'
+                  ? 'Instant digital voucher rewards. Enter verified draws with your VELOOP balance.'
                   : 'Official premium hardware rewards with warranty. Enter verified draws with your VELOOP balance.'}
               </p>
 
-              {/* 3 Reference Feature Highlight Capsules */}
+              {/* Compact Responsive Information Grid */}
               <div className={styles.capsuleRow}>
                 <div className={styles.featureCapsule}>
                   <div className={styles.capsuleIconBox}>
-                    <Coins size={14} />
+                    <Coins size={15} aria-hidden="true" />
                   </div>
                   <div className={styles.capsuleText}>
                     <span className={styles.capsuleLabel}>Entry Fee</span>
@@ -161,21 +152,23 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
 
                 <div className={styles.featureCapsule}>
                   <div className={styles.capsuleIconBox}>
-                    <Award size={14} />
+                    <Award size={15} aria-hidden="true" />
                   </div>
                   <div className={styles.capsuleText}>
                     <span className={styles.capsuleLabel}>Winners</span>
-                    <span className={styles.capsuleSub}>{giveaway.winnerCount} {giveaway.winnerCount === 1 ? 'Winner' : 'Winners'}</span>
+                    <span className={styles.capsuleSub}>
+                      {giveaway.winnerCount} {giveaway.winnerCount === 1 ? 'Winner' : 'Winners'}
+                    </span>
                   </div>
                 </div>
 
-                <div className={styles.featureCapsule}>
+                <div className={`${styles.featureCapsule} ${styles.featureCapsuleFull}`}>
                   <div className={styles.capsuleIconBox}>
-                    <ShieldCheck size={14} />
+                    <ShieldCheck size={15} aria-hidden="true" />
                   </div>
                   <div className={styles.capsuleText}>
-                    <span className={styles.capsuleLabel}>Secure &amp; Safe</span>
-                    <span className={styles.capsuleSub}>100% Protected</span>
+                    <span className={styles.capsuleLabel}>Secure Participation</span>
+                    <span className={styles.capsuleSub}>Provably Fair Draws</span>
                   </div>
                 </div>
               </div>
@@ -200,6 +193,7 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
                   <Button
                     variant="primary"
                     size="lg"
+                    fullWidth
                     iconRight={<ArrowRight size={18} className={styles.ctaArrow} />}
                     className={styles.primaryJoinBtn}
                   >
@@ -211,7 +205,9 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
                   <Button
                     variant="navy"
                     size="lg"
+                    fullWidth
                     iconRight={<ChevronDown size={16} />}
+                    className={styles.secondaryBrowseBtn}
                   >
                     Browse Pools
                   </Button>
@@ -225,7 +221,7 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
                 </div>
                 <div className={styles.calloutText}>
                   <strong>The more entries you hold, the higher your winning odds!</strong>
-                  <span> All draws are 100% verified and publicly announced.</span>
+                  <span> All draws are publicly verified.</span>
                 </div>
               </div>
             </div>

@@ -1,9 +1,10 @@
 .countdownWrapper {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  width: fit-content;
+  width: 100%;
   max-width: 100%;
+  box-sizing: border-box;
 }
 
 .headerRow {
@@ -192,9 +193,9 @@
 }
 
 /* ==========================================================================
-   Responsive Adjustments
+   Responsive Adjustments — 4-Column Grid on Mobile
    ========================================================================== */
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .countdownWrapper {
     width: 100%;
     max-width: 100%;
@@ -202,64 +203,80 @@
   }
 
   .timerGrid {
-    gap: 4px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
     width: 100%;
     max-width: 100%;
-    justify-content: space-between;
     box-sizing: border-box;
   }
 
+  .colon {
+    display: none !important;
+  }
+
   .segment {
-    flex: 1 1 0px;
+    width: 100%;
     min-width: 0;
     align-items: center;
+    box-sizing: border-box;
   }
 
   .digitBox {
     width: 100%;
-    max-width: 48px;
-    height: 38px;
+    max-width: 100%;
+    height: 42px;
     min-width: 0;
+    padding: 0 4px;
+    border-radius: var(--radius-md);
+    box-sizing: border-box;
+  }
+
+  .digit {
+    font-size: 1.1rem;
+  }
+
+  .unitLabel {
+    font-size: 0.625rem;
+    margin-top: 3px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 380px) {
+  .timerGrid {
+    gap: 4px;
+  }
+
+  .digitBox {
+    height: 38px;
     padding: 0 2px;
   }
 
   .digit {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
   .unitLabel {
-    font-size: 0.58rem;
+    font-size: 0.55rem;
     margin-top: 2px;
-  }
-
-  .colon {
-    font-size: 0.95rem;
-    margin-top: -10px;
-    padding: 0;
-    flex-shrink: 0;
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 330px) {
   .timerGrid {
-    gap: 2px;
+    gap: 3px;
   }
 
   .digitBox {
-    height: 34px;
-    padding: 0 1px;
+    height: 36px;
   }
 
   .digit {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
   }
 
   .unitLabel {
-    font-size: 0.525rem;
-  }
-
-  .colon {
-    font-size: 0.8rem;
-    margin-top: -8px;
+    font-size: 0.5rem;
   }
 }
