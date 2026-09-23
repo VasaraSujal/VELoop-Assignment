@@ -1,21 +1,11 @@
 .section {
   width: 100%;
   background-color: var(--color-background);
-  border-top: 1px solid rgba(139, 92, 246, 0.15);
-  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   padding: var(--space-12) 0;
   position: relative;
   overflow: hidden;
-}
-
-.section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.4) 50%, transparent 100%);
 }
 
 .container {
@@ -39,15 +29,14 @@
   gap: 6px;
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
-  color: #c084fc;
+  color: var(--color-brand-hover);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  background: rgba(124, 58, 237, 0.18);
-  border: 1px solid rgba(168, 85, 247, 0.4);
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
   padding: 4px 14px;
   border-radius: var(--radius-full);
   margin-bottom: var(--space-3);
-  box-shadow: 0 0 16px rgba(124, 58, 237, 0.2);
 }
 
 .title {
@@ -68,7 +57,7 @@
 }
 
 /* ==========================================================================
-   4-Step Progression Grid — Next-Gen Cyber Glass
+   4-Step Progression Grid
    ========================================================================== */
 .stepsGrid {
   display: grid;
@@ -82,65 +71,31 @@
   top: 50px;
   left: 10%;
   right: 10%;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(124, 58, 237, 0.2) 0%, rgba(245, 158, 11, 0.7) 50%, rgba(124, 58, 237, 0.2) 100%);
-  background-size: 200% 100%;
-  animation: energyPulseLine 4s linear infinite;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-border) 50%, transparent 100%);
   z-index: 0;
   pointer-events: none;
 }
 
 .stepCard {
-  background: rgba(15, 18, 42, 0.8);
+  background: var(--color-surface-card);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
   padding: var(--space-6);
   display: flex;
   flex-direction: column;
   position: relative;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-sm);
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
 }
 
-.stepCard:nth-child(1) { animation-delay: 0.05s; }
-.stepCard:nth-child(2) { animation-delay: 0.12s; }
-.stepCard:nth-child(3) { animation-delay: 0.19s; }
-.stepCard:nth-child(4) { animation-delay: 0.26s; }
-
-.stepCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    transparent 100%
-  );
-  transition: transform 0.6s ease;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.stepCard:hover::before {
-  transform: translateX(200%);
-}
-
-.stepCard > * {
-  position: relative;
-  z-index: 1;
-}
-
 .stepCard:hover {
-  transform: translateY(-8px) scale(1.02);
-  border-color: rgba(139, 92, 246, 0.55);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 28px rgba(124, 58, 237, 0.25);
+  transform: translateY(-4px);
+  border-color: var(--color-brand-border);
+  background: var(--color-surface-card-hover);
+  box-shadow: var(--shadow-md);
 }
 
 .cardHeader {
@@ -151,45 +106,33 @@
 }
 
 .stepNumber {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 800;
-  color: #c084fc;
-  background: rgba(124, 58, 237, 0.2);
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  padding: 3px 12px;
+  color: var(--color-text-brand);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  padding: 3px 10px;
   border-radius: var(--radius-full);
   font-variant-numeric: tabular-nums;
   line-height: 1.2;
-  transition: all var(--transition-fast);
-}
-
-.stepCard:hover .stepNumber {
-  transform: scale(1.1);
-  background: linear-gradient(135deg, #7c3aed, #9333ea);
-  color: #ffffff;
-  border-color: #a855f7;
-  box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
 }
 
 .iconWrapper {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.25) 0%, rgba(99, 102, 241, 0.15) 100%);
-  border: 1px solid rgba(168, 85, 247, 0.4);
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #c084fc;
+  color: var(--color-brand-hover);
   flex-shrink: 0;
-  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease;
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .stepCard:hover .iconWrapper {
-  transform: scale(1.15) rotate(6deg);
-  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
-  color: #ffffff;
-  box-shadow: 0 0 24px rgba(124, 58, 237, 0.5);
+  transform: scale(1.08);
 }
 
 .stepTitle {
