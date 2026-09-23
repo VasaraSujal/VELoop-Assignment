@@ -1,6 +1,6 @@
 .heroSection {
-  background: radial-gradient(circle at 50% 20%, rgba(124, 58, 237, 0.18) 0%, rgba(6, 182, 212, 0.05) 40%, #04050d 80%), #04050d;
-  color: var(--color-navy-text-primary);
+  background: radial-gradient(circle at 50% 15%, rgba(124, 58, 237, 0.08) 0%, transparent 60%), var(--color-background);
+  color: var(--color-text-primary);
   padding: var(--space-8) 0 var(--space-12);
   position: relative;
   overflow: hidden;
@@ -18,11 +18,11 @@
   width: min(600px, 80vw);
   height: min(600px, 80vw);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, rgba(236, 72, 153, 0.1) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 65%);
   filter: blur(80px);
   pointer-events: none;
   z-index: 0;
-  animation: auroraFloat 16s ease-in-out infinite;
+  animation: auroraFloat 18s ease-in-out infinite;
 }
 
 .ambientGlowSecondary {
@@ -32,11 +32,11 @@
   width: min(500px, 75vw);
   height: min(500px, 75vw);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(124, 58, 237, 0.1) 45%, transparent 70%);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 65%);
   filter: blur(70px);
   pointer-events: none;
   z-index: 0;
-  animation: auroraFloat 20s ease-in-out infinite reverse;
+  animation: auroraFloat 22s ease-in-out infinite reverse;
 }
 
 .gridOverlay {
@@ -61,16 +61,16 @@
 }
 
 /* ==========================================================================
-   Master Card Container (Matching Reference Style)
+   Master Card Container
    ========================================================================== */
 .masterCard {
-  background: linear-gradient(145deg, rgba(13, 16, 42, 0.95) 0%, rgba(7, 9, 24, 0.98) 100%);
+  background: var(--color-surface-card);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(139, 92, 246, 0.35);
+  border: 1px solid var(--color-brand-border);
   border-radius: 28px;
   padding: var(--space-8) var(--space-8) var(--space-6);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 40px rgba(124, 58, 237, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow-xl), 0 0 30px rgba(124, 58, 237, 0.12);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -87,7 +87,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, rgba(236, 72, 153, 0.6) 25%, rgba(139, 92, 246, 0.8) 50%, rgba(6, 182, 212, 0.6) 75%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.5) 50%, transparent 100%);
   pointer-events: none;
 }
 
@@ -131,30 +131,28 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(124, 58, 237, 0.25);
-  border: 1px solid rgba(168, 85, 247, 0.5);
-  color: #e9d5ff;
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
+  color: var(--color-text-brand);
   padding: 5px 14px;
   border-radius: var(--radius-full);
   font-size: 0.725rem;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  box-shadow: 0 0 16px rgba(124, 58, 237, 0.25);
 }
 
 .pillSparkle {
-  color: #f472b6;
-  animation: sparkle 2.5s ease-in-out infinite;
+  color: var(--color-brand-hover);
 }
 
 .liveBadge {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(34, 197, 94, 0.15);
-  border: 1px solid rgba(74, 222, 128, 0.45);
-  color: #4ade80;
+  background: var(--status-active-bg);
+  border: 1px solid var(--status-active-border);
+  color: var(--status-active-text);
   padding: 5px 12px;
   border-radius: var(--radius-full);
   font-size: 0.725rem;
@@ -166,7 +164,7 @@
 .pulseDot {
   width: 7px;
   height: 7px;
-  background-color: #4ade80;
+  background-color: var(--status-active);
   border-radius: 50%;
   animation: pulseRadar 2s infinite;
 }
@@ -190,10 +188,9 @@
 }
 
 .titleHighlight {
-  background: linear-gradient(135deg, #f472b6 0%, #c084fc 40%, #818cf8 80%, #38bdf8 100%);
+  background: var(--color-brand-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 16px rgba(168, 85, 247, 0.4));
 }
 
 .featuredPoolBlock {
@@ -207,7 +204,7 @@
 .featuredPoolLabel {
   font-size: 0.7rem;
   font-weight: var(--font-weight-bold);
-  color: #c084fc;
+  color: var(--color-brand-hover);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -215,7 +212,7 @@
 .featuredPoolName {
   font-size: clamp(1.05rem, 2.5vw, 1.25rem);
   font-weight: var(--font-weight-bold);
-  color: #fbbf24;
+  color: #ffffff;
   line-height: 1.35;
   margin: 0;
   word-break: break-word;
@@ -223,7 +220,7 @@
 
 .description {
   font-size: 0.925rem;
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   line-height: 1.55;
   margin: 0;
   max-width: 540px;
@@ -243,8 +240,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: rgba(18, 22, 54, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 8px 14px;
   transition: all 250ms ease;
@@ -253,19 +250,18 @@
 }
 
 .featureCapsule:hover {
-  border-color: rgba(139, 92, 246, 0.5);
-  background: rgba(26, 32, 76, 0.95);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border-color: var(--color-brand-border);
+  background: var(--color-surface-elevated);
+  transform: translateY(-1px);
 }
 
 .capsuleIconBox {
   width: 28px;
   height: 28px;
   border-radius: var(--radius-md);
-  background: rgba(124, 58, 237, 0.25);
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  color: #c084fc;
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
+  color: var(--color-brand-hover);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -283,7 +279,7 @@
 .capsuleLabel {
   font-size: 0.6875rem;
   font-weight: var(--font-weight-bold);
-  color: #94a3b8;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -302,15 +298,15 @@
 
 /* Integrated Countdown Card */
 .timerCard {
-  background: rgba(15, 18, 46, 0.9);
+  background: var(--color-surface-muted);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(139, 92, 246, 0.35);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--space-3) var(--space-4);
   display: inline-block;
   width: fit-content;
   max-width: 100%;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--shadow-sm);
   box-sizing: border-box;
 }
 
@@ -335,17 +331,18 @@
 }
 
 .primaryJoinBtn {
-  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #6366f1 100%) !important;
-  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.35), 0 0 20px rgba(124, 58, 237, 0.4) !important;
-  border: none !important;
+  background: var(--color-brand-gradient) !important;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
   transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1) !important;
   box-sizing: border-box !important;
   max-width: 100% !important;
 }
 
 .primaryJoinBtn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 12px 32px rgba(236, 72, 153, 0.5), 0 0 28px rgba(124, 58, 237, 0.6) !important;
+  background: var(--color-brand-gradient-hover) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.45) !important;
 }
 
 .secondaryBrowseBtn {
@@ -355,7 +352,7 @@
 }
 
 .secondaryBrowseBtn:hover {
-  transform: translateY(-2px) !important;
+  transform: translateY(-1px) !important;
 }
 
 .ctaArrow {
@@ -371,8 +368,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(124, 58, 237, 0.12);
-  border: 1px dashed rgba(168, 85, 247, 0.35);
+  background: var(--color-brand-soft);
+  border: 1px dashed var(--color-brand-border);
   border-radius: var(--radius-lg);
   padding: 10px 16px;
   width: 100%;
@@ -384,7 +381,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+  background: var(--color-brand-gradient);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -394,7 +391,7 @@
 
 .calloutText {
   font-size: 0.8125rem;
-  color: #c4c1d4;
+  color: var(--color-text-secondary);
   line-height: 1.4;
   flex: 1 1 0%;
   min-width: 0;
@@ -426,11 +423,11 @@
   width: 100%;
   max-width: 440px;
   min-width: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(26, 32, 78, 0.7) 0%, rgba(10, 12, 32, 0.95) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.3);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
   padding: var(--space-6) var(--space-4) var(--space-4);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 32px rgba(124, 58, 237, 0.15);
+  box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -445,7 +442,7 @@
   width: 260px;
   height: 260px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(6, 182, 212, 0.1) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 65%);
   filter: blur(24px);
   pointer-events: none;
   animation: glowPulse 4s ease-in-out infinite;
@@ -456,10 +453,10 @@
   position: absolute;
   top: 15px;
   left: -8px;
-  background: rgba(15, 18, 48, 0.9);
+  background: var(--color-surface-muted);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(236, 72, 153, 0.45);
-  color: #f472b6;
+  border: 1px solid var(--color-brand-border);
+  color: var(--color-text-brand);
   padding: 5px 12px;
   border-radius: var(--radius-full);
   font-size: 0.65rem;
@@ -468,7 +465,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 16px rgba(236, 72, 153, 0.3);
+  box-shadow: var(--shadow-md);
   z-index: 3;
   animation: floatBadge1 4s ease-in-out infinite;
 }
@@ -477,10 +474,10 @@
   position: absolute;
   top: 45px;
   right: -8px;
-  background: rgba(15, 18, 48, 0.9);
+  background: var(--color-surface-muted);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(6, 182, 212, 0.45);
-  color: #38bdf8;
+  border: 1px solid var(--color-brand-border);
+  color: var(--color-text-brand);
   padding: 5px 12px;
   border-radius: var(--radius-full);
   font-size: 0.65rem;
@@ -489,7 +486,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 16px rgba(6, 182, 212, 0.3);
+  box-shadow: var(--shadow-md);
   z-index: 3;
   animation: floatBadge2 4.5s ease-in-out infinite;
 }
@@ -502,7 +499,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-md);
 }
 
 .coinLeft {
@@ -525,15 +522,14 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-  border: 2px solid #c084fc;
+  background: var(--color-brand-gradient);
+  border: 1.5px solid var(--color-brand-border-hover);
   color: #ffffff;
   font-size: 0.85rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 14px rgba(168, 85, 247, 0.5);
 }
 
 .coinInnerGold {
@@ -541,14 +537,13 @@
   height: 100%;
   border-radius: 50%;
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  border: 2px solid #fbbf24;
+  border: 1.5px solid #fbbf24;
   color: #ffffff;
   font-size: 0.75rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 16px rgba(251, 191, 36, 0.5);
 }
 
 /* 3D Sci-Fi Multi-Tier Pedestal Wrapper */
@@ -578,12 +573,12 @@
   max-width: 82%;
   max-height: 165px;
   object-fit: contain;
-  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 24px rgba(168, 85, 247, 0.5));
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.7));
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .stageCard:hover .prizeImage {
-  transform: scale(1.08) translateY(-6px);
+  transform: scale(1.05) translateY(-4px);
 }
 
 .productFloorShadow {
@@ -591,13 +586,13 @@
   bottom: -4px;
   width: 160px;
   height: 16px;
-  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.8) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.7) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
   animation: shadowPulse 4s ease-in-out infinite;
 }
 
-/* Concentric Neon Rings Pedestal Platform */
+/* Concentric Rings Pedestal Platform */
 .pedestalPlatform {
   position: relative;
   width: 220px;
@@ -613,18 +608,16 @@
   width: 210px;
   height: 18px;
   border-radius: 50%;
-  background: radial-gradient(ellipse, #1c1340 0%, #0c0e24 100%);
-  border: 1.5px solid rgba(236, 72, 153, 0.6);
-  box-shadow: 0 0 20px rgba(236, 72, 153, 0.4), inset 0 0 10px rgba(236, 72, 153, 0.3);
+  background: var(--color-surface-muted);
+  border: 1.5px solid var(--color-brand-border);
 }
 
 .pedestalRingInner {
   width: 160px;
   height: 12px;
   border-radius: 50%;
-  background: radial-gradient(ellipse, #3b1d75 0%, #15183d 100%);
-  border: 1.5px solid rgba(6, 182, 212, 0.6);
-  box-shadow: 0 0 16px rgba(6, 182, 212, 0.4);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
   margin-top: -15px;
 }
 
@@ -632,7 +625,7 @@
   width: 100px;
   height: 8px;
   border-radius: 50%;
-  background: radial-gradient(ellipse, #c084fc 0%, transparent 80%);
+  background: radial-gradient(ellipse, rgba(124, 58, 237, 0.3) 0%, transparent 80%);
   filter: blur(4px);
   margin-top: -10px;
 }
@@ -640,10 +633,10 @@
 .pedestalBase {
   width: 190px;
   height: 8px;
-  background: #080918;
+  background: var(--color-background);
   border-radius: 0 0 50% 50%;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
 }
 
 /* Stage Bottom Meta */
@@ -652,8 +645,8 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  background: rgba(14, 17, 42, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 8px 12px;
   z-index: 2;
@@ -684,7 +677,7 @@
 
 .stagePrizeSub {
   font-size: 0.6875rem;
-  color: #94a3b8;
+  color: var(--color-text-secondary);
 }
 
 .stageParticipantsBadge {
@@ -693,9 +686,9 @@
   gap: 4px;
   font-size: 0.725rem;
   font-weight: var(--font-weight-semibold);
-  color: #fbbf24;
-  background: rgba(245, 158, 11, 0.14);
-  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: var(--podium-gold-text);
+  background: var(--podium-gold-bg);
+  border: 1px solid var(--podium-gold-border);
   padding: 3px 8px;
   border-radius: var(--radius-full);
   white-space: nowrap;
@@ -709,7 +702,7 @@
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-4);
   padding-top: var(--space-4);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--color-border);
   position: relative;
   z-index: 1;
   width: 100%;
@@ -720,8 +713,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(18, 22, 54, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--space-3) var(--space-4);
   transition: all 250ms ease;
@@ -730,10 +723,9 @@
 }
 
 .benefitCard:hover {
-  background: rgba(24, 30, 70, 0.85);
-  border-color: rgba(139, 92, 246, 0.45);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  background: var(--color-surface-elevated);
+  border-color: var(--color-brand-border);
+  transform: translateY(-1px);
 }
 
 .benefitIconBox {
@@ -744,30 +736,33 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
+  color: var(--color-brand-hover);
 }
 
 .iconPurple {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(168, 85, 247, 0.2));
-  border: 1px solid rgba(168, 85, 247, 0.5);
-  color: #c084fc;
+  background: var(--color-brand-soft);
+  border-color: var(--color-brand-border);
+  color: var(--color-brand-hover);
 }
 
 .iconGold {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.35), rgba(251, 191, 36, 0.2));
-  border: 1px solid rgba(251, 191, 36, 0.5);
-  color: #fbbf24;
+  background: var(--currency-sves-bg);
+  border-color: var(--currency-sves-border);
+  color: var(--currency-sves-text);
 }
 
 .iconCyan {
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(56, 189, 248, 0.2));
-  border: 1px solid rgba(6, 182, 212, 0.5);
-  color: #38bdf8;
+  background: var(--color-brand-soft);
+  border-color: var(--color-brand-border);
+  color: var(--color-text-brand);
 }
 
 .iconPink {
-  background: linear-gradient(135deg, rgba(236, 72, 153, 0.35), rgba(244, 114, 182, 0.2));
-  border: 1px solid rgba(236, 72, 153, 0.5);
-  color: #f472b6;
+  background: var(--color-brand-soft);
+  border-color: var(--color-brand-border);
+  color: var(--color-brand-hover);
 }
 
 .benefitContent {
@@ -786,7 +781,7 @@
 
 .benefitText {
   font-size: 0.725rem;
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   margin: 0;
   line-height: 1.3;
 }
@@ -1123,4 +1118,3 @@
     grid-column: span 1;
   }
 }
-
