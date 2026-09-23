@@ -40,12 +40,12 @@
   width: 48px;
   height: 48px;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--color-primary), #4338ca);
+  background: var(--color-brand-gradient);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
   z-index: 1;
 }
 
