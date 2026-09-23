@@ -1,146 +1,163 @@
 :root {
   /* ==========================================================================
-     VELOP Rewards Design System Tokens (Dark Premium Gamified Visual Language)
+     VELOP Rewards Unified Design System Tokens (Refined Dark Premium)
      ========================================================================== */
 
   /* --------------------------------------------------------------------------
-     1. Primary Brand & Accent Colors (Electric Indigo, Vivid Violet, Cyberpunk Accents)
+     1. Primary VELOOP Brand Family (Unified Violet / Indigo)
      -------------------------------------------------------------------------- */
-  --color-primary: #7c3aed;             /* Vivid Violet / VELOOP Brand */
-  --color-primary-hover: #8b5cf6;       /* Radiant Purple hover */
-  --color-primary-active: #6d28d9;      /* Deep Pressed state */
-  --color-primary-light: rgba(124, 58, 237, 0.15); /* Soft purple tint */
-  --color-primary-subtle: rgba(124, 58, 237, 0.08);
-  --color-primary-border: rgba(139, 92, 246, 0.4); /* Glowing purple border */
-  --color-primary-glow: 0 0 32px rgba(124, 58, 237, 0.45);
-  --color-accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-  --color-accent-brand-btn: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #6366f1 100%);
-  --color-accent-gold-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
-  --color-accent-cyan: #06b6d4;
-  --color-accent-pink: #ec4899;
-  --color-accent-emerald: #10b981;
+  --color-brand: #7c3aed;
+  --color-brand-hover: #8b5cf6;
+  --color-brand-active: #6d28d9;
+  --color-brand-soft: rgba(124, 58, 237, 0.12);
+  --color-brand-subtle: rgba(124, 58, 237, 0.06);
+  --color-brand-border: rgba(139, 92, 246, 0.32);
+  --color-brand-border-hover: rgba(168, 85, 247, 0.5);
+  --color-brand-glow: 0 0 20px rgba(124, 58, 237, 0.28);
+  --color-brand-gradient: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+  --color-brand-gradient-hover: linear-gradient(135deg, #8b5cf6 0%, #818cf8 100%);
 
-  /* Glassmorphism & Cyber Gradients */
-  --glass-bg: rgba(14, 17, 37, 0.72);
-  --glass-bg-card: rgba(17, 20, 44, 0.78);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-border-hover: rgba(139, 92, 246, 0.45);
+  /* Backwards compatibility aliases */
+  --color-primary: var(--color-brand);
+  --color-primary-hover: var(--color-brand-hover);
+  --color-primary-active: var(--color-brand-active);
+  --color-primary-light: var(--color-brand-soft);
+  --color-primary-subtle: var(--color-brand-subtle);
+  --color-primary-border: var(--color-brand-border);
+  --color-primary-glow: var(--color-brand-glow);
+  --color-accent-gradient: var(--color-brand-gradient);
+  --color-accent-brand-btn: var(--color-brand-gradient);
+
+  /* Glassmorphism & Subtle Surface Gradients */
+  --glass-bg: rgba(13, 16, 36, 0.75);
+  --glass-bg-card: rgba(16, 20, 46, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(139, 92, 246, 0.35);
   --glass-blur: blur(16px);
-  --gradient-cyber: linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #06b6d4 100%);
-  --gradient-shimmer: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.15) 50%, transparent 100%);
-  --gradient-card-border: linear-gradient(135deg, rgba(124, 58, 237, 0.5), rgba(236, 72, 153, 0.3), rgba(6, 182, 212, 0.4));
-  --gradient-card-border-active: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4);
+  --gradient-card-border: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(255, 255, 255, 0.06));
+  --gradient-card-border-active: linear-gradient(135deg, #7c3aed, #6366f1);
+  --gradient-shimmer: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
 
   /* --------------------------------------------------------------------------
-     2. Dark Layered Theme Surfaces & Foundations
+     2. Dark Layered Surfaces & Foundations (Deep Navy / Slate)
      -------------------------------------------------------------------------- */
-  --color-background: #04050d;          /* Ultra Deep Black-Navy Page Root */
-  --color-surface: #070915;             /* Primary Dark Section Surface */
-  --color-surface-card: #0f1227;        /* Rich Dark Card Surface */
-  --color-surface-card-hover: #161a38;  /* Card Hover Elevation */
-  --color-surface-elevated: #1a1e43;    /* Popover / Modal Surface */
-  --color-surface-popover: #1d224d;     /* Elevated Dropdown / Tooltip */
-  --color-surface-muted: #11142e;       /* Inset / Secondary Background */
-  --color-surface-subtle: #0d1024;      /* Subtle Dark Surface Tint */
-  --color-surface-hover: #1c2149;       /* List / Row Hover Background */
+  --color-background: #060813;          /* Ultra Deep Navy Page Root */
+  --color-surface: #0a0d20;             /* Primary Section Surface */
+  --color-surface-card: #0f132a;        /* Refined Card Surface */
+  --color-surface-card-hover: #151a3a;  /* Card Hover Elevation */
+  --color-surface-elevated: #181e44;    /* Modal / Popover Surface */
+  --color-surface-popover: #1c234e;     /* Elevated Dropdown */
+  --color-surface-muted: #0b0e22;       /* Inset / Subtle Container */
+  --color-surface-subtle: rgba(255, 255, 255, 0.03);
+  --color-surface-hover: rgba(255, 255, 255, 0.05);
 
-  /* --------------------------------------------------------------------------
-     3. Dark Navy Tokens
-     -------------------------------------------------------------------------- */
-  --color-navy: #050611;
-  --color-navy-surface: #0b0d1c;
-  --color-navy-soft: #111329;
+  /* Navy tokens */
+  --color-navy: #060813;
+  --color-navy-surface: #0a0d20;
+  --color-navy-soft: #0f132a;
   --color-navy-border: rgba(255, 255, 255, 0.08);
   --color-navy-border-subtle: rgba(255, 255, 255, 0.04);
   --color-navy-text-primary: #ffffff;
-  --color-navy-text-secondary: #c4c1d4;
-  --color-navy-text-muted: #77748d;
+  --color-navy-text-secondary: #94a3b8;
+  --color-navy-text-muted: #64748b;
 
   /* --------------------------------------------------------------------------
-     4. Typography Colors (Crisp White & Lavender Hierarchy)
+     3. Professional Typography Hierarchy (Clean White & Slate)
      -------------------------------------------------------------------------- */
   --color-text-primary: #ffffff;        /* Pure White Headings & Primary Text */
-  --color-text-secondary: #c4c1d4;      /* Soft Lavender Muted Descriptions */
-  --color-text-muted: #77748d;          /* Subtle Captions, Labels, Timestamps */
-  --color-text-disabled: #4a4760;       /* Inactive / Disabled States */
-  --color-text-inverse: #050611;        /* Inverted Dark Text on Bright Elements */
-  --color-text-inverse-muted: #1e1b38;
+  --color-text-secondary: #94a3b8;      /* Clean Slate Secondary Text */
+  --color-text-muted: #64748b;          /* Subtle Captions, Labels, Timestamps */
+  --color-text-disabled: #475569;       /* Inactive / Disabled States */
+  --color-text-inverse: #060813;        /* Inverted Text on Bright Elements */
+  --color-text-inverse-muted: #1e2448;
+  --color-text-brand: #c084fc;          /* Subtle Brand Highlight Text */
 
   /* --------------------------------------------------------------------------
-     5. Borders & Dividers
+     4. Borders & Dividers
      -------------------------------------------------------------------------- */
-  --color-border: rgba(255, 255, 255, 0.08);        /* Subtle Dark Border */
+  --color-border: rgba(255, 255, 255, 0.08);        /* Standard Subtle Border */
   --color-border-subtle: rgba(255, 255, 255, 0.04); /* Faint Inner Divider */
-  --color-border-strong: rgba(139, 92, 246, 0.35);  /* Active / Focused Boundary */
-  --color-border-focus: #8b5cf6;                     /* Focus Glow Ring */
-  --color-focus-ring: rgba(139, 92, 246, 0.4);
+  --color-border-strong: rgba(255, 255, 255, 0.14); /* Clean Strong Boundary */
+  --color-border-brand: rgba(139, 92, 246, 0.35);   /* Brand Accent Border */
+  --color-border-focus: #8b5cf6;                     /* Focus Ring */
+  --color-focus-ring: rgba(139, 92, 246, 0.35);
 
   /* --------------------------------------------------------------------------
-     6. Currency & Reward Tokens (VEs, SVEs, Tokens)
+     5. Currency & Reward Tokens (Restrained Labels & Indicators)
      -------------------------------------------------------------------------- */
-  --currency-ves: #818cf8;              /* VEs Radiant Indigo */
-  --currency-ves-bg: rgba(99, 102, 241, 0.14);
-  --currency-ves-border: rgba(99, 102, 241, 0.35);
+  --currency-ves: #818cf8;              /* VEs Indigo */
+  --currency-ves-bg: rgba(99, 102, 241, 0.12);
+  --currency-ves-border: rgba(99, 102, 241, 0.28);
   --currency-ves-text: #a5b4fc;
 
   --currency-sves: #fbbf24;             /* SVEs Amber Gold */
-  --currency-sves-bg: rgba(245, 158, 11, 0.14);
-  --currency-sves-border: rgba(245, 158, 11, 0.35);
+  --currency-sves-bg: rgba(245, 158, 11, 0.12);
+  --currency-sves-border: rgba(245, 158, 11, 0.28);
   --currency-sves-text: #fde68a;
 
   --currency-tokens: #34d399;           /* Tokens Emerald */
-  --currency-tokens-bg: rgba(16, 185, 129, 0.14);
-  --currency-tokens-border: rgba(16, 185, 129, 0.35);
+  --currency-tokens-bg: rgba(16, 185, 129, 0.12);
+  --currency-tokens-border: rgba(16, 185, 129, 0.28);
   --currency-tokens-text: #6ee7b7;
 
   /* --------------------------------------------------------------------------
-     7. Semantic Status Colors & Gamification Podium Tokens
+     6. Semantic Status Tokens (Strictly for Communicating State)
      -------------------------------------------------------------------------- */
-  --status-active: #22c55e;             /* Live Now / Active Pool */
-  --status-active-bg: rgba(34, 197, 94, 0.14);
-  --status-active-border: rgba(34, 197, 94, 0.35);
-  --status-active-text: #4ade80;
+  --status-active: #10b981;             /* Live Now / Active Pool (Emerald) */
+  --status-active-bg: rgba(16, 185, 129, 0.12);
+  --status-active-border: rgba(16, 185, 129, 0.28);
+  --status-active-text: #34d399;
 
-  --status-upcoming: #38bdf8;           /* Upcoming Pool */
-  --status-upcoming-bg: rgba(56, 189, 248, 0.14);
-  --status-upcoming-border: rgba(56, 189, 248, 0.35);
-  --status-upcoming-text: #7dd3fc;
+  --status-upcoming: #6366f1;           /* Upcoming Pool (Indigo) */
+  --status-upcoming-bg: rgba(99, 102, 241, 0.12);
+  --status-upcoming-border: rgba(99, 102, 241, 0.28);
+  --status-upcoming-text: #a5b4fc;
 
-  --status-ended: #94a3b8;              /* Closed / Concluded */
-  --status-ended-bg: rgba(148, 163, 184, 0.12);
-  --status-ended-border: rgba(148, 163, 184, 0.25);
-  --status-ended-text: #cbd5e1;
+  --status-ended: #64748b;              /* Closed / Concluded (Slate) */
+  --status-ended-bg: rgba(100, 116, 139, 0.12);
+  --status-ended-border: rgba(100, 116, 139, 0.22);
+  --status-ended-text: #94a3b8;
 
-  --status-winner: #fbbf24;             /* Winner Drawn / Celebratory Gold */
-  --status-winner-bg: rgba(251, 191, 36, 0.14);
-  --status-winner-border: rgba(251, 191, 36, 0.35);
-  --status-winner-text: #fde68a;
+  --status-winner: #f59e0b;             /* Winner Drawn / Celebratory Gold */
+  --status-winner-bg: rgba(245, 158, 11, 0.12);
+  --status-winner-border: rgba(245, 158, 11, 0.28);
+  --status-winner-text: #fbbf24;
 
-  --status-danger: #f87171;             /* Danger / Error / Shortage */
-  --status-danger-bg: rgba(239, 68, 68, 0.14);
-  --status-danger-border: rgba(239, 68, 68, 0.35);
-  --status-danger-text: #fca5a5;
+  --status-danger: #ef4444;             /* Danger / Error (Red) */
+  --status-danger-bg: rgba(239, 68, 68, 0.12);
+  --status-danger-border: rgba(239, 68, 68, 0.28);
+  --status-danger-text: #f87171;
 
-  --status-info: #818cf8;               /* Informational Notice */
-  --status-info-bg: rgba(99, 102, 241, 0.14);
-  --status-info-border: rgba(99, 102, 241, 0.35);
-  --status-info-text: #c7d2fe;
+  --status-warning: #f59e0b;            /* Warning (Amber) */
+  --status-warning-bg: rgba(245, 158, 11, 0.12);
+  --status-warning-border: rgba(245, 158, 11, 0.28);
+  --status-warning-text: #fbbf24;
 
-  /* Podium Metallic Accents */
-  --podium-gold: #fbbf24;
-  --podium-gold-glow: 0 0 28px rgba(251, 191, 36, 0.28);
-  --podium-gold-border: rgba(251, 191, 36, 0.4);
-  --podium-gold-bg: rgba(251, 191, 36, 0.08);
+  --status-info: #6366f1;               /* Informational Notice */
+  --status-info-bg: rgba(99, 102, 241, 0.12);
+  --status-info-border: rgba(99, 102, 241, 0.28);
+  --status-info-text: #a5b4fc;
 
-  --podium-silver: #cbd5e1;
-  --podium-silver-glow: 0 0 20px rgba(203, 213, 225, 0.2);
-  --podium-silver-border: rgba(203, 213, 225, 0.35);
-  --podium-silver-bg: rgba(203, 213, 225, 0.06);
+  /* --------------------------------------------------------------------------
+     7. Gold / Podium Hierarchy (Reserved Strictly for #1, Prize Values & Rankings)
+     -------------------------------------------------------------------------- */
+  --podium-gold: #f59e0b;
+  --podium-gold-glow: 0 0 16px rgba(245, 158, 11, 0.2);
+  --podium-gold-border: rgba(245, 158, 11, 0.35);
+  --podium-gold-bg: rgba(245, 158, 11, 0.08);
+  --podium-gold-text: #fbbf24;
 
-  --podium-bronze: #f97316;
-  --podium-bronze-glow: 0 0 20px rgba(249, 115, 22, 0.2);
-  --podium-bronze-border: rgba(249, 115, 22, 0.35);
-  --podium-bronze-bg: rgba(249, 115, 22, 0.06);
+  --podium-silver: #94a3b8;
+  --podium-silver-glow: 0 0 12px rgba(148, 163, 184, 0.15);
+  --podium-silver-border: rgba(148, 163, 184, 0.25);
+  --podium-silver-bg: rgba(148, 163, 184, 0.06);
+  --podium-silver-text: #cbd5e1;
+
+  --podium-bronze: #d97706;
+  --podium-bronze-glow: 0 0 12px rgba(217, 119, 6, 0.15);
+  --podium-bronze-border: rgba(217, 119, 6, 0.28);
+  --podium-bronze-bg: rgba(217, 119, 6, 0.06);
+  --podium-bronze-text: #f59e0b;
 
   /* --------------------------------------------------------------------------
      8. Typography Standards & Font Hierarchy
@@ -194,17 +211,16 @@
   --radius-full: 9999px;
 
   /* --------------------------------------------------------------------------
-     11. Controlled Elevation Shadows & Purple Glows
+     11. Controlled Elevation Shadows & Restrained Glows
      -------------------------------------------------------------------------- */
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 6px 12px -2px rgba(0, 0, 0, 0.6), 0 3px 6px -3px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.7), 0 6px 12px -4px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 24px 38px -8px rgba(0, 0, 0, 0.8), 0 12px 18px -6px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 24px rgba(124, 58, 237, 0.25);
-  --shadow-glow-active: 0 0 20px rgba(34, 197, 94, 0.25);
-  --shadow-glow-gold: 0 0 24px rgba(245, 158, 11, 0.3);
-  --shadow-glow-cyan: 0 0 20px rgba(6, 182, 212, 0.25);
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 14px -2px rgba(0, 0, 0, 0.5), 0 3px 6px -3px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 28px -4px rgba(0, 0, 0, 0.6), 0 6px 12px -4px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 40px -8px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.22);
+  --shadow-glow-active: 0 0 16px rgba(16, 185, 129, 0.2);
+  --shadow-glow-gold: 0 0 16px rgba(245, 158, 11, 0.2);
 
   /* --------------------------------------------------------------------------
      12. Container Widths & Layout Scale
@@ -214,7 +230,7 @@
   --container-padding: var(--space-6);
 
   /* --------------------------------------------------------------------------
-     13. Transitions & Animations (Rule 5 & 52 Standard Easing and Speeds)
+     13. Transitions & Animations
      -------------------------------------------------------------------------- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.35, 0.64, 1);
