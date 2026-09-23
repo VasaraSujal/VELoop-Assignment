@@ -2,11 +2,11 @@
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  background: rgba(4, 5, 13, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(139, 92, 246, 0.25);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(124, 58, 237, 0.15);
+  background: rgba(6, 8, 19, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   transition: all var(--transition-fast);
 }
 
@@ -21,7 +21,7 @@
 }
 
 /* ==========================================================================
-   Brand Logo — Cyber Neon
+   Brand Logo
    ========================================================================== */
 .brand {
   display: flex;
@@ -33,24 +33,23 @@
 }
 
 .brand:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-brand);
   outline-offset: 4px;
   border-radius: var(--radius-sm);
 }
 
 .logoIconBox {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-lg);
-  background: rgba(124, 58, 237, 0.15);
-  border: 1px solid rgba(139, 92, 246, 0.35);
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
-  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .logoImg {
@@ -62,9 +61,9 @@
 }
 
 .brand:hover .logoIconBox {
-  transform: scale(1.08);
-  box-shadow: 0 0 28px rgba(168, 85, 247, 0.7), 0 0 14px rgba(236, 72, 153, 0.4);
-  border-color: rgba(168, 85, 247, 0.6);
+  transform: scale(1.04);
+  border-color: var(--color-brand-border-hover);
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.3);
 }
 
 .brandText {
@@ -83,23 +82,22 @@
 .brandSub {
   font-size: 1.45rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #a855f7, #ec4899);
+  background: var(--color-brand-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.02em;
 }
 
 .brandBadge {
-  background: rgba(124, 58, 237, 0.2);
-  color: #c7d2fe;
-  border: 1px solid rgba(168, 85, 247, 0.4);
+  background: var(--color-brand-soft);
+  color: var(--color-text-brand);
+  border: 1px solid var(--color-brand-border);
   padding: 3px 10px;
   border-radius: var(--radius-full);
   font-size: 0.6875rem;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  box-shadow: 0 0 12px rgba(124, 58, 237, 0.2);
 }
 
 /* ==========================================================================
@@ -112,24 +110,23 @@
 }
 
 .navLink {
-  color: #c4c1d4;
+  color: var(--color-text-secondary);
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
   padding: var(--space-2) 0;
   position: relative;
-  transition: all var(--transition-fast);
+  transition: color var(--transition-fast);
   outline: none;
   white-space: nowrap;
 }
 
 .navLink:hover {
   color: #ffffff;
-  text-shadow: 0 0 14px rgba(168, 85, 247, 0.7);
 }
 
 .navLink:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-brand);
   outline-offset: 4px;
   border-radius: var(--radius-xs);
 }
@@ -141,10 +138,9 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #7c3aed, #ec4899, #06b6d4);
-  box-shadow: 0 0 12px rgba(168, 85, 247, 0.8);
+  background: var(--color-brand-gradient);
   border-radius: var(--radius-full);
-  transition: width 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navLink:hover::after {
@@ -183,20 +179,20 @@
   height: 44px;
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
-  background: var(--color-surface-muted);
+  background: var(--color-surface-card);
   border: 1px solid var(--color-border);
   cursor: pointer;
   transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .mobileMenuBtn:hover {
-  background-color: var(--color-surface-hover);
-  color: var(--color-primary);
-  border-color: var(--color-primary-border);
+  background-color: var(--color-surface-card-hover);
+  color: var(--color-brand-hover);
+  border-color: var(--color-brand-border);
 }
 
 .mobileMenuBtn:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-brand);
   outline-offset: 2px;
 }
 
@@ -234,10 +230,10 @@
   max-width: 90vw;
   height: 100vh;
   height: 100dvh;
-  background: #080a1c;
-  border-left: 1px solid rgba(139, 92, 246, 0.3);
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-brand-border);
   z-index: 9999;
-  box-shadow: -16px 0 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(124, 58, 237, 0.25);
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
@@ -266,8 +262,8 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-4) var(--space-5);
-  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
-  background: rgba(11, 14, 33, 0.95);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -295,7 +291,7 @@
 .drawerBrandBadge {
   font-size: 0.65rem;
   font-weight: 700;
-  color: #c084fc;
+  color: var(--color-text-brand);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -307,31 +303,30 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  color: #cbd5e1;
-  background-color: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-subtle);
+  border: 1px solid var(--color-border);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .drawerCloseBtn:hover {
   color: #ffffff;
-  background-color: rgba(124, 58, 237, 0.25);
-  border-color: rgba(168, 85, 247, 0.5);
-  transform: scale(1.05);
+  background-color: var(--color-brand-soft);
+  border-color: var(--color-brand-border);
 }
 
 /* Mobile Account Summary Card */
 .mobileAccountCard {
   margin: var(--space-4) var(--space-5);
   padding: var(--space-4);
-  background: rgba(15, 18, 42, 0.9);
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-sm);
 }
 
 .mobileAccountHeader {
@@ -344,7 +339,7 @@
   width: 38px;
   height: 38px;
   border-radius: var(--radius-full);
-  background: var(--color-accent-gradient);
+  background: var(--color-brand-gradient);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -352,7 +347,6 @@
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-body);
   flex-shrink: 0;
-  box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
 }
 
 .mobileAccountInfo {
@@ -373,7 +367,7 @@
 
 .mobileAccountTier {
   font-size: var(--font-size-label);
-  color: #c084fc;
+  color: var(--color-text-brand);
   font-weight: var(--font-weight-semibold);
 }
 
@@ -433,21 +427,21 @@
   flex-direction: column;
   gap: 4px;
   padding-top: var(--space-2);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--color-border-subtle);
 }
 
 .personaSelectLabel {
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-semibold);
-  color: #94a3b8;
+  color: var(--color-text-secondary);
 }
 
 .personaSelectInput {
   width: 100%;
   padding: 8px 10px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(139, 92, 246, 0.35);
-  background-color: #0b0d1e;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-muted);
   font-size: var(--font-size-caption);
   color: #ffffff;
 }
@@ -455,7 +449,7 @@
 .navSectionLabel {
   font-size: 0.6875rem;
   font-weight: 800;
-  color: #a855f7;
+  color: var(--color-brand-hover);
   letter-spacing: 0.1em;
   padding: 0 var(--space-5);
   margin-top: var(--space-2);
@@ -485,8 +479,8 @@
 
 .mobileLink:hover,
 .mobileLink:active {
-  background: rgba(124, 58, 237, 0.15);
-  border-color: rgba(168, 85, 247, 0.4);
+  background: var(--color-brand-soft);
+  border-color: var(--color-brand-border);
   color: #ffffff;
   transform: translateX(3px);
 }
@@ -495,8 +489,8 @@
   width: 36px;
   height: 36px;
   border-radius: var(--radius-md);
-  background: rgba(124, 58, 237, 0.15);
-  border: 1px solid rgba(139, 92, 246, 0.3);
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -505,13 +499,13 @@
 }
 
 .mobileLink:hover .linkIconWrap {
-  background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
-  border-color: #a855f7;
-  box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
+  background: var(--color-brand-gradient);
+  border-color: var(--color-brand-hover);
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.35);
 }
 
 .linkIcon {
-  color: #c084fc;
+  color: var(--color-text-brand);
   transition: color var(--transition-fast);
 }
 
@@ -535,7 +529,7 @@
 
 .linkDesc {
   font-size: 0.725rem;
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
@@ -549,8 +543,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  border-top: 1px solid rgba(139, 92, 246, 0.2);
-  background: rgba(11, 14, 33, 0.95);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
   position: sticky;
   bottom: 0;
 }
@@ -583,19 +577,19 @@
 }
 
 .mobileLogoutBtn:hover {
-  background-color: rgba(239, 68, 68, 0.25);
-  border-color: rgba(239, 68, 68, 0.5);
+  background-color: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
 }
 
 .mobileLoginBtn {
   color: #ffffff;
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3) 0%, rgba(99, 102, 241, 0.2) 100%);
-  border: 1px solid rgba(168, 85, 247, 0.4);
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
 }
 
 .mobileLoginBtn:hover {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.5) 0%, rgba(99, 102, 241, 0.4) 100%);
-  border-color: rgba(168, 85, 247, 0.6);
+  background: rgba(124, 58, 237, 0.25);
+  border-color: var(--color-brand-border-hover);
 }
 
 /* ==========================================================================
