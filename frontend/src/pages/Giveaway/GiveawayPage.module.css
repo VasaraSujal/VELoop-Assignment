@@ -8,35 +8,6 @@
   overflow-x: clip;
 }
 
-/* Ambient Cyber Aurora Orbs */
-.pageWrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 20%;
-  width: min(650px, 90vw);
-  height: min(650px, 90vw);
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.18) 0%, rgba(236, 72, 153, 0.08) 40%, transparent 70%);
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
-  animation: auroraFloat 18s ease-in-out infinite alternate;
-}
-
-.pageWrapper::after {
-  content: '';
-  position: absolute;
-  top: 1400px;
-  right: 5%;
-  width: min(750px, 90vw);
-  height: min(750px, 90vw);
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(124, 58, 237, 0.1) 45%, transparent 70%);
-  filter: blur(90px);
-  pointer-events: none;
-  z-index: 0;
-  animation: auroraFloat 22s ease-in-out infinite alternate-reverse;
-}
-
 .winnersAnchor {
   scroll-margin-top: 80px;
   position: relative;
