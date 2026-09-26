@@ -49,16 +49,16 @@ flowchart TB
         UI[Giveaway Landing / Details Pages]
         Ctx[AuthContext — JWT session state]
         Svc[giveawayService.js]
-        Adapter{apiGiveawayAdapter /\nmockGiveawayAdapter}
-        Axios[apiClient.js\nAxios + JWT interceptor]
+        Adapter{apiGiveawayAdapter /<br/>mockGiveawayAdapter}
+        Axios[apiClient.js<br/>Axios + JWT interceptor]
         UI --> Ctx --> Svc --> Adapter --> Axios
     end
 
     subgraph API["🌐 Backend — Express.js REST API"]
-        MW[Middleware\nauth · rateLimiter · errorHandler]
-        Routes[Routes\nauth / giveaway / admin]
-        Ctrl[Controllers\nauthController · giveawayController · adminController]
-        Services[Services\nauthService · walletService · giveawayEngine\nwinnerService · claimService · fraudService]
+        MW[Middleware<br/>auth · rateLimiter · errorHandler]
+        Routes[Routes<br/>auth / giveaway / admin]
+        Ctrl[Controllers<br/>authController · giveawayController · adminController]
+        Services[Services<br/>authService · walletService · giveawayEngine<br/>winnerService · claimService · fraudService]
         Valid[Validators]
         Routes --> MW --> Ctrl --> Valid
         Ctrl --> Services
@@ -156,15 +156,15 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-    A[Admin triggers\n"Finalize Draw"] --> B{giveaway.status\n== ACTIVE &\nclosed?}
+    A[Admin triggers<br/>Finalize Draw] --> B{giveaway.status<br/>== ACTIVE &<br/>closed?}
     B -- No --> X[Reject: 400]
-    B -- Yes --> C[Fetch all eligible\nParticipation records]
-    C --> D[Fisher–Yates shuffle\nusing crypto.randomInt]
-    D --> E[Select N winners\ntag method = CRYPTO_RANDOM]
-    E --> F[Create Winner documents\nstatus: PENDING_CLAIM]
-    F --> G[Write immutable\nAuditLog entry]
-    G --> H[Update Giveaway.status\n→ COMPLETED]
-    H --> I[Public winner endpoint\nmasks PII e.g. pr***@veloop.io]
+    B -- Yes --> C[Fetch all eligible<br/>Participation records]
+    C --> D[Fisher–Yates shuffle<br/>using crypto.randomInt]
+    D --> E[Select N winners<br/>tag method = CRYPTO_RANDOM]
+    E --> F[Create Winner documents<br/>status: PENDING_CLAIM]
+    F --> G[Write immutable<br/>AuditLog entry]
+    G --> H[Update Giveaway.status<br/>→ COMPLETED]
+    H --> I[Public winner endpoint<br/>masks PII e.g. pr***@veloop.io]
 ```
 
 Self-healing note: if the process crashes mid-draw, reconciliation logic on the next read/retry checks `Giveaway.status` and partially-written `Winner` records to safely resume or roll forward without double-drawing winners.
