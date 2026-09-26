@@ -68,6 +68,8 @@ export const GiveawayDetailsPage = () => {
         throw new Error(`Giveaway "${slug}" not found.`);
       }
       setGiveaway(data);
+      // Immediately unblock primary giveaway showcase view
+      setLoading(false);
 
       const identifier = data.id || data._id || data.slug || slug;
       const promises = [];
@@ -124,10 +126,9 @@ export const GiveawayDetailsPage = () => {
           .catch(() => setRelatedGiveaways([]))
       );
 
-      await Promise.all(promises);
+      await Promise.allSettled(promises);
     } catch (err) {
       setError(err.message || 'Unable to load this giveaway.');
-    } finally {
       setLoading(false);
     }
   }, [slug, isAuthenticated]);
@@ -794,6 +795,72 @@ export const GiveawayDetailsPage = () => {
           </div>
         </section>
 
+        {/* 2. RULES & ELIGIBILITY */}
+        <section className={styles.sectionCard} aria-labelledby="rules-title">
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTitleRow}>
+              <ShieldCheck size={20} className={styles.sectionIcon} aria-hidden="true" />
+              <h2 id="rules-title" className={styles.sectionTitle}>
+                Rules & Eligibility
+              </h2>
+            </div>
+          </div>
+
+          <div className={styles.rulesGrid}>
+            <div className={styles.ruleCard}>
+              <div className={styles.ruleCardHeader}>
+                <div className={styles.ruleCheckWrap}>
+                  <CheckCircle2 size={15} className={styles.ruleCheckIcon} aria-hidden="true" />
+                </div>
+                <h3 className={styles.ruleCardTitle}>Single Entry Policy</h3>
+              </div>
+              <p className={styles.ruleCardText}>
+                Each authenticated account may enter this giveaway pool exactly once to ensure
+                equitable participation.
+              </p>
+            </div>
+
+            <div className={styles.ruleCard}>
+              <div className={styles.ruleCardHeader}>
+                <div className={styles.ruleCheckWrap}>
+                  <CheckCircle2 size={15} className={styles.ruleCheckIcon} aria-hidden="true" />
+                </div>
+                <h3 className={styles.ruleCardTitle}>Reward Balance Required</h3>
+              </div>
+              <p className={styles.ruleCardText}>
+                The entry fee of {formatCurrency(entryAmount, currency)} is deducted directly from
+                your available reward balance.
+              </p>
+            </div>
+
+            <div className={styles.ruleCard}>
+              <div className={styles.ruleCardHeader}>
+                <div className={styles.ruleCheckWrap}>
+                  <CheckCircle2 size={15} className={styles.ruleCheckIcon} aria-hidden="true" />
+                </div>
+                <h3 className={styles.ruleCardTitle}>Active Window Only</h3>
+              </div>
+              <p className={styles.ruleCardText}>
+                Entries are only accepted while the pool is in Live status. Upcoming or concluded
+                pools do not accept entries.
+              </p>
+            </div>
+
+            <div className={styles.ruleCard}>
+              <div className={styles.ruleCardHeader}>
+                <div className={styles.ruleCheckWrap}>
+                  <CheckCircle2 size={15} className={styles.ruleCheckIcon} aria-hidden="true" />
+                </div>
+                <h3 className={styles.ruleCardTitle}>Claim Requirements</h3>
+              </div>
+              <p className={styles.ruleCardText}>
+                Selected winners must submit accurate delivery address or digital contact info
+                within the designated claim window.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* 3. PRIZE DETAILS / "ABOUT THE PRIZE" */}
         <section className={styles.sectionCard} aria-labelledby="about-prize-title">
           <div className={styles.sectionHeader}>
@@ -898,65 +965,7 @@ export const GiveawayDetailsPage = () => {
           </div>
         </section>
 
-        {/* 5. RULES & ELIGIBILITY */}
-        <section className={styles.sectionCard} aria-labelledby="rules-title">
-          <div className={styles.sectionHeader}>
-            <div className={styles.sectionTitleRow}>
-              <ShieldCheck size={20} className={styles.sectionIcon} aria-hidden="true" />
-              <h2 id="rules-title" className={styles.sectionTitle}>
-                Rules & Eligibility
-              </h2>
-            </div>
-          </div>
-
-          <div className={styles.rulesGrid}>
-            <div className={styles.ruleCard}>
-              <div className={styles.ruleCardHeader}>
-                <CheckCircle2 size={16} className={styles.ruleCheckIcon} aria-hidden="true" />
-                <h3 className={styles.ruleCardTitle}>Single Entry Policy</h3>
-              </div>
-              <p className={styles.ruleCardText}>
-                Each authenticated account may enter this giveaway pool exactly once to ensure
-                equitable participation.
-              </p>
-            </div>
-
-            <div className={styles.ruleCard}>
-              <div className={styles.ruleCardHeader}>
-                <CheckCircle2 size={16} className={styles.ruleCheckIcon} aria-hidden="true" />
-                <h3 className={styles.ruleCardTitle}>Reward Balance Required</h3>
-              </div>
-              <p className={styles.ruleCardText}>
-                The entry fee of {formatCurrency(entryAmount, currency)} is deducted directly from
-                your available reward balance.
-              </p>
-            </div>
-
-            <div className={styles.ruleCard}>
-              <div className={styles.ruleCardHeader}>
-                <CheckCircle2 size={16} className={styles.ruleCheckIcon} aria-hidden="true" />
-                <h3 className={styles.ruleCardTitle}>Active Window Only</h3>
-              </div>
-              <p className={styles.ruleCardText}>
-                Entries are only accepted while the pool is in Live status. Upcoming or concluded
-                pools do not accept entries.
-              </p>
-            </div>
-
-            <div className={styles.ruleCard}>
-              <div className={styles.ruleCardHeader}>
-                <CheckCircle2 size={16} className={styles.ruleCheckIcon} aria-hidden="true" />
-                <h3 className={styles.ruleCardTitle}>Claim Requirements</h3>
-              </div>
-              <p className={styles.ruleCardText}>
-                Selected winners must submit accurate delivery address or digital contact info
-                within the designated claim window.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* 6. IMPORTANT INFORMATION (Expandable Section) */}
+        {/* 5. IMPORTANT INFORMATION (Expandable Section) */}
         <section className={styles.sectionCard} aria-labelledby="important-info-title">
           <button
             type="button"

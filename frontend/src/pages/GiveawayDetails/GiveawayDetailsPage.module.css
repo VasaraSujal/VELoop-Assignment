@@ -1,26 +1,37 @@
-/* Stage G: Individual Giveaway Details Page Production CSS */
+/* ==========================================================================
+   VELOP Rewards – Individual Giveaway Details Page (Production Redesign)
+   Unified Page Container, Two-Column Hero Showcase, Structured Specifications,
+   Guided Progression Workflow, Premium Rules & Responsive Key-Value Tables.
+   ========================================================================== */
 
+/* 1. Page Root & Global Container System */
 .page {
   background-color: var(--color-background);
   min-height: 100vh;
   width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
+  max-width: 100vw;
+  box-sizing: border-box;
+  color: var(--color-text-primary);
+  padding-bottom: var(--space-16);
   position: relative;
+  overflow-x: clip;
 }
 
 .container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: var(--space-6) var(--space-6) var(--space-16);
   width: 100%;
-  max-width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
 }
 
-/* TOP NAVIGATION / BACK LINK */
+/* 2. Top Breadcrumb Navigation */
 .backNav {
-  margin-bottom: var(--space-6);
+  padding-top: var(--space-6);
+  margin-bottom: calc(var(--space-2) * -1);
 }
 
 .backLink {
@@ -30,13 +41,20 @@
   color: var(--color-text-secondary);
   font-size: 0.875rem;
   font-weight: var(--font-weight-medium);
-  transition: color var(--transition-fast), transform var(--transition-fast);
   text-decoration: none;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  padding: var(--space-1) 0;
 }
 
 .backLink:hover {
   color: var(--color-brand-hover);
-  transform: translateX(-2px);
+  transform: translateX(-3px);
+}
+
+.backLink:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 4px;
+  border-radius: var(--radius-xs);
 }
 
 .backLinkDesktop {
@@ -47,128 +65,76 @@
   display: none;
 }
 
-/* ERROR STATE */
-.errorCard {
-  background-color: var(--color-surface-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-12) var(--space-6);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-4);
-  max-width: 520px;
-  margin: var(--space-10) auto;
-  box-shadow: var(--shadow-md);
-}
-
-.errorIconWrap {
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius-full);
-  background-color: var(--status-danger-bg);
-  color: var(--status-danger);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.errorTitle {
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
-}
-
-.errorText {
-  color: var(--color-text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.errorActions {
-  display: flex;
-  gap: var(--space-3);
-  margin-top: var(--space-2);
-}
-
-/* SKELETON LOADERS */
-.imageCardSkeleton {
-  padding: var(--space-4);
-  background: var(--color-surface-card);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-border);
-}
-
-.skeletonHeader {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.metricsSkeletonGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-}
-
-/* 1. HERO SHOWCASE */
+/* 3. Hero Showcase Section (Two-Column Desktop Grid) */
 .heroGrid {
   display: grid;
-  grid-template-columns: 1fr 1.25fr;
-  gap: var(--space-8);
-  margin-bottom: var(--space-8);
-  align-items: start;
+  grid-template-columns: minmax(360px, 460px) 1fr;
+  gap: clamp(24px, 3.5vw, 40px);
+  align-items: stretch;
 }
 
-/* LEFT VISUAL COLUMN */
+/* Left Column: Visual Prize Card & Trust Indicators */
 .visualCol {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  min-width: 0;
 }
 
 .imageCard {
-  background-color: var(--color-surface-card);
+  background: linear-gradient(180deg, var(--color-surface-card) 0%, rgba(15, 19, 42, 0.7) 100%);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-2xl);
   padding: var(--space-6);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-4);
   position: relative;
   overflow: hidden;
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.imageCard:hover {
+  border-color: var(--color-brand-border);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
 .topBadges {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-4);
+  gap: var(--space-2);
+  width: 100%;
 }
 
 .imageBox {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 300px;
-  padding: var(--space-4);
-  background: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  margin-bottom: var(--space-4);
+  min-height: 290px;
+  max-height: 350px;
+  padding: var(--space-6);
+  background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.12) 0%, rgba(11, 14, 34, 0.85) 75%);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  position: relative;
+  overflow: hidden;
 }
 
 .prizeImg {
   max-width: 100%;
-  max-height: 270px;
+  max-height: 250px;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.65));
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.prizeImg:hover {
-  transform: scale(1.04);
+.imageCard:hover .prizeImg {
+  transform: scale(1.03);
 }
 
 .retailValueBanner {
@@ -176,38 +142,43 @@
   align-items: center;
   justify-content: space-between;
   background-color: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
+  gap: var(--space-2);
 }
 
 .retailLabel {
-  font-size: 0.85rem;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
+  letter-spacing: 0.01em;
 }
 
 .retailAmount {
-  font-size: 1.05rem;
-  font-weight: var(--font-weight-bold);
+  font-size: 1.125rem;
+  font-weight: 800;
   color: var(--podium-gold-text);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
 .trustCard {
-  background-color: var(--color-surface-card);
+  background: var(--color-surface-card);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   padding: var(--space-4) var(--space-5);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  box-shadow: var(--shadow-sm);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-xs);
 }
 
 .trustItem {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-3, 12px);
+  gap: var(--space-3);
+  min-width: 0;
 }
 
 .trustIconGreen {
@@ -226,139 +197,189 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .trustTitle {
-  font-size: 0.85rem;
-  font-weight: var(--font-weight-semibold, 600);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
+  line-height: 1.3;
 }
 
 .trustSub {
-  font-size: 0.775rem;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
   line-height: 1.4;
 }
 
-/* RIGHT INFORMATION COLUMN */
+/* Right Column: Information Hierarchy & Participation */
 .infoCol {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5, 20px);
+  justify-content: space-between;
+  gap: var(--space-5);
+  min-width: 0;
 }
 
+/* Level 1, 2, 3: Header Block */
 .headerBlock {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 8px);
+  gap: var(--space-2);
 }
 
 .categoryEyebrow {
   display: inline-flex;
   align-items: center;
+  gap: var(--space-2);
   font-size: 0.75rem;
-  font-weight: var(--font-weight-bold, 700);
+  font-weight: 700;
   color: var(--color-text-brand);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.categoryEyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--color-brand);
 }
 
 .giveawayTitle {
-  font-size: 2rem;
+  font-size: clamp(1.75rem, 3.2vw, 2.35rem);
   font-weight: 800;
   color: var(--color-text-primary);
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: -0.02em;
+  margin: 0;
 }
 
 .giveawayDescription {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--color-text-secondary);
   line-height: 1.6;
+  margin: 0;
+  max-width: 68ch;
 }
 
+/* Level 4: Countdown Section */
 .timerSection {
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--transition-fast);
 }
 
+.timerSection:hover {
+  border-color: var(--color-brand-border);
+}
+
+/* Level 5: Participation Stats (3 Equal Cards) */
 .metricsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-3);
+  align-items: stretch;
 }
 
 .metricCard {
-  background-color: var(--color-surface-card);
+  background: var(--color-surface-card);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 4px;
+  min-width: 0;
+  transition: border-color var(--transition-fast), transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.metricCard:hover {
+  border-color: var(--color-brand-border);
+  background-color: var(--color-surface-card-hover);
+  transform: translateY(-1px);
 }
 
 .metricLabel {
-  font-size: 0.725rem;
-  font-weight: var(--font-weight-medium);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .metricIcon {
   color: var(--color-brand-hover);
+  flex-shrink: 0;
 }
 
 .metricValue {
-  font-size: 0.975rem;
-  font-weight: var(--font-weight-bold);
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .metricValueHighlight {
-  font-size: 1.15rem;
+  font-size: 1.125rem;
   font-weight: 800;
   color: var(--color-text-brand);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* BALANCE PREVIEW SUMMARY CARD */
+/* Level 6: Balance Preview Summary Card */
 .balancePreviewCard {
-  background-color: var(--color-surface-card);
+  background: var(--color-surface-card);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   padding: var(--space-4);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-xs);
 }
 
 .balanceHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--space-2);
 }
 
 .balanceHeaderText {
-  font-size: 0.775rem;
-  font-weight: var(--font-weight-bold);
+  font-size: 0.75rem;
+  font-weight: 700;
   color: var(--color-text-primary);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .balanceBadge {
-  font-size: 0.7rem;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-secondary);
   background: var(--color-surface-muted);
   padding: 2px 8px;
   border-radius: var(--radius-xs);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-subtle);
+  white-space: nowrap;
 }
 
 .balanceGrid {
@@ -367,7 +388,7 @@
   gap: var(--space-2);
   align-items: center;
   background-color: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-md);
   padding: var(--space-3);
 }
@@ -377,24 +398,36 @@
   flex-direction: column;
   gap: 2px;
   text-align: center;
+  min-width: 0;
 }
 
 .balanceItemLabel {
-  font-size: 0.725rem;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
   font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
 }
 
 .balanceItemValue {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
   color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .balanceItemFee {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
   color: var(--color-brand-hover);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .balanceItemShortage {
@@ -403,7 +436,7 @@
 
 .balanceDivider {
   width: 1px;
-  height: 28px;
+  height: 26px;
   background-color: var(--color-border);
 }
 
@@ -411,7 +444,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: 0.825rem;
+  font-size: 0.8125rem;
   color: var(--status-warning-text);
   background-color: var(--status-warning-bg);
   border: 1px solid var(--status-warning-border);
@@ -424,12 +457,12 @@
   flex-shrink: 0;
 }
 
-/* PARTICIPATION CONFIRMATION BANNER */
+/* Participation Confirmation Banner */
 .participationBanner {
-  background-color: var(--status-active-bg);
+  background: var(--status-active-bg);
   border: 1px solid var(--status-active-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-5);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -449,40 +482,42 @@
 
 .pBannerTitle {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
   color: var(--status-active-text);
 }
 
 .pBannerSub {
-  font-size: 0.825rem;
+  font-size: 0.8125rem;
   color: var(--color-text-secondary);
-  line-height: 1.4;
-  margin-top: 2px;
+  line-height: 1.45;
+  margin: 2px 0 0;
 }
 
 .txRefRow {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--status-active-text);
-  background-color: rgba(16, 185, 129, 0.15);
+  background-color: rgba(16, 185, 129, 0.16);
   padding: 4px 10px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
   width: fit-content;
+  max-width: 100%;
 }
 
 .txRefRow code {
-  font-family: monospace;
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-mono);
+  font-weight: 700;
+  word-break: break-all;
 }
 
-/* NON-WINNER PARTICIPANT BANNER */
+/* Non-Winner Participant Banner */
 .nonWinnerBanner {
   background-color: var(--color-surface-muted);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-5);
 }
 
 .nonWinnerIcon {
@@ -493,22 +528,23 @@
 
 .nonWinnerTitle {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .nonWinnerSub {
-  font-size: 0.825rem;
+  font-size: 0.8125rem;
   color: var(--color-text-secondary);
-  line-height: 1.4;
-  margin-top: 2px;
+  line-height: 1.45;
+  margin: 2px 0 0;
 }
 
-/* PRIMARY ACTION SECTION */
+/* Primary Action / CTA Section */
 .actionSection {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  margin-top: auto;
 }
 
 .guestCtaWrap,
@@ -520,13 +556,14 @@
 
 .loginHint,
 .insufficientHint {
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
   text-align: center;
+  margin: 0;
 }
 
 .insufficientHint {
@@ -537,23 +574,24 @@
   background: var(--status-active) !important;
   color: #ffffff !important;
   box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast) !important;
 }
 
 .claimPulseBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45) !important;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5) !important;
 }
 
-/* WINNER CELEBRATION BANNER */
+/* Winner Celebration Banner */
 .winnerCelebrationBanner {
   background: var(--color-surface-card);
   border: 1px solid var(--status-active-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-2xl);
   padding: var(--space-5);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-md), var(--shadow-glow-active);
 }
 
 .winnerCelebrationHeader {
@@ -577,13 +615,15 @@
 .winnerHeaderText {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  min-width: 0;
 }
 
 .winnerBadgeRow {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  flex-wrap: wrap;
   margin-bottom: 2px;
 }
 
@@ -593,19 +633,19 @@
   gap: 4px;
   background-color: var(--status-active-bg);
   color: var(--status-active-text);
-  font-size: 0.725rem;
-  font-weight: var(--font-weight-bold);
+  font-size: 0.6875rem;
+  font-weight: 700;
   padding: 2px 8px;
   border-radius: var(--radius-full);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .deadlineToBadge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.775rem;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--status-warning-text);
   background-color: var(--status-warning-bg);
@@ -616,21 +656,23 @@
 
 .winnerTitle {
   font-size: 1.15rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: 800;
   color: var(--status-active-text);
   line-height: 1.3;
+  margin: 0;
 }
 
 .winnerSub {
   font-size: 0.85rem;
   color: var(--color-text-secondary);
-  line-height: 1.4;
+  line-height: 1.45;
+  margin: 0;
 }
 
-/* TRACKER STEPPER */
+/* Claim Stepper Tracker */
 .trackerBox {
   background-color: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   display: flex;
@@ -639,11 +681,11 @@
 }
 
 .trackerTitle {
-  font-size: 0.775rem;
-  font-weight: var(--font-weight-bold);
+  font-size: 0.75rem;
+  font-weight: 700;
   color: var(--color-text-primary);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .trackerSteps {
@@ -659,6 +701,7 @@
   align-items: center;
   gap: 4px;
   z-index: 2;
+  min-width: 0;
 }
 
 .stepDot {
@@ -671,7 +714,7 @@
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
 }
 
 .stepCompleted {
@@ -685,21 +728,22 @@
 }
 
 .stepLabel {
-  font-size: 0.725rem;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
+  text-align: center;
 }
 
 .stepLabelActive {
   color: var(--color-text-primary);
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
 }
 
 .trackerLine {
   position: absolute;
   top: 12px;
-  left: 10%;
-  right: 10%;
+  left: 8%;
+  right: 8%;
   height: 2px;
   background-color: var(--color-border);
   z-index: 1;
@@ -709,11 +753,11 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   color: var(--color-text-secondary);
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-surface-card);
   padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
 }
 
@@ -743,14 +787,20 @@
   font-size: 0.85rem;
 }
 
-/* REUSABLE CONTENT SECTION CARDS */
+/* 4. Unified Section Cards & Containers */
 .sectionCard {
-  background-color: var(--color-surface-card);
+  background: var(--color-surface-card);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-8);
-  margin-bottom: var(--space-8);
+  border-radius: var(--radius-2xl);
+  padding: clamp(20px, 3vw, 32px);
   box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-normal);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sectionCard:hover {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .sectionHeader {
@@ -759,178 +809,58 @@
   justify-content: space-between;
   margin-bottom: var(--space-6);
   padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border-subtle);
+  gap: var(--space-3);
 }
 
 .sectionTitleRow {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  min-width: 0;
 }
 
 .sectionIcon {
   color: var(--color-brand-hover);
+  flex-shrink: 0;
 }
 
 .sectionIconGold {
   color: var(--podium-gold-text);
+  flex-shrink: 0;
 }
 
 .sectionTitle {
   font-size: 1.25rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: 800;
   color: var(--color-text-primary);
   letter-spacing: -0.01em;
+  margin: 0;
 }
 
-/* 3. ABOUT THE PRIZE */
-.aboutPrizeContent {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4, 16px);
-}
-
-.prizeOverview {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2, 8px);
-}
-
-.prizeNameBadge {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-2, 8px);
-}
-
-.prizeItemName {
-  font-size: 1.15rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary);
-}
-
-.prizeItemRetail {
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--podium-gold-text);
-  background-color: var(--podium-gold-bg);
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--podium-gold-border);
-}
-
-.prizeOverviewText {
-  font-size: 0.95rem;
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-}
-
-.specsContainer {
-  margin-top: var(--space-4, 16px);
-}
-
-.specsTitle {
-  font-size: 0.95rem;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-3, 12px);
-}
-
-.specsGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-3, 12px);
-}
-
-.specCard {
-  background-color: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-3, 12px) var(--space-4, 16px);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.specKey {
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.specVal {
-  font-size: 0.925rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--color-text-primary);
-}
-
-/* 4. WORKFLOW SECTION */
-.workflowGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4, 16px);
-}
-
-.workflowStep {
-  background-color: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5, 20px);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2, 8px);
-  transition: border-color var(--transition-fast), transform var(--transition-fast);
-}
-
-.workflowStep:hover {
-  border-color: var(--color-brand-border);
-  transform: translateY(-2px);
-}
-
-.stepNum {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-full);
-  background-color: var(--color-brand);
-  color: #ffffff;
-  font-size: 0.85rem;
-  font-weight: var(--font-weight-bold, 700);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 2px;
-}
-
-.stepHeading {
-  font-size: 0.95rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
-}
-
-.stepDesc {
-  font-size: 0.85rem;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-}
-
-/* 5. RULES GRID */
+/* 5. Rules & Eligibility Grid */
 .rulesGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
+  align-items: stretch;
 }
 
 .ruleCard {
   background-color: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
   padding: var(--space-5);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  transition: border-color var(--transition-fast), transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.ruleCard:hover {
+  border-color: var(--color-brand-border);
+  background-color: var(--color-surface-card-hover);
+  transform: translateY(-2px);
 }
 
 .ruleCardHeader {
@@ -939,24 +869,192 @@
   gap: var(--space-2);
 }
 
+.ruleCheckWrap {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--status-active-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .ruleCheckIcon {
   color: var(--status-active-text);
-  flex-shrink: 0;
 }
 
 .ruleCardTitle {
   font-size: 0.95rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
   color: var(--color-text-primary);
+  margin: 0;
 }
 
 .ruleCardText {
   font-size: 0.85rem;
   color: var(--color-text-secondary);
-  line-height: 1.5;
+  line-height: 1.55;
+  margin: 0;
 }
 
-/* 6. IMPORTANT INFORMATION ACCORDION */
+/* 6. About the Prize & Specifications */
+.aboutPrizeContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.prizeOverview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.prizeNameBadge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.prizeItemName {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.prizeItemRetail {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--podium-gold-text);
+  background-color: var(--podium-gold-bg);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--podium-gold-border);
+  font-variant-numeric: tabular-nums;
+}
+
+.prizeOverviewText {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 80ch;
+}
+
+.specsContainer {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.specsTitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.specsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+.specCard {
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.specCard:hover {
+  border-color: var(--color-brand-border);
+  background-color: var(--color-surface-card-hover);
+}
+
+.specKey {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.specVal {
+  font-size: 0.925rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* 7. How This Giveaway Works (Guided Workflow 01..06) */
+.workflowGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.workflowStep {
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  transition: border-color var(--transition-fast), transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.workflowStep:hover {
+  border-color: var(--color-brand-border);
+  background-color: var(--color-surface-card-hover);
+  transform: translateY(-2px);
+}
+
+.stepNum {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--color-brand-gradient);
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+  box-shadow: var(--shadow-xs);
+}
+
+.stepHeading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.stepDesc {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 8. Important Information & Terms (Key-Value Table) */
 .accordionHeader {
   width: 100%;
   display: flex;
@@ -967,6 +1065,13 @@
   cursor: pointer;
   padding: 0;
   text-align: left;
+  color: inherit;
+}
+
+.accordionHeader:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .accordionToggle {
@@ -974,6 +1079,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.accordionHeader:hover .accordionToggle {
+  color: var(--color-brand-hover);
 }
 
 .infoContentBody {
@@ -981,32 +1091,22 @@
   animation: fadeIn 0.2s ease-out;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .infoTable {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
   overflow: hidden;
 }
 
 .infoRow {
   display: grid;
-  grid-template-columns: 240px 1fr;
-  padding: var(--space-3) var(--space-5);
-  border-bottom: 1px solid var(--color-border);
+  grid-template-columns: 260px 1fr;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-border-subtle);
   font-size: 0.875rem;
   align-items: center;
+  transition: background-color var(--transition-micro);
 }
 
 .infoRow:last-child {
@@ -1017,28 +1117,35 @@
   background-color: var(--color-surface-muted);
 }
 
+.infoRow:hover {
+  background-color: var(--color-surface-card-hover);
+}
+
 .infoKey {
-  font-weight: var(--font-weight-semibold);
+  font-weight: 600;
   color: var(--color-text-secondary);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
 }
 
 .infoVal {
-  font-weight: var(--font-weight-medium);
+  font-weight: 500;
   color: var(--color-text-primary);
   line-height: 1.5;
 }
 
-/* 7. OFFICIAL WINNERS ROSTER */
+/* 9. Official Winners Roster */
 .winnersBadge {
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-bold);
+  font-size: 0.6875rem;
+  font-weight: 700;
   color: var(--status-active-text);
   background-color: var(--status-active-bg);
   border: 1px solid var(--status-active-border);
   padding: 3px 10px;
   border-radius: var(--radius-full);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .winnerRosterList {
@@ -1053,68 +1160,82 @@
   justify-content: space-between;
   padding: var(--space-3) var(--space-4);
   background-color: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  gap: var(--space-3);
+  transition: border-color var(--transition-fast);
+}
+
+.winnerItem:hover {
+  border-color: var(--color-brand-border);
 }
 
 .winnerMain {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  min-width: 0;
 }
 
 .winnerRankBadge {
   background: var(--color-brand-gradient);
   color: #ffffff;
   font-size: 0.75rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: 800;
   padding: 3px 8px;
   border-radius: var(--radius-xs);
+  flex-shrink: 0;
 }
 
 .winnerHandle {
-  font-size: 0.9rem;
-  font-weight: var(--font-weight-semibold);
+  font-size: 0.875rem;
+  font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .winnerMaskedId {
-  font-size: 0.775rem;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
+  font-family: var(--font-family-mono);
 }
 
 .winnerMeta {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  flex-shrink: 0;
 }
 
 .winnerDrawDate {
-  font-size: 0.775rem;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
 
 .winnerStatusPill {
-  font-size: 0.725rem;
-  font-weight: var(--font-weight-semibold);
+  font-size: 0.6875rem;
+  font-weight: 700;
   color: var(--status-active-text);
   background-color: var(--status-active-bg);
   border: 1px solid var(--status-active-border);
   padding: 2px 8px;
   border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-/* 8. RELATED GIVEAWAYS SECTION */
+/* 10. Explore More Giveaways (Discovery Strip) */
 .relatedSection {
-  margin-top: var(--space-12);
-  margin-bottom: var(--space-8);
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
 }
 
 .relatedHeader {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: var(--space-6);
+  gap: var(--space-4);
 }
 
 .relatedTitle {
@@ -1122,12 +1243,13 @@
   font-weight: 800;
   color: var(--color-text-primary);
   letter-spacing: -0.01em;
+  margin: 0;
 }
 
 .relatedSub {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
-  margin-top: 4px;
+  margin: 4px 0 0;
 }
 
 .viewAllLink {
@@ -1135,44 +1257,133 @@
   align-items: center;
   gap: 6px;
   font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
+  font-weight: 700;
   color: var(--color-brand-hover);
   text-decoration: none;
-  transition: color var(--transition-fast);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  white-space: nowrap;
 }
 
 .viewAllLink:hover {
   color: #ffffff;
+  transform: translateX(2px);
 }
 
 .relatedGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-6);
+  align-items: stretch;
 }
 
-/* RESPONSIVE BREAKPOINTS */
+/* 11. Skeleton & Loading States */
+.imageCardSkeleton {
+  padding: var(--space-6);
+  background: var(--color-surface-card);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-border);
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-/* Tablet (1024px) */
+.skeletonHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.metricsSkeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.authLoadingSkeleton {
+  width: 100%;
+}
+
+/* 12. Error Card */
+.errorCard {
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 520px;
+  margin: var(--space-10) auto;
+  box-shadow: var(--shadow-md);
+}
+
+.errorIconWrap {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background-color: var(--status-danger-bg);
+  color: var(--status-danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.errorTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.errorText {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.errorActions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* ==========================================================================
+   Responsive Design & Breakpoint Adaptations
+   ========================================================================== */
+
+/* Laptop / Small Desktop (1024px) */
 @media (max-width: 1024px) {
   .heroGrid {
     grid-template-columns: 1fr;
-    gap: var(--space-6, 24px);
+    gap: var(--space-6);
+  }
+
+  .specsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .workflowGrid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .relatedGrid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* Mobile & Small Tablet (768px) */
+/* Tablet (768px) */
 @media (max-width: 768px) {
   .container {
-    padding: var(--space-4, 16px) var(--space-4, 16px) var(--space-12, 48px);
+    padding: 0 var(--space-4);
+    gap: var(--space-6);
+  }
+
+  .backNav {
+    padding-top: var(--space-4);
   }
 
   .backLinkDesktop {
@@ -1183,22 +1394,28 @@
     display: inline;
   }
 
-  .giveawayTitle {
-    font-size: 1.5rem;
+  .imageBox {
+    min-height: 240px;
+    padding: var(--space-4);
   }
 
-  .giveawayDescription {
-    font-size: 0.925rem;
+  .prizeImg {
+    max-height: 200px;
+  }
+
+  .trustCard {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
   }
 
   .metricsGrid {
     grid-template-columns: 1fr;
-    gap: var(--space-2, 8px);
+    gap: var(--space-2);
   }
 
   .balanceGrid {
     grid-template-columns: 1fr;
-    gap: var(--space-3, 12px);
+    gap: var(--space-3);
   }
 
   .balanceDivider {
@@ -1206,8 +1423,8 @@
     height: 1px;
   }
 
-  .sectionCard {
-    padding: var(--space-5, 20px);
+  .rulesGrid {
+    grid-template-columns: 1fr;
   }
 
   .specsGrid {
@@ -1218,20 +1435,16 @@
     grid-template-columns: 1fr;
   }
 
-  .rulesGrid {
-    grid-template-columns: 1fr;
-  }
-
   .infoRow {
     grid-template-columns: 1fr;
     gap: 4px;
-    padding: var(--space-3, 12px) var(--space-4, 16px);
+    padding: var(--space-3) var(--space-4);
   }
 
   .winnerItem {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-2, 8px);
+    gap: var(--space-2);
   }
 
   .winnerMeta {
@@ -1242,7 +1455,7 @@
   .relatedHeader {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-2, 8px);
+    gap: var(--space-2);
   }
 
   .relatedGrid {
@@ -1250,27 +1463,42 @@
   }
 }
 
-/* Extra Small Mobile (430px) */
+/* Mobile Devices (430px and below) */
 @media (max-width: 430px) {
   .container {
-    padding: var(--space-3, 12px) var(--space-3, 12px) var(--space-10, 40px);
+    padding: 0 var(--space-3);
+    gap: var(--space-5);
+  }
+
+  .imageCard {
+    padding: var(--space-4);
+    border-radius: var(--radius-xl);
   }
 
   .imageBox {
-    min-height: 200px;
-    padding: var(--space-2, 8px);
+    min-height: 190px;
+    padding: var(--space-3);
   }
 
   .prizeImg {
-    max-height: 180px;
+    max-height: 160px;
   }
 
   .giveawayTitle {
-    font-size: 1.35rem;
+    font-size: 1.4rem;
+  }
+
+  .giveawayDescription {
+    font-size: 0.875rem;
+  }
+
+  .sectionCard {
+    padding: var(--space-4);
+    border-radius: var(--radius-xl);
   }
 
   .sectionTitle {
-    font-size: 1.1rem;
+    font-size: 1.125rem;
   }
 
   .trackerSteps {
@@ -1280,14 +1508,40 @@
   .stepDot {
     width: 20px;
     height: 20px;
-    font-size: 0.65rem;
+    font-size: 0.6875rem;
   }
 
   .stepLabel {
     font-size: 0.625rem;
   }
+}
 
-  .sectionCard {
-    padding: var(--space-4, 16px);
+/* Keyframes & Reduced Motion Support */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imageCard,
+  .prizeImg,
+  .metricCard,
+  .ruleCard,
+  .workflowStep,
+  .backLink,
+  .viewAllLink,
+  .claimPulseBtn {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .infoContentBody {
+    animation: none !important;
   }
 }
