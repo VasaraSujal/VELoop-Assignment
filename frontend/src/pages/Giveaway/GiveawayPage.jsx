@@ -20,60 +20,79 @@ export const GiveawayPage = () => {
   const [stats, setStats] = useState(null);
   const [recentWinners, setRecentWinners] = useState([]);
   const [previousWinners, setPreviousWinners] = useState([]);
-  const [loading, setLoading] = useState(true);
+
+  // Granular independent loading states to prevent secondary requests from blocking primary giveaway UI
+  const [isGiveawaysLoading, setIsGiveawaysLoading] = useState(true);
+  const [isStatsLoading, setIsStatsLoading] = useState(true);
+  const [isWinnersLoading, setIsWinnersLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const loadData = async () => {
-    setLoading(true);
+  const loadData = () => {
+    setIsGiveawaysLoading(true);
+    setIsStatsLoading(true);
+    setIsWinnersLoading(true);
     setError(null);
 
-    try {
-      // 1. Primary critical request: Fetch current active giveaways
-      const allGw = await giveawayService.getCurrentGiveaways();
-      const currentList = Array.isArray(allGw) ? allGw : [];
-      setGiveaways(currentList);
-      
-      const featured = currentList.find((g) => g.isFeatured) || currentList[0] || null;
-      setFeaturedGiveaway(featured);
+    // 1. Primary critical request: Fetch current active giveaways
+    // Dispatched immediately; unblocks primary giveaway hero and grid as soon as response arrives
+    giveawayService
+      .getCurrentGiveaways()
+      .then((allGw) => {
+        const currentList = Array.isArray(allGw) ? allGw : [];
+        setGiveaways(currentList);
 
-      // 2. Supplementary non-blocking requests in parallel (Promise.allSettled guarantees failure in stats/winners does not break page)
-      const [statsRes, recentWinsRes, prevWinsRes] = await Promise.allSettled([
-        giveawayService.getGiveawayStats(),
-        giveawayService.getRecentWinners(),
-        giveawayService.getPreviousWinners(),
-      ]);
+        const featured = currentList.find((g) => g.isFeatured) || currentList[0] || null;
+        setFeaturedGiveaway(featured);
+        setIsGiveawaysLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message || "We couldn't load giveaways right now. Please try again.");
+        setIsGiveawaysLoading(false);
+      });
 
-      if (statsRes.status === 'fulfilled' && statsRes.value) {
-        setStats(statsRes.value);
-      } else {
+    // 2. Secondary independent request: Platform statistics
+    // Dispatched concurrently; resolves independently without blocking primary content
+    giveawayService
+      .getGiveawayStats()
+      .then((data) => {
+        setStats(data || null);
+      })
+      .catch(() => {
         setStats(null);
-      }
+      })
+      .finally(() => {
+        setIsStatsLoading(false);
+      });
 
-      if (recentWinsRes.status === 'fulfilled' && Array.isArray(recentWinsRes.value)) {
-        setRecentWinners(recentWinsRes.value);
-      } else {
-        setRecentWinners([]);
-      }
+    // 3. Secondary independent requests: Recent & Previous Winners
+    // Dispatched concurrently; resolves independently without blocking primary content
+    Promise.allSettled([
+      giveawayService.getRecentWinners(),
+      giveawayService.getPreviousWinners(),
+    ])
+      .then(([recentWinsRes, prevWinsRes]) => {
+        if (recentWinsRes.status === 'fulfilled' && Array.isArray(recentWinsRes.value)) {
+          setRecentWinners(recentWinsRes.value);
+        } else {
+          setRecentWinners([]);
+        }
 
-      if (prevWinsRes.status === 'fulfilled' && Array.isArray(prevWinsRes.value)) {
-        setPreviousWinners(prevWinsRes.value);
-      } else {
-        setPreviousWinners([]);
-      }
-
-      setLoading(false);
-    } catch (err) {
-      // If primary giveaway fetch fails after all bounded retries, show error state
-      setError(err.message || "We couldn't load giveaways right now. Please try again.");
-      setLoading(false);
-    }
+        if (prevWinsRes.status === 'fulfilled' && Array.isArray(prevWinsRes.value)) {
+          setPreviousWinners(prevWinsRes.value);
+        } else {
+          setPreviousWinners([]);
+        }
+      })
+      .finally(() => {
+        setIsWinnersLoading(false);
+      });
   };
 
   useEffect(() => {
     loadData();
   }, []);
 
-  if (error && (!giveaways || giveaways.length === 0)) {
+  if (error && (!giveaways || giveaways.length === 0) && !isGiveawaysLoading) {
     return (
       <main className={styles.pageWrapper}>
         <div className={styles.errorContainer}>
@@ -91,27 +110,27 @@ export const GiveawayPage = () => {
   return (
     <main className={styles.pageWrapper}>
       {/* 1. Hero / Featured Giveaway Banner (Strategic Dark Navy Section) */}
-      <HeroSection giveaway={featuredGiveaway} isLoading={loading} />
+      <HeroSection giveaway={featuredGiveaway} isLoading={isGiveawaysLoading} />
 
       {/* 2. Platform Statistics */}
-      <GiveawayStats stats={stats} isLoading={loading} />
+      <GiveawayStats stats={stats} isLoading={isStatsLoading} />
 
       {/* 3. Active Giveaway / Choose Your Giveaway (Horizontal Premium Carousel) */}
-      <GiveawayGrid giveaways={giveaways} isLoading={loading} />
+      <GiveawayGrid giveaways={giveaways} isLoading={isGiveawaysLoading} />
 
       {/* 4. Giveaway Leaderboard (Top Participants & Prize Draws) */}
-      <GiveawayLeaderboard winners={recentWinners} />
+      <GiveawayLeaderboard winners={recentWinners} isLoading={isWinnersLoading} />
 
       {/* 5. Verified Winner Announcement Slider */}
       <div id="winners" className={styles.winnersAnchor}>
-        <WinnerAnnouncement winners={recentWinners} isLoading={loading} />
+        <WinnerAnnouncement winners={recentWinners} isLoading={isWinnersLoading} />
       </div>
 
       {/* 5. Winner Rosters & Previous Draws */}
       <WinnerTabs
         recentWinners={recentWinners}
         previousWinners={previousWinners}
-        isLoading={loading}
+        isLoading={isWinnersLoading}
       />
 
       {/* 6. How to Participate Guide */}
