@@ -84,39 +84,37 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
 
   return (
     <section className={styles.heroSection} aria-label="Featured Giveaway Showcase">
-      {/* Ambient background glows */}
+      {/* Ambient background depth */}
       <div className={styles.ambientGlowPrimary} aria-hidden="true" />
       <div className={styles.ambientGlowSecondary} aria-hidden="true" />
-      <div className={styles.gridOverlay} aria-hidden="true" />
 
       <div className={styles.container}>
-        {/* Master Showcase Card Container matching Reference UI */}
+        {/* Master Showcase Card Container */}
         <div className={styles.masterCard}>
-          {/* Subtle perimeter neon border glow */}
           <div className={styles.cardGlowEdge} aria-hidden="true" />
 
           {/* Upper Section: Responsive Hero Grid */}
           <div className={styles.heroGrid}>
             {/* Left Column: Headlines, Value Props & Actions */}
             <div className={styles.contentCol}>
-              {/* Category Pill Badge */}
+              {/* Category Pill & Status Badge */}
               <div className={styles.badgeRow}>
                 <span className={styles.categoryPill}>
-                  <Sparkles size={14} className={styles.pillSparkle} aria-hidden="true" />
-                  <span>VELOP GIVEAWAYS</span>
+                  <Sparkles size={13} className={styles.pillSparkle} aria-hidden="true" />
+                  <span>VELOP REWARDS</span>
                 </span>
 
                 {isActive && (
                   <span className={styles.liveBadge} role="status">
                     <span className={styles.pulseDot} aria-hidden="true" />
-                    <span>Active Pool</span>
+                    <span>Active Draw</span>
                   </span>
                 )}
                 {isUpcoming && (
-                  <Badge variant="info" size="md">Upcoming Pool</Badge>
+                  <Badge variant="info" size="md">Upcoming Draw</Badge>
                 )}
                 {isConcluded && (
-                  <Badge variant="neutral" size="md">Concluded Pool</Badge>
+                  <Badge variant="neutral" size="md">Concluded Draw</Badge>
                 )}
               </div>
 
@@ -128,17 +126,17 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
                 </h1>
                 <div className={styles.featuredPoolBlock}>
                   <span className={styles.featuredPoolLabel}>Featured Pool</span>
-                  <p className={styles.featuredPoolName}>{giveaway.title}</p>
+                  <p className={styles.featuredPoolName}>{giveaway.title || giveaway.prize}</p>
                 </div>
               </div>
 
               <p className={styles.description}>
                 {giveaway.prizeType === 'GIFT_CARD'
-                  ? 'Instant digital voucher rewards. Enter verified draws with your VELOOP balance.'
-                  : 'Official premium hardware rewards with warranty. Enter verified draws with your VELOOP balance.'}
+                  ? 'Instant digital voucher rewards. Enter verified draws using your VELOOP balance with instant code redemption.'
+                  : 'Official premium hardware rewards with warranty. Enter verified draws using your VELOOP balance.'}
               </p>
 
-              {/* Compact Responsive Information Grid */}
+              {/* Compact Information Grid */}
               <div className={styles.capsuleRow}>
                 <div className={styles.featureCapsule}>
                   <div className={styles.capsuleIconBox}>
@@ -167,8 +165,8 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
                     <ShieldCheck size={15} aria-hidden="true" />
                   </div>
                   <div className={styles.capsuleText}>
-                    <span className={styles.capsuleLabel}>Secure Participation</span>
-                    <span className={styles.capsuleSub}>Provably Fair Draws</span>
+                    <span className={styles.capsuleLabel}>Verification</span>
+                    <span className={styles.capsuleSub}>Provably Fair Random Draw</span>
                   </div>
                 </div>
               </div>
@@ -213,47 +211,15 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
                   </Button>
                 </a>
               </div>
-
-              {/* Mid-Callout Banner Strip */}
-              <div className={styles.calloutStrip}>
-                <div className={styles.calloutIconCircle}>
-                  <Sparkles size={14} aria-hidden="true" />
-                </div>
-                <div className={styles.calloutText}>
-                  <strong>The more entries you hold, the higher your winning odds!</strong>
-                  <span> All draws are publicly verified.</span>
-                </div>
-              </div>
             </div>
 
-            {/* Right Column: 3D Illuminated Futuristic Stage Showcase */}
+            {/* Right Column: Premium Stage Showcase */}
             <div className={styles.visualCol}>
               <div className={styles.stageCard}>
-                {/* Ambient Top Glow */}
-                <div className={styles.stageSpotlightGlow} aria-hidden="true" />
+                <div className={styles.stageLighting} aria-hidden="true" />
 
-                {/* Floating Orbiting Badges */}
-                <div className={styles.floatingBadgeLeft} aria-hidden="true">
-                  <Sparkles size={12} className={styles.sparkleIcon} />
-                  <span>EXCLUSIVE REWARDS</span>
-                </div>
-
-                <div className={styles.floatingBadgeRight} aria-hidden="true">
-                  <ShieldCheck size={12} className={styles.shieldIcon} />
-                  <span>100% AUTHENTIC</span>
-                </div>
-
-                {/* Floating Coins */}
-                <div className={`${styles.floatingCoin} ${styles.coinLeft}`} aria-hidden="true">
-                  <div className={styles.coinInner}>V</div>
-                </div>
-                <div className={`${styles.floatingCoin} ${styles.coinRight}`} aria-hidden="true">
-                  <div className={styles.coinInnerGold}>VE</div>
-                </div>
-
-                {/* 3D Multi-Layer Sci-Fi Stage Pedestal */}
-                <div className={styles.sciFiStageWrapper}>
-                  {/* Floating Product Image */}
+                {/* Product Stage Presentation */}
+                <div className={styles.stageProductArea}>
                   <div className={styles.productHoverWrap}>
                     <img
                       src={prizeImageSrc}
@@ -261,28 +227,21 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
                       className={styles.prizeImage}
                       loading="eager"
                     />
-                    <div className={styles.productFloorShadow} aria-hidden="true" />
-                  </div>
-
-                  {/* Concentric Neon Rings & Multi-Tier Pedestal */}
-                  <div className={styles.pedestalPlatform} aria-hidden="true">
-                    <div className={styles.pedestalRingOuter} />
-                    <div className={styles.pedestalRingInner} />
-                    <div className={styles.pedestalCoreGlow} />
-                    <div className={styles.pedestalBase} />
+                    <div className={styles.productShadow} aria-hidden="true" />
                   </div>
                 </div>
 
                 {/* Bottom Card Meta Strip */}
                 <div className={styles.stageBottomMeta}>
                   <div className={styles.stagePrizeInfo}>
-                    <span className={styles.stagePrizeName}>{giveaway.prize}</span>
+                    <span className={styles.stagePrizeTag}>Verified Reward</span>
+                    <span className={styles.stagePrizeName}>{giveaway.prize || giveaway.title}</span>
                     <span className={styles.stagePrizeSub}>
-                      {giveaway.retailValueInr > 0 ? `Retail: ${formatInr(giveaway.retailValueInr)}` : 'Official Platform Prize'}
+                      {giveaway.retailValueInr > 0 ? `Est. Value: ${formatInr(giveaway.retailValueInr)}` : 'Official Platform Pool'}
                     </span>
                   </div>
                   <div className={styles.stageParticipantsBadge}>
-                    <Users size={12} aria-hidden="true" />
+                    <Users size={13} aria-hidden="true" />
                     <span>{giveaway.participantCount?.toLocaleString() || 0} Joined</span>
                   </div>
                 </div>
@@ -290,45 +249,45 @@ export const HeroSection = ({ giveaway, isLoading = false }) => {
             </div>
           </div>
 
-          {/* Bottom Benefits Strip — 4 Circular-Icon Cards (Matching Reference Images) */}
+          {/* Bottom Benefits Strip */}
           <div className={styles.bottomBenefitsRow}>
             <div className={styles.benefitCard}>
-              <div className={`${styles.benefitIconBox} ${styles.iconPurple}`}>
-                <Award size={18} />
+              <div className={styles.benefitIconBox}>
+                <Award size={18} aria-hidden="true" />
               </div>
               <div className={styles.benefitContent}>
                 <h4 className={styles.benefitTitle}>Verified Draws</h4>
-                <p className={styles.benefitText}>Provably fair random winner selection</p>
+                <p className={styles.benefitText}>Provably fair random winner selection algorithm</p>
               </div>
             </div>
 
             <div className={styles.benefitCard}>
-              <div className={`${styles.benefitIconBox} ${styles.iconGold}`}>
-                <Coins size={18} />
+              <div className={styles.benefitIconBox}>
+                <Coins size={18} aria-hidden="true" />
               </div>
               <div className={styles.benefitContent}>
                 <h4 className={styles.benefitTitle}>Zero Cash Fees</h4>
-                <p className={styles.benefitText}>Join with VEs, SVEs &amp; Token balances</p>
+                <p className={styles.benefitText}>Join directly using your VELOOP balance</p>
               </div>
             </div>
 
             <div className={styles.benefitCard}>
-              <div className={`${styles.benefitIconBox} ${styles.iconCyan}`}>
-                <ShieldCheck size={18} />
+              <div className={styles.benefitIconBox}>
+                <ShieldCheck size={18} aria-hidden="true" />
               </div>
               <div className={styles.benefitContent}>
-                <h4 className={styles.benefitTitle}>100% Genuine</h4>
-                <p className={styles.benefitText}>Official brand hardware with warranty</p>
+                <h4 className={styles.benefitTitle}>Authentic Rewards</h4>
+                <p className={styles.benefitText}>Brand-authorized products &amp; official vouchers</p>
               </div>
             </div>
 
             <div className={styles.benefitCard}>
-              <div className={`${styles.benefitIconBox} ${styles.iconPink}`}>
-                <Sparkles size={18} />
+              <div className={styles.benefitIconBox}>
+                <Sparkles size={18} aria-hidden="true" />
               </div>
               <div className={styles.benefitContent}>
-                <h4 className={styles.benefitTitle}>Instant Claims</h4>
-                <p className={styles.benefitText}>Direct courier tracking &amp; voucher codes</p>
+                <h4 className={styles.benefitTitle}>Fast Fulfillment</h4>
+                <p className={styles.benefitText}>Tracked delivery &amp; direct digital voucher claims</p>
               </div>
             </div>
           </div>

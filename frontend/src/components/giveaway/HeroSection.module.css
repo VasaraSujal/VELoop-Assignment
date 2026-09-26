@@ -1,7 +1,7 @@
 .heroSection {
-  background: radial-gradient(circle at 50% 15%, rgba(124, 58, 237, 0.08) 0%, transparent 60%), var(--color-background);
+  background: radial-gradient(circle at 50% 10%, rgba(124, 58, 237, 0.07) 0%, transparent 60%), var(--color-background);
   color: var(--color-text-primary);
-  padding: var(--space-8) 0 var(--space-12);
+  padding: var(--space-6) 0 var(--space-10);
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -13,39 +13,26 @@
    ========================================================================== */
 .ambientGlowPrimary {
   position: absolute;
-  top: -120px;
-  right: 5%;
-  width: min(600px, 80vw);
-  height: min(600px, 80vw);
+  top: -100px;
+  right: 10%;
+  width: min(500px, 70vw);
+  height: min(500px, 70vw);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
   filter: blur(80px);
   pointer-events: none;
   z-index: 0;
-  animation: auroraFloat 18s ease-in-out infinite;
 }
 
 .ambientGlowSecondary {
   position: absolute;
-  bottom: -80px;
+  bottom: -60px;
   left: 5%;
-  width: min(500px, 75vw);
-  height: min(500px, 75vw);
+  width: min(450px, 60vw);
+  height: min(450px, 60vw);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, transparent 70%);
   filter: blur(70px);
-  pointer-events: none;
-  z-index: 0;
-  animation: auroraFloat 22s ease-in-out infinite reverse;
-}
-
-.gridOverlay {
-  position: absolute;
-  inset: 0;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
 }
@@ -65,12 +52,12 @@
    ========================================================================== */
 .masterCard {
   background: var(--color-surface-card);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--color-brand-border);
-  border-radius: 28px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
   padding: var(--space-8) var(--space-8) var(--space-6);
-  box-shadow: var(--shadow-xl), 0 0 30px rgba(124, 58, 237, 0.12);
+  box-shadow: var(--shadow-xl), 0 0 24px rgba(0, 0, 0, 0.4);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -78,7 +65,7 @@
   gap: var(--space-8);
   box-sizing: border-box;
   width: 100%;
-  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: heroFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .cardGlowEdge {
@@ -86,8 +73,8 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.5) 50%, transparent 100%);
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.4) 50%, transparent 100%);
   pointer-events: none;
 }
 
@@ -120,147 +107,155 @@
   box-sizing: border-box;
 }
 
+/* Badge Row */
 .badgeRow {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
   flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 .categoryPill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
   background: var(--color-brand-soft);
   border: 1px solid var(--color-brand-border);
-  color: var(--color-text-brand);
-  padding: 5px 14px;
-  border-radius: var(--radius-full);
-  font-size: 0.725rem;
+  font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--color-text-brand);
 }
 
 .pillSparkle {
-  color: var(--color-brand-hover);
+  color: var(--color-text-brand);
 }
 
 .liveBadge {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
   background: var(--status-active-bg);
   border: 1px solid var(--status-active-border);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.04em;
   color: var(--status-active-text);
-  padding: 5px 12px;
-  border-radius: var(--radius-full);
-  font-size: 0.725rem;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
 .pulseDot {
   width: 7px;
   height: 7px;
-  background-color: var(--status-active);
   border-radius: 50%;
-  animation: pulseRadar 2s infinite;
+  background-color: var(--status-active);
+  box-shadow: 0 0 8px var(--status-active);
+  animation: livePulse 2s ease-in-out infinite;
 }
 
+@keyframes livePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+}
+
+/* Title Group */
 .titleGroup {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-width: 0;
-  width: 100%;
+  gap: var(--space-2);
 }
 
 .title {
-  font-size: clamp(1.85rem, 3.8vw, 2.75rem);
-  font-weight: 800;
-  line-height: 1.15;
-  color: #ffffff;
-  letter-spacing: -0.025em;
+  font-size: clamp(1.85rem, 3.8vw, 2.65rem);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
   margin: 0;
-  word-break: break-word;
+  letter-spacing: -0.025em;
 }
 
 .titleHighlight {
-  background: var(--color-brand-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-text-brand);
 }
 
 .featuredPoolBlock {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-  width: 100%;
+  gap: 2px;
+  padding: var(--space-2) var(--space-4);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-left: 3px solid var(--color-brand);
+  border-radius: var(--radius-sm);
+  margin-top: var(--space-1);
 }
 
 .featuredPoolLabel {
-  font-size: 0.7rem;
+  font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-hover);
-  text-transform: uppercase;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
 .featuredPoolName {
-  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  font-size: var(--font-size-h4);
   font-weight: var(--font-weight-bold);
-  color: #ffffff;
-  line-height: 1.35;
+  color: var(--color-text-primary);
   margin: 0;
-  word-break: break-word;
+  line-height: var(--line-height-tight);
 }
 
+/* Description */
 .description {
-  font-size: 0.925rem;
+  font-size: var(--font-size-body);
   color: var(--color-text-secondary);
-  line-height: 1.55;
+  line-height: var(--line-height-relaxed);
   margin: 0;
   max-width: 540px;
-  word-break: break-word;
 }
 
-/* 3 Feature Highlights / Capsules */
+/* Compact Metrics Row */
 .capsuleRow {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.35fr;
   gap: var(--space-3);
-  flex-wrap: wrap;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .featureCapsule {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  background: var(--color-surface-muted);
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.025);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 8px 14px;
-  transition: all 250ms ease;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
   min-width: 0;
-  box-sizing: border-box;
 }
 
 .featureCapsule:hover {
   border-color: var(--color-brand-border);
-  background: var(--color-surface-elevated);
   transform: translateY(-1px);
 }
 
 .capsuleIconBox {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-md);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
   background: var(--color-brand-soft);
-  border: 1px solid var(--color-brand-border);
   color: var(--color-brand-hover);
   display: flex;
   align-items: center;
@@ -277,383 +272,166 @@
 }
 
 .capsuleLabel {
-  font-size: 0.6875rem;
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-medium);
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .capsuleSub {
-  font-size: 0.8125rem;
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-bold);
-  color: #ffffff;
+  color: var(--color-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Integrated Countdown Card */
+/* Countdown Wrapper */
 .timerCard {
-  background: var(--color-surface-muted);
-  backdrop-filter: blur(14px);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-3) var(--space-4);
-  display: inline-block;
-  width: fit-content;
-  max-width: 100%;
-  box-shadow: var(--shadow-sm);
-  box-sizing: border-box;
+  width: 100%;
 }
 
-/* Action CTA Row */
+/* Action CTAs */
 .ctaRow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  padding-top: var(--space-2);
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-3);
   width: 100%;
-  max-width: 100%;
   box-sizing: border-box;
+  margin-top: var(--space-1);
 }
 
 .ctaLink,
 .secondaryLink {
   text-decoration: none;
-  min-width: 0;
-  box-sizing: border-box;
-  max-width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 .primaryJoinBtn {
-  background: var(--color-brand-gradient) !important;
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-  box-sizing: border-box !important;
-  max-width: 100% !important;
+  box-shadow: var(--shadow-md), 0 0 16px rgba(124, 58, 237, 0.3);
+  font-weight: var(--font-weight-bold);
 }
 
-.primaryJoinBtn:hover {
-  background: var(--color-brand-gradient-hover) !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.45) !important;
-}
-
-.secondaryBrowseBtn {
-  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-  box-sizing: border-box !important;
-  max-width: 100% !important;
-}
-
-.secondaryBrowseBtn:hover {
-  transform: translateY(-1px) !important;
+.primaryJoinBtn:hover .ctaArrow {
+  transform: translateX(3px);
 }
 
 .ctaArrow {
   transition: transform var(--transition-fast);
 }
 
-.ctaLink:hover .ctaArrow {
-  transform: translateX(4px);
-}
-
-/* Callout Strip */
-.calloutStrip {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--color-brand-soft);
-  border: 1px dashed var(--color-brand-border);
-  border-radius: var(--radius-lg);
-  padding: 10px 16px;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.calloutIconCircle {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--color-brand-gradient);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.calloutText {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-  line-height: 1.4;
-  flex: 1 1 0%;
-  min-width: 0;
-  max-width: 100%;
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
-
-.calloutText strong {
-  color: #ffffff;
+.secondaryBrowseBtn {
+  font-weight: var(--font-weight-semibold);
 }
 
 /* ==========================================================================
-   Right Column: 3D Illuminated Futuristic Stage Showcase
+   Right Column: Premium Product Showcase Stage
    ========================================================================== */
 .visualCol {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
   width: 100%;
-  max-width: 100%;
+  position: relative;
   min-width: 0;
-  box-sizing: border-box;
 }
 
 .stageCard {
-  position: relative;
   width: 100%;
-  max-width: 440px;
-  min-width: 0;
-  background: var(--color-surface-elevated);
+  max-width: 480px;
+  height: 400px;
+  border-radius: var(--radius-xl);
+  background: radial-gradient(circle at 50% 40%, rgba(124, 58, 237, 0.12) 0%, rgba(10, 13, 32, 0.8) 70%);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-6) var(--space-4) var(--space-4);
-  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  justify-content: space-between;
+  padding: var(--space-6);
   box-sizing: border-box;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.stageSpotlightGlow {
+.stageLighting {
   position: absolute;
-  top: -20px;
+  top: 15%;
   left: 50%;
   transform: translateX(-50%);
-  width: 260px;
-  height: 260px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 65%);
-  filter: blur(24px);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, transparent 70%);
+  filter: blur(35px);
   pointer-events: none;
-  animation: glowPulse 4s ease-in-out infinite;
 }
 
-/* Floating Orbiting Badges */
-.floatingBadgeLeft {
-  position: absolute;
-  top: 15px;
-  left: -8px;
-  background: var(--color-surface-muted);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--color-brand-border);
-  color: var(--color-text-brand);
-  padding: 5px 12px;
-  border-radius: var(--radius-full);
-  font-size: 0.65rem;
-  font-weight: var(--font-weight-extrabold);
-  letter-spacing: 0.06em;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  box-shadow: var(--shadow-md);
-  z-index: 3;
-  animation: floatBadge1 4s ease-in-out infinite;
-}
-
-.floatingBadgeRight {
-  position: absolute;
-  top: 45px;
-  right: -8px;
-  background: var(--color-surface-muted);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--color-brand-border);
-  color: var(--color-text-brand);
-  padding: 5px 12px;
-  border-radius: var(--radius-full);
-  font-size: 0.65rem;
-  font-weight: var(--font-weight-extrabold);
-  letter-spacing: 0.06em;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  box-shadow: var(--shadow-md);
-  z-index: 3;
-  animation: floatBadge2 4.5s ease-in-out infinite;
-}
-
-/* Floating Metallic Coins */
-.floatingCoin {
-  position: absolute;
-  z-index: 3;
-  border-radius: 50%;
+.stageProductArea {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-md);
-}
-
-.coinLeft {
-  bottom: 90px;
-  left: -6px;
-  width: 38px;
-  height: 38px;
-  animation: floatBadge3 5s ease-in-out infinite;
-}
-
-.coinRight {
-  bottom: 120px;
-  right: -6px;
-  width: 42px;
-  height: 42px;
-  animation: floatBadge1 4.2s ease-in-out infinite 0.5s;
-}
-
-.coinInner {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--color-brand-gradient);
-  border: 1.5px solid var(--color-brand-border-hover);
-  color: #ffffff;
-  font-size: 0.85rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.coinInnerGold {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  border: 1.5px solid #fbbf24;
-  color: #ffffff;
-  font-size: 0.75rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 3D Sci-Fi Multi-Tier Pedestal Wrapper */
-.sciFiStageWrapper {
   position: relative;
-  width: 100%;
-  height: 230px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
+  z-index: 2;
 }
 
 .productHoverWrap {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 180px;
-  animation: floatHeroProduct 4s ease-in-out infinite;
-}
-
-.prizeImage {
-  max-width: 82%;
-  max-height: 165px;
-  object-fit: contain;
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.7));
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.stageCard:hover .prizeImage {
-  transform: scale(1.05) translateY(-4px);
-}
-
-.productFloorShadow {
-  position: absolute;
-  bottom: -4px;
-  width: 160px;
-  height: 16px;
-  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.7) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  animation: shadowPulse 4s ease-in-out infinite;
-}
-
-/* Concentric Rings Pedestal Platform */
-.pedestalPlatform {
-  position: relative;
-  width: 220px;
-  height: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: -12px;
-  z-index: 1;
+  justify-content: center;
+  position: relative;
+  animation: floatProduct 5s ease-in-out infinite;
 }
 
-.pedestalRingOuter {
-  width: 210px;
-  height: 18px;
+.prizeImage {
+  max-width: 240px;
+  max-height: 220px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.65));
+  transition: transform var(--transition-card);
+}
+
+.stageCard:hover .prizeImage {
+  transform: scale(1.03);
+}
+
+.productShadow {
+  width: 140px;
+  height: 14px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5) 0%, transparent 70%);
   border-radius: 50%;
-  background: var(--color-surface-muted);
-  border: 1.5px solid var(--color-brand-border);
+  margin-top: 10px;
 }
 
-.pedestalRingInner {
-  width: 160px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  margin-top: -15px;
+@keyframes floatProduct {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
-.pedestalCoreGlow {
-  width: 100px;
-  height: 8px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(124, 58, 237, 0.3) 0%, transparent 80%);
-  filter: blur(4px);
-  margin-top: -10px;
-}
-
-.pedestalBase {
-  width: 190px;
-  height: 8px;
-  background: var(--color-background);
-  border-radius: 0 0 50% 50%;
-  border-bottom: 1px solid var(--color-border);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
-}
-
-/* Stage Bottom Meta */
 .stageBottomMeta {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  background: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 8px 12px;
+  padding: var(--space-3) var(--space-4);
+  background: rgba(10, 13, 32, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  position: relative;
   z-index: 2;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
 }
 
 .stagePrizeInfo {
@@ -661,460 +439,235 @@
   flex-direction: column;
   gap: 1px;
   min-width: 0;
-  flex: 1 1 0%;
-  overflow: hidden;
+}
+
+.stagePrizeTag {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-brand);
 }
 
 .stagePrizeName {
-  font-size: 0.875rem;
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-bold);
-  color: #ffffff;
+  color: var(--color-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
 }
 
 .stagePrizeSub {
-  font-size: 0.6875rem;
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
 }
 
 .stageParticipantsBadge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.725rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--podium-gold-text);
-  background: var(--podium-gold-bg);
-  border: 1px solid var(--podium-gold-border);
-  padding: 3px 8px;
+  gap: 5px;
+  padding: 4px 10px;
   border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
-   Bottom Benefits Strip — 4 Circular-Icon Cards
+   Bottom Benefits Strip
    ========================================================================== */
 .bottomBenefitsRow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-4);
-  padding-top: var(--space-4);
+  padding-top: var(--space-6);
   border-top: 1px solid var(--color-border);
-  position: relative;
-  z-index: 1;
   width: 100%;
   box-sizing: border-box;
 }
 
 .benefitCard {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  align-items: flex-start;
+  gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
-  transition: all 250ms ease;
-  min-width: 0;
-  box-sizing: border-box;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .benefitCard:hover {
-  background: var(--color-surface-elevated);
+  background: rgba(255, 255, 255, 0.035);
   border-color: var(--color-brand-border);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .benefitIconBox {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
+  color: var(--color-brand-hover);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: var(--color-brand-soft);
-  border: 1px solid var(--color-brand-border);
-  color: var(--color-brand-hover);
-}
-
-.iconPurple {
-  background: var(--color-brand-soft);
-  border-color: var(--color-brand-border);
-  color: var(--color-brand-hover);
-}
-
-.iconGold {
-  background: var(--currency-sves-bg);
-  border-color: var(--currency-sves-border);
-  color: var(--currency-sves-text);
-}
-
-.iconCyan {
-  background: var(--color-brand-soft);
-  border-color: var(--color-brand-border);
-  color: var(--color-text-brand);
-}
-
-.iconPink {
-  background: var(--color-brand-soft);
-  border-color: var(--color-brand-border);
-  color: var(--color-brand-hover);
 }
 
 .benefitContent {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   min-width: 0;
 }
 
 .benefitTitle {
-  font-size: 0.875rem;
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-bold);
-  color: #ffffff;
+  color: var(--color-text-primary);
   margin: 0;
+  line-height: var(--line-height-tight);
 }
 
 .benefitText {
-  font-size: 0.725rem;
+  font-size: var(--font-size-caption);
   color: var(--color-text-secondary);
   margin: 0;
-  line-height: 1.3;
+  line-height: var(--line-height-normal);
+}
+
+/* Animations */
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ==========================================================================
-   Responsive Breakpoints
+   Responsive Architecture
    ========================================================================== */
 @media (max-width: 1024px) {
-  .masterCard {
-    padding: var(--space-6) var(--space-6) var(--space-5);
-    border-radius: 24px;
-    gap: var(--space-6);
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-  }
-
   .heroGrid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: 1fr;
     gap: var(--space-6);
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-  }
-
-  .contentCol {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
   }
 
   .visualCol {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
+    order: -1;
   }
 
   .stageCard {
     max-width: 100%;
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    padding: var(--space-5) var(--space-4) var(--space-4);
+    height: 340px;
   }
 
-  .floatingBadgeLeft {
-    left: 10px;
-    top: 10px;
-  }
-
-  .floatingBadgeRight {
-    right: 10px;
-    top: 10px;
-  }
-
-  .coinLeft {
-    left: 12px;
-    bottom: 70px;
-  }
-
-  .coinRight {
-    right: 12px;
-    bottom: 80px;
-  }
-
-  .capsuleRow {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
+  .prizeImage {
+    max-width: 200px;
+    max-height: 180px;
   }
 
   .bottomBenefitsRow {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-3);
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .masterCard {
-    padding: 20px 16px 16px;
-    border-radius: 20px;
-    gap: var(--space-5);
+    padding: var(--space-5) var(--space-4) var(--space-4);
+    border-radius: var(--radius-xl);
+    gap: var(--space-6);
   }
 
-  .title {
-    font-size: clamp(1.45rem, 6vw, 1.95rem);
-    line-height: 1.2;
-  }
-
-  .featuredPoolName {
-    font-size: clamp(0.95rem, 3.6vw, 1.15rem);
-  }
-
-  .description {
-    font-size: 0.85rem;
-    line-height: 1.45;
-  }
-
-  /* Compact 2-Column Information Grid */
   .capsuleRow {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-  }
-
-  .featureCapsule {
-    padding: 8px 10px;
-    gap: 8px;
-    min-width: 0;
-    box-sizing: border-box;
+    grid-template-columns: 1fr 1fr;
   }
 
   .featureCapsuleFull {
     grid-column: span 2;
-    min-width: 0;
   }
 
-  .capsuleIconBox {
-    width: 26px;
-    height: 26px;
-  }
-
-  .capsuleLabel {
-    font-size: 0.625rem;
-  }
-
-  .capsuleSub {
-    font-size: 0.775rem;
-  }
-
-  .timerCard {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    padding: 10px 12px;
-    border-radius: var(--radius-lg);
-  }
-
-  /* Mobile Full-Width CTA Buttons */
   .ctaRow {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    padding-top: var(--space-1);
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
   }
 
-  .ctaLink,
-  .secondaryLink {
-    width: 100%;
-    max-width: 100%;
-    display: block;
-    box-sizing: border-box;
-    min-width: 0;
+  .bottomBenefitsRow {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
   }
 
-  .primaryJoinBtn,
-  .secondaryBrowseBtn {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-    min-height: 48px;
-    justify-content: center;
-    margin: 0 !important;
-  }
-
-  .calloutStrip {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    padding: 10px 12px;
-    font-size: 0.78rem;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  /* Mobile Stage Layout */
   .stageCard {
-    padding: 16px 12px 12px;
-    border-radius: var(--radius-xl);
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  .sciFiStageWrapper {
-    height: 180px;
-  }
-
-  .productHoverWrap {
-    height: 140px;
+    height: 280px;
+    padding: var(--space-4);
   }
 
   .prizeImage {
-    max-height: 125px;
-  }
-
-  .pedestalPlatform {
-    width: 180px;
-    margin-top: -10px;
-  }
-
-  .pedestalRingOuter {
-    width: 170px;
-    height: 14px;
-  }
-
-  .pedestalRingInner {
-    width: 130px;
-    height: 10px;
-  }
-
-  .pedestalBase {
-    width: 150px;
-  }
-
-  .floatingBadgeLeft {
-    left: 8px;
-    top: 8px;
-    padding: 4px 8px;
-    font-size: 0.6rem;
-  }
-
-  .floatingBadgeRight {
-    right: 8px;
-    top: 8px;
-    padding: 4px 8px;
-    font-size: 0.6rem;
-  }
-
-  .coinLeft {
-    left: 8px;
-    bottom: 50px;
-    width: 32px;
-    height: 32px;
-  }
-
-  .coinRight {
-    right: 8px;
-    bottom: 60px;
-    width: 34px;
-    height: 34px;
-  }
-
-  .bottomBenefitsRow {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    padding-top: var(--space-3);
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-  }
-
-  .benefitCard {
-    padding: 8px 10px;
-    gap: 8px;
-    border-radius: var(--radius-lg);
-    min-width: 0;
-    box-sizing: border-box;
-  }
-
-  .benefitIconBox {
-    width: 32px;
-    height: 32px;
-  }
-
-  .benefitTitle {
-    font-size: 0.775rem;
-  }
-
-  .benefitText {
-    font-size: 0.65rem;
+    max-width: 160px;
+    max-height: 150px;
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 480px) {
+  .heroSection {
+    padding: var(--space-4) 0 var(--space-8);
+  }
+
   .masterCard {
-    padding: 16px 12px 12px;
-    border-radius: 16px;
-  }
-
-  .title {
-    font-size: 1.35rem;
-  }
-
-  .bottomBenefitsRow {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 6px;
+    padding: var(--space-4) var(--space-3) var(--space-3);
+    border-radius: var(--radius-lg);
   }
 
   .capsuleRow {
-    gap: 6px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .featureCapsule {
-    padding: 6px 8px;
-  }
-}
-
-@media (max-width: 330px) {
-  .capsuleRow {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .featureCapsuleFull {
     grid-column: span 1;
+  }
+
+  .title {
+    font-size: 1.65rem;
+  }
+
+  .featuredPoolName {
+    font-size: var(--font-size-body);
+  }
+
+  .stageCard {
+    height: 240px;
+  }
+
+  .prizeImage {
+    max-width: 130px;
+    max-height: 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masterCard {
+    animation: none;
+  }
+  .pulseDot {
+    animation: none;
+  }
+  .productHoverWrap {
+    animation: none;
+  }
+  .prizeImage,
+  .featureCapsule,
+  .benefitCard {
+    transition: none;
   }
 }
