@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Trophy, Medal, Award, Sparkles, Calendar, Crown, ChevronDown, ChevronUp } from 'lucide-react';
 import { Badge } from '../common/ui/Badge.jsx';
 import { EmptyState } from '../common/ui/EmptyState.jsx';
+import { Skeleton } from '../common/ui/Skeleton.jsx';
 import { useScrollReveal } from '../../utils/useScrollReveal.js';
 import { resolvePrizeImage } from '../../utils/prizeImageHelper.js';
 import styles from './GiveawayLeaderboard.module.css';
@@ -70,7 +71,7 @@ const getDisplayName = (winner) => {
 /**
  * Giveaway Leaderboard — Displays verified winner draws with dark podium showcase and ranking table.
  */
-export const GiveawayLeaderboard = ({ winners = [] }) => {
+export const GiveawayLeaderboard = ({ winners = [], isLoading = false }) => {
   const [sectionRef, isVisible] = useScrollReveal({ threshold: 0.08 });
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -149,7 +150,11 @@ export const GiveawayLeaderboard = ({ winners = [] }) => {
           </p>
         </div>
 
-        {leaderboardData.length === 0 ? (
+        {isLoading && leaderboardData.length === 0 ? (
+          <div className={styles.emptyWrapper} aria-hidden="true">
+            <Skeleton variant="rect" height={280} borderRadius="var(--radius-xl)" />
+          </div>
+        ) : leaderboardData.length === 0 ? (
           <div className={styles.emptyWrapper}>
             <EmptyState
               icon={<Trophy size={32} />}
